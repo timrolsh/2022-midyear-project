@@ -1,0 +1,101 @@
+Vancouver, Calgary, null, 3
+Vancouver, Seattle, null, 1
+Vancouver, Seattle, null, 1
+Calgary, Seattle, null, 4
+Calgary, Winnipeg, WHITE, 6
+Calgary, Helena, null, 4
+Seattle, Helena, YELLOW, 6
+Seattle, Portland, null, 1
+Seattle, Portland, null, 1
+Winnipeg, Helena, BLUE, 4
+Winnipeg, Deluth, BLACK, 4
+Wiinipeg, Sault St. Marie, null, 6
+Sault St. Marie, Montreal, BLACK, 5
+Deluth, Sault St. Marie, null, 3
+Sault St. Marie, Toronto, null, 2
+Montreal, Boston, null, 1
+Montreal, Boston, null, 1
+Montreal, Toronto, null, 3
+Montreal, New York, BLUE, 3
+Boston, New York, YELLOW, 2
+Boston, New York, RED, 2
+Helena, Deluth, ORANGE, 6
+Deluth, Toronto, PINK, 6
+Portland, San Francisco, GREEN, 5
+Portland, San Francisco, PINK, 5
+Portland, Salt Lake City, BLUE, 6
+Helena, Salt Lake City, PINK, 3
+Helena, Denver, GREEN, 4
+Helena, Omaha, RED, 5
+Deluth, Omaha, null, 2
+Deluth, Omaha, null, 2
+Deluth, Chicago, RED, 3
+Omaha, Chicago, BLUE, 4
+Chicago, Pittsburg, ORANGE, 3
+Chicago, Pittsburg, BLACK, 3
+Toronto, Pittsburg, null, 2
+Toronto, Chicago, WHITE, 4
+Pittsburg, New York, WHITE, 2
+Pittsburg, New York, WHITE, 2
+Pittsburg, New York, GREEN, 2
+New York, Washington, BLACK, 2
+New York, Washington, ORANGE, 2
+San Francisco, Salt Lake City, ORANGE, 5
+San Francisco, Salt Lake City, WHITE, 5
+Salt Lake City, Denver, RED, 3
+Salt Lake City, Denver, YELLOW, 3
+Denver, Omaha, PINK, 4
+San Francisco, Los Angeles, YELLOW, 3
+San Francisco, Los Angeles, PINK, 3
+Salt Lake City, Las Vegas, ORANGE, 3
+Las Vegas, Los Angeles, null, 2
+Los Angeles, Phoenix, null, 3
+Los Angeles, El Paso, BLACK, 6
+Phoenix, Denver, WHITE, 5
+Phoenix, Santa Fe, null, 3
+Phoenix, El Paso, null, 3
+Denver, Santa Fe, null, 2
+Santa Fe, El Paso, null, 2
+El Paso, Houston, GREEN, 6
+El Paso, Dallas, RED, 4
+El Paso, Oklahoma City, YELLOW, 5
+Santa Fe, Oklahoma City, BLUE, 3
+Oklahoma City, Denver, RED, 4
+Denver, Kansas City, BLACK, 4
+Denver, Kansas City, ORANGE, 4
+Omaha, Kansas City, null, 1
+Omaha, Kansas City, null, 1
+Oklahoma City, Kansas City, null, 2
+Oklahoma City, Kansas City, null, 2
+Kansas City, Saint Louis, BLUE, 2
+Kansas City, Saint Louis, PINK, 2
+Kansas City, Chicago, GREEN, 2
+Kansas City, Chicago, WHITE, 2
+Saint Louis, Pittsburg, GREEN, 5
+Pittsburg, Washington, null, 2
+Pittsburg, Saint Louis, YELLOW, 4
+Saint Louis, Nashville, null, 2
+Pittsburg, Ralleigh, null, 2
+Washington, Ralleigh, null, 2 
+Washington, Ralleigh, null, 2 
+Nashville, Ralleigh, BLACK, 3
+Oklahoma City, Little Rock, null, 2
+Little Rock, Nashville, WHITE, 3
+Oklahoma City, Dallas, null, 2
+Oklahoma City, Dallas, null, 2
+Dallas, Houston, null, 1
+Dallas, Houston, null, 1
+Dallas, Little Rock, null, 2
+Houston, New Orleans, null, 2
+Little Rock, New Orleans, GREEN, 3
+New Orleans, Atlanta, YELLOW, 4
+New Orleans, Atlanta, ORANGE, 4
+Nashville, Atlanta, null, 1
+Atlanta, Ralleigh, null, 2
+Atlanta, Ralleigh, null, 2
+Ralleigh, Charleston, null, 2
+Atlanta, Charleston, null, 2
+Charleston, Miami, PINK, 4
+Atlanta, Miami, BLUE, 5
+New Orleans, Miami, RED, 6
+Saint Louis, Little Rock, null, 2

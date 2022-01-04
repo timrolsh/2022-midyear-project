@@ -1,0 +1,36 @@
+Vancouver, 336, 311
+Calgary, 705, 269
+Winnipeg, 1353, 300
+Sault St. Marie, 2021, 444
+Montreal, 2571, 251
+Seattle, 327, 473
+Toronto, 2332, 500
+Boston, 2777, 420
+Portland, 265, 612
+Helena, 990, 645
+Duluth, 1656, 630
+New York, 2620, 630
+San Francisco, 229, 1170
+Salt Lake City, 780, 993
+Denver, 1156, 1081
+Omaha, 1570, 889
+Chicago, 2000, 809
+Pittsburgh, 2378, 760
+Los Angeles, 427, 1473
+Las Vegas, 631, 1302
+Santa Fe, 1131, 1333
+Oklahoma City, 1568, 1274
+Kansas City, 1626, 1035
+Saint Louis, 1871, 1039
+Washington, 2643, 889
+Phoenix, 781, 1484
+Little Rock, 1823, 1289
+Nashville, 2132, 1143
+Raleigh, 2477, 1081
+El Paso, 1115, 1590
+Dallas, 1626, 1524
+Houston, 1741, 1641
+New Orleans, 2008, 1617
+Atlanta, 2280, 1245
+Charleston, 2555, 1263
+Miami, 2645, 1718

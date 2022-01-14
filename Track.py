@@ -7,10 +7,11 @@ itself to two cities' list of tracks."""
 
 
 class Track:
-    def __init__(self, city1, city2, color, length):
+    def __init__(self, city1, city2, color, length, occupied=False):
         self.city1 = city1
         self.city2 = city2
         self.length = length
+        self.occupied = occupied
         city1.tracks.append(self)
         city2.tracks.append(self)
         if color == "WHITE":

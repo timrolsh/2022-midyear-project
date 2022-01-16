@@ -1,7 +1,11 @@
 # 2022-midyear-project
 Midyear project for AP Comp Sci, 2022. Online version of Alan R. Moon's board game, Ticket To Ride. 
 
-Setup
+# Ticket to Ride Rules (Explained)
+
+[![ticket-to-ride-rules-image.png](https://i.postimg.cc/nhs3Tdct/ticket-to-ride-rules-image.png)](https://postimg.cc/XrbKYkC2)
+
+## Setup
 - Score starts at 0 for each player
 - Each player has 45 train cars of the same color
 - 4 cards are given to each player. Each card is one color, and the color determines where you can place a train car. 
@@ -21,10 +25,10 @@ Turns
   - Draw three destination cards, and keep a minimum of one
      - If less than three destination cards, take those that are remaining. 
 
-When does the Game End?
+## When does the Game End?
 - If a player has less than three cars, then each player gets one last turn and then scores are calculated
 
-Score Calculation
+## Score Calculation
 - Add or subtract the score in a destination card depending on whether it was completed by the player
 - The player who has the longest continuous path gets 10 extra points with a bonus card
 - Player with most points wins, and for tie breakers player with most completed destinations wins

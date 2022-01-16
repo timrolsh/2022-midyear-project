@@ -10,15 +10,15 @@ Setup
 - Each player gets three destination cards, and must keep a minimum of two cards. 
 Turns
 - Three options
-  a. Draw two train cards
+  - Draw two train cards
      - If taken from the five face-up cards at the top, one wild card (rainbow) counts for two train cards
      - If there are no more train cards, players can only claim destination cards or claim routes. 
-  b. Claim a route. If you have enough train cards of that color to claim the route (e.g four green train cards are required to claim a green  route four cars long)
+  - Claim a route. If you have enough train cards of that color to claim the route (e.g four green train cards are required to claim a green  route four cars long)
      - Claiming a route awards a certain number of points depending on length
      - The train cards get placed back into the deck
      - Gray cards can be claimed by any color card, and rainbow cards can claim any route. 
      - One player cannot claim both routes in a double route
-  c. Draw three destination cards, and keep a minimum of one
+  - Draw three destination cards, and keep a minimum of one
      - If less than three destination cards, take those that are remaining. 
 
 When does the Game End?

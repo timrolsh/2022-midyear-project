@@ -6,13 +6,16 @@ class TrainCard(Card):
     cards to claim cars on the board.
     """
     def __init__(self, color: str):
-        if color in ["Purple", "Blue", "Orange", "White", "Green", "Yellow", "Black", "Red", "Rainbow"]:
+        if color in ["PURPLE", "BLUE", "ORANGE", "WHITE", "GREEN", "YELLOW", "BLACK", "RED", "RAINBOW"]:
             self.color = color
         else:
             raise Exception("The color you selected for initialization is not valid")
 
     def is_match(self, color: str):
-        if self.color=="Rainbow" or color=="Gray" or self.color==color:
+        if self.color=="RAINBOW" or color=="GRAY" or self.color==color:
             return True
         else:
             return False
+
+    def __str__(self):
+        return f"Card of color {self.color}"

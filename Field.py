@@ -16,8 +16,8 @@ class Field:
     track_lines = tracks_list_file.read().split('\n')
     for line in track_lines:
         data = line.split(", ")
-        cities[data[0]].tracks.append(Track(cities[data[0]], cities[data[1]], data[2], data[3]))
-        cities[data[1]].tracks.append(Track(cities[data[1]], cities[data[0]], data[2], data[3]))
+        cities[data[0]].tracks.append(Track(cities[data[0]], cities[data[1]], data[2], int(data[3])))
+        cities[data[1]].tracks.append(Track(cities[data[1]], cities[data[0]], data[2], int(data[3])))
     tracks_list_file.close()
 
     def __init__(self):

@@ -13,4 +13,7 @@ class Track:
         self.city2 = city2
         self.length = length
         self.occupied = occupied
-        self.color = Color.COLOR_DICT[color]
+        self.color = color
+
+    def __str__(self):
+        return f"Track from {self.city1} to {self.city2} of color {self.color}"

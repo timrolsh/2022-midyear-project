@@ -6,7 +6,7 @@ connected to. Data is read in from city_list.txt
 
 
 class City:
-    def __init__(self, name, x, y):
+    def __init__(self, name: str, x: int, y: int):
         self.tracks = []
         self.name = name
         self.x = x

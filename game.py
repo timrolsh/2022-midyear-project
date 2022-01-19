@@ -10,16 +10,15 @@ from pygame.locals import *
 # from Track import *
 
 FPS = 15
-DISPLAYX = 1471
-DISPLAYY = 979
+DISPLAYX = 1000
+DISPLAYY = 600
 
 
 pygame.init()
 screen=pygame.display.set_mode([DISPLAYX, DISPLAYY])
 pygame.display.set_caption("Ticket to Ride")
-bg = pygame.image.load("board2.jpg")
-#to do: resize
-
+bg = pygame.image.load("board.jpg")
+bg = pygame.transform.scale(bg, (1000, 600))
 
 def game_loop():
     

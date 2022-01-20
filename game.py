@@ -2,7 +2,7 @@ import os
 import pygame
 from Field import *
 from Button import Button
-
+from Color import *;
 # hide pygame welcome message
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
@@ -15,6 +15,8 @@ ORIGINALY = 1958
 
 CITY_COLOR = (219, 152, 99)
 CITY_RADIUS = 10
+
+FONT = "freesansbold.ttf"
 
 
 # pygame main loop
@@ -43,9 +45,42 @@ def game_loop(screen):
 
 # run the gameloop
 def start_screen(screen):
-    # to do
-    game_loop(screen)
+    font = pygame.font.Font(FONT, 60)
+    play_font = pygame.font.Font(FONT, 30)
+    
 
+    font_surface = font.render("Ticket to Ride", True, Color.COLOR_DICT.get("BLACK"))
+    play_surface = play_font.render("Press P to Play", True, Color.COLOR_DICT.get("BLACK"))
+   
+
+    rect_font = font_surface.get_rect()
+    play_rect_font = play_surface.get_rect()
+
+    rect_font.center = ((DISPLAYX / 2), (DISPLAYY / 2))
+    play_rect_font.center = ((DISPLAYX / 2), (DISPLAYY / 1.65))
+    
+    draw_game_area(screen)
+    screen.blit(font_surface, rect_font)
+    screen.blit(play_surface, play_rect_font)
+    
+    pygame.display.update()
+    # game_loop(screen)
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                
+            elif event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_p:
+                    screen.fill(Color.COLOR_DICT("WHITE"))
+                    game_loop(screen)
+                
+            
+        pygame.time.Clock().tick(FPS)
+    
+    pygame.display.update()
 
 first_creation_pass = True
 
@@ -65,6 +100,17 @@ def draw_game_area(screen):
             city_buttons.append(city_button)
     first_creation_pass = False
 
+#Method for text
+def text(text, font, screen):
+    textsurface = font.render(text, True, Color.COLOR_DICT.get("BLACK"))
+    return textsurface, textsurface.get_rect()
+
+def displayScores(screen):
+    title = pygame.font.Font(FONT, 60)
+    title_surface = title.render("", True, Color.COLOR_DICT.get("BLACK"))
+    # title_rect = 
+    
+    screen.blit(title_surface, title)
 
 def main():
     pygame.init()

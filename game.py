@@ -2,7 +2,7 @@ import os
 import pygame
 from Field import *
 from Button import Button
-from Color import *;
+from Color import *
 # hide pygame welcome message
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
@@ -44,7 +44,7 @@ def game_loop(screen):
 
 
 # run the gameloop
-def start_screen(screen):
+def start_screen(screen, background):
     font = pygame.font.Font(FONT, 60)
     play_font = pygame.font.Font(FONT, 30)
     
@@ -74,13 +74,14 @@ def start_screen(screen):
             elif event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_p:
-                    screen.fill(Color.COLOR_DICT("WHITE"))
+                    screen.blit(background, (0, 0))
                     game_loop(screen)
                 
             
         pygame.time.Clock().tick(FPS)
     
     pygame.display.update()
+
 
 first_creation_pass = True
 
@@ -120,7 +121,7 @@ def main():
     background = pygame.transform.scale(background, (DISPLAYX, DISPLAYY))
     screen.blit(background, (0, 0))
     while True:
-        start_screen(screen)
+        start_screen(screen, background)
 
 
 if __name__ == '__main__':

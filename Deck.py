@@ -3,21 +3,23 @@ from Field import Field
 from DestinationCard import DestinationCard
 import random
 
+
 class Deck:
     """
     Represents the main deck of cards in the Ticket to Ride board game
     """
+
     def __init__(self):
         """
-        Initialize all the train cards and destination cards in a deck of cards. 12 cards of each color for train cards, and use 
-        the destination_list.txt file to import all the destination cards. 
+        Initialize all the train cards and destination cards in a deck of cards. 12 cards of each color for train
+        cards, and use the destination_list.txt file to import all the destination cards.
         """
         self.train_cards = []
         colors = ["PURPLE", "BLUE", "ORANGE", "WHITE", "GREEN", "YELLOW", "BLACK", "RED", "RAINBOW"]
         for color in colors:
             for i in range(12):
                 self.train_cards.append(TrainCard(color))
-        random.shuffle(self.train_cards)  
+        random.shuffle(self.train_cards)
 
         self.destination_cards = []
 
@@ -52,7 +54,7 @@ class Deck:
         for i in range(num_cards):
             popped_cards.append(self.train_cards.pop())
         return popped_cards
-    
+
     def discard_destination_cards(self, num_cards: int):
         """
         Return n destination cards from the top of the deck

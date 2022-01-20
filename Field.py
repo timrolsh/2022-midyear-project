@@ -10,7 +10,8 @@ class Field:
     city_lines = city_list_file.read().split('\n')
     for line in city_lines:
         data = line.split(", ")
-        cities[data[0]] = City(data[0], data[1], data[2])
+        cities[data[0]] = City(data[0], int(data[1]), int(data[2]))  # cast the coordinates to integers since they
+        # come out of line.split as strings
     city_list_file.close()
 
     track_lines = tracks_list_file.read().split('\n')

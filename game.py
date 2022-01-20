@@ -43,8 +43,9 @@ def game_loop(screen):
             
             if event.type == pygame.MOUSEBUTTONDOWN:
                 current_pos = pygame.mouse.get_pos()
-                print(current_pos[0], current_pos[1])
-                print(city_quad_tree.search_interval(current_pos[0], current_pos[1]))
+                clicked_on = city_quad_tree.search_interval(current_pos[0], current_pos[1])
+                if isinstance(clicked_on, Button):
+                    print(clicked_on)
             
 
         draw_game_area(screen)

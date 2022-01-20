@@ -1,4 +1,5 @@
 import os
+import time
 #hide pygame welcome message
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
@@ -8,7 +9,6 @@ from pygame.locals import *
 # from Color import *
 # # from Computer import *
 from Field import *
-from IntervalQuadTree import IntervalQuadTree
 from Button import Button
 # from Goal import *
 # from Human import *
@@ -25,17 +25,11 @@ ORIGINALY = 1958
 CITY_COLOR = (219,152,99)
 CITY_RADIUS=10
 
-buttons = []
-
-city_quad_tree = IntervalQuadTree()
-
-
 #pygame main loop
 def game_loop(screen):
     
     running = True
     while running:
-
        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -44,10 +38,9 @@ def game_loop(screen):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 current_pos = pygame.mouse.get_pos()
                 if screen.get_at(current_pos)==CITY_COLOR:
-                    clicked_on = city_quad_tree.search_interval(current_pos[0], current_pos[1])
-                    if isinstance(clicked_on, Button):
-                        print(clicked_on)
-            
+                    for button in city_buttons:
+                        if (button.x-10)<=current_pos[0]<=(button.x+10) and (button.y-10)<=current_pos[1]<=(button.y+10):
+                            print(button)  
 
         draw_game_area(screen)
         
@@ -61,20 +54,21 @@ def start_screen(screen):
     #to do
     game_loop(screen)
 
-first_pass = True
+first_creation_pass = True
 
+city_buttons = []
 #draw all the components of the game
 def draw_game_area(screen):
-    global first_pass
+    global first_creation_pass
     for city in Field.cities.keys():
         city = Field.cities[city]
         circle_x = float((DISPLAYX/ORIGINALX) * float(city.x))
         circle_y = float((DISPLAYY/ORIGINALY) * float(city.y))
         pygame.draw.circle(screen, CITY_COLOR, (circle_x, circle_y), CITY_RADIUS) 
-        if first_pass:
-            button = Button(circle_x, circle_y, 20, 20)
-            city_quad_tree.add_interval(button)
-    first_pass=False
+        if first_creation_pass:
+            city_button = Button(circle_x, circle_y, 20, 20)
+            city_buttons.append(city_button)
+    first_creation_pass=False
         
 
 def main():

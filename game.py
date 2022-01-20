@@ -22,7 +22,7 @@ DISPLAYY = 682
 ORIGINALX = 2941
 ORIGINALY = 1958
 
-CITY_COLOR = (219,152,99,1)
+CITY_COLOR = (219,152,99)
 CITY_RADIUS=10
 
 buttons = []
@@ -43,9 +43,10 @@ def game_loop(screen):
             
             if event.type == pygame.MOUSEBUTTONDOWN:
                 current_pos = pygame.mouse.get_pos()
-                clicked_on = city_quad_tree.search_interval(current_pos[0], current_pos[1])
-                if isinstance(clicked_on, Button):
-                    print(clicked_on)
+                if screen.get_at(current_pos)==CITY_COLOR:
+                    clicked_on = city_quad_tree.search_interval(current_pos[0], current_pos[1])
+                    if isinstance(clicked_on, Button):
+                        print(clicked_on)
             
 
         draw_game_area(screen)

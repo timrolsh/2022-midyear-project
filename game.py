@@ -3,6 +3,8 @@ import pygame
 from Field import *
 from Button import Button
 from Color import *
+from Deck import *
+from Player import *
 # hide pygame welcome message
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
@@ -20,10 +22,36 @@ FONT = "freesansbold.ttf"
 
 
 # pygame main loop
-def game_loop(screen):
+def game_loop(screen, debug):
     running = True
+    
+    
+    #GAME SETUP
+    deck = Deck()
+    current_turn = 0
+    
+    player1_train_cards = deck.discard_train_card(4)
+    player2_train_cards = deck.discard_train_card(4)
+    top5_cards = deck.discard_train_card(5)
+    
+    player1_destination_cards = deck.discard_destination_cards(3)
+    player2_destination_cards = deck.discard_destination_cards(3)
+    
+    player1 = Player(player1_train_cards, player1_destination_cards)
+    player2 = Player(player2_train_cards, player2_destination_cards)
+    
+    
+    if (debug):
+        print("Player1 Train Cards: " + str(len(player1.train_cards)))
+        print("Player2 Train Cards: " + str(len(player2.train_cards)))
+        print("Train cards in deck: " + str(len(deck.train_cards)))
+    
+    #Before start: prompt player to keep at least 2 cards (discard at most one)
     while running:
-
+        
+        
+        
+        turn_complete = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -35,6 +63,22 @@ def game_loop(screen):
                         if (button.x - 10) <= current_pos[0] <= (button.x + 10) and (button.y - 10) <= current_pos[1] \
                                 <= (button.y + 10):
                             print(button)
+            
+        
+        
+        #Change turns
+        if (turn_complete):      
+            if current_turn == 0:
+                current_turn = 1
+            else:
+                current_turn = 0
+            if (debug):
+                print("Player: " + str(current_turn))
+            
+        
+        
+            
+                
 
         draw_game_area(screen)
 
@@ -75,7 +119,7 @@ def start_screen(screen, background):
 
                 if event.key == pygame.K_p:
                     screen.blit(background, (0, 0))
-                    game_loop(screen)
+                    game_loop(screen, True)
                 
             
         pygame.time.Clock().tick(FPS)
@@ -100,6 +144,7 @@ def draw_game_area(screen):
             city_button = Button(circle_x, circle_y, 20, 20)
             city_buttons.append(city_button)
     first_creation_pass = False
+    displayScores(screen)
 
 #Method for text
 def text(text, font, screen):
@@ -111,7 +156,7 @@ def displayScores(screen):
     title_surface = title.render("", True, Color.COLOR_DICT.get("BLACK"))
     # title_rect = 
     
-    screen.blit(title_surface, title)
+    # screen.blit(title_surface, title)
 
 def main():
     pygame.init()

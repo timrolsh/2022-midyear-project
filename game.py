@@ -16,6 +16,29 @@ ORIGINALY = 1958
 CITY_COLOR = (219, 152, 99)
 CITY_RADIUS = 10
 
+TRAIN_CAR_WIDTH=30
+TRAIN_CAR_LENGTH=90
+
+def find_rect_points(point1, point3):
+    global TRAIN_CAR_WIDTH
+    global TRAIN_CAR_LENGTH
+    
+    x1=point1[0]
+    y1 = point1[1]
+    x3 = point3[0]
+    y3 = point3[1]
+
+    distance = ((x1-x3)**2+(y1-y3)**2)**0.5
+    rotated = ((complex(x3-x1, y3-y1)*complex(TRAIN_CAR_LENGTH/distance, TRAIN_CAR_WIDTH/distance)*(TRAIN_CAR_LENGTH/distance))+complex(x1, y1))
+
+    point4 = rotated.real, rotated.imag
+
+    rotated = ((complex(x1-x3, y1-y3)*complex(TRAIN_CAR_LENGTH/distance, TRAIN_CAR_WIDTH/distance)*(TRAIN_CAR_LENGTH/distance))+complex(x3, y3))
+
+    point2 = rotated.real, rotated.imag
+
+    return [point2, point4]
+
 
 # pygame main loop
 def game_loop(screen):

@@ -1,16 +1,62 @@
 Vancouver, Calgary, GRAY, 3
+traincar: 374, 288, 471, 307
+traincar: 475, 277, 572, 297
+traincar: 575, 267, 669, 294
 Vancouver, Seattle, GRAY, 1
+traincar: 301, 349, 326, 440
 Vancouver, Seattle, GRAY, 1
+traincar: 337, 347, 366, 443
 Calgary, Seattle, GRAY, 4
+traincar: 367, 454, 462, 485
+traincar: 466, 455, 566, 470
+traincar: 566, 440, 660, 409
+traincar: 646, 378, 715, 309
 Calgary, Winnipeg, WHITE, 6
+traincar: 733, 241, 831, 236
+traincar: 830, 204, 929, 214
+traincar: 931, 182, 1027, 207
+traincar: 1036, 177, 1126, 215
+traincar: 1141, 189, 1223, 243
+traincar: 1242, 217, 1316, 284
 Calgary, Helena, GRAY, 4
+traincar: 753, 287, 785, 380
+traincar: 814, 367, 848, 459
+traincar: 876, 445, 909, 537
+traincar: 936, 525, 971, 615
 Seattle, Helena, YELLOW, 6
+traincar: 370, 493, 465, 544
+traincar: 467, 516, 550, 567
+traincar: 565, 540, 648, 589
+traincar: 661, 562, 746, 612
+traincar: 759, 584, 845, 635
+traincar: 857, 606, 941, 657
 Seattle, Portland, GRAY, 1
+traincar: 247, 572, 313, 501
 Seattle, Portland, GRAY, 1
+traincar: 282, 587, 348, 513
 Winnipeg, Helena, BLUE, 4
+traincar: 1229, 382, 1317, 399
+traincar: 1159, 453, 1245, 410
+traincar: 1086, 523, 1173, 480
+traincar: 1015, 590, 1103, 549
 Winnipeg, Duluth, BLACK, 4
+traincar: 1377, 314, 1423, 402
+traincar: 1446, 384, 1491, 473
+traincar: 1517, 456, 1562, 543
+traincar: 1589, 527, 1632, 614
 Winnipeg, Sault St. Marie, GRAY, 6
+traincar: 1405, 283, 1490, 331
+traincar: 1503, 304, 1587, 351
+traincar: 1599, 324, 1685, 372
+traincar: 1698, 343, 1784, 294
+traincar: 1796, 365, 1881, 412
+traincar: 1894, 384, 1979, 432
 Sault St. Marie, Montreal, BLACK, 5
+traincar: 2035, 394, 2130, 361
+traincar: 2121, 331, 2221, 317
+traincar: 2218, 285, 2317, 281
+traincar: 2316, 249, 2416, 259
+traincar: 2423, 228, 2520, 254
 Duluth, Sault St. Marie, GRAY, 3
 Sault St. Marie, Toronto, GRAY, 2
 Montreal, Boston, GRAY, 1

@@ -22,7 +22,7 @@ FONT = "freesansbold.ttf"
 
 
 # pygame main loop
-def game_loop(screen, debug):
+def game_loop(screen, debug, background):
     running = True
     
     
@@ -40,13 +40,17 @@ def game_loop(screen, debug):
     player1 = Player(player1_train_cards, player1_destination_cards)
     player2 = Player(player2_train_cards, player2_destination_cards)
     
-    
+    screen.blit(background, (0, 0))
     if (debug):
+        print("Debug mode on")
         print("Player1 Train Cards: " + str(len(player1.train_cards)))
         print("Player2 Train Cards: " + str(len(player2.train_cards)))
         print("Train cards in deck: " + str(len(deck.train_cards)))
     
     #Before start: prompt player to keep at least 2 cards (discard at most one)
+    #Idea: Show player 1 their destination cards then click 
+    # on one of them to discard OR click on separate button to not discard any.
+    #^do the same for player2
     while running:
         
         
@@ -63,7 +67,9 @@ def game_loop(screen, debug):
                         if (button.x - 10) <= current_pos[0] <= (button.x + 10) and (button.y - 10) <= current_pos[1] \
                                 <= (button.y + 10):
                             print(button)
-            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_TAB:
+                    player1_card_tab(screen, background)
         
         
         #Change turns
@@ -92,23 +98,11 @@ def start_screen(screen, background):
     font = pygame.font.Font(FONT, 60)
     play_font = pygame.font.Font(FONT, 30)
     
-
-    font_surface = font.render("Ticket to Ride", True, Color.COLOR_DICT.get("BLACK"))
-    play_surface = play_font.render("Press P to Play", True, Color.COLOR_DICT.get("BLACK"))
-   
-
-    rect_font = font_surface.get_rect()
-    play_rect_font = play_surface.get_rect()
-
-    rect_font.center = ((DISPLAYX / 2), (DISPLAYY / 2))
-    play_rect_font.center = ((DISPLAYX / 2), (DISPLAYY / 1.65))
-    
     draw_game_area(screen)
-    screen.blit(font_surface, rect_font)
-    screen.blit(play_surface, play_rect_font)
+    draw_text("Ticket to Ride", font, "BLACK", screen, (DISPLAYX / 2), (DISPLAYY / 2))
+    draw_text("Press P to Play", play_font, "BLACK", screen, (DISPLAYX / 2), (DISPLAYY / 1.65))
     
     pygame.display.update()
-    # game_loop(screen)
 
     while True:
         for event in pygame.event.get():
@@ -119,7 +113,58 @@ def start_screen(screen, background):
 
                 if event.key == pygame.K_p:
                     screen.blit(background, (0, 0))
-                    game_loop(screen, True)
+                    game_loop(screen, True, background)
+                
+            
+        pygame.time.Clock().tick(FPS)
+    
+    pygame.display.update()
+
+def player1_card_tab(screen, background):
+    font = pygame.font.Font(FONT, 60)
+    
+    draw_game_area(screen)
+    draw_text("Player 1 Cards", font, "BLACK", screen, (DISPLAYX / 2), (DISPLAYY / 2))
+    
+    pygame.display.update()
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                
+            elif event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_TAB:
+                    screen.blit(background, (0, 0))
+                    running = False
+                    player2_card_tab(screen, background)
+                
+            
+        pygame.time.Clock().tick(FPS)
+    
+    pygame.display.update()
+
+def player2_card_tab(screen, background):
+    font = pygame.font.Font(FONT, 60)
+    
+    draw_game_area(screen)
+    draw_text("Player 2 Cards", font, "BLACK", screen, (DISPLAYX / 2), (DISPLAYY / 2))
+    
+    pygame.display.update()
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                
+            elif event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_TAB:
+                    screen.blit(background, (0, 0))
+                    running = False
                 
             
         pygame.time.Clock().tick(FPS)
@@ -147,10 +192,12 @@ def draw_game_area(screen):
     displayScores(screen)
 
 #Method for text
-def text(text, font, screen):
-    textsurface = font.render(text, True, Color.COLOR_DICT.get("BLACK"))
-    return textsurface, textsurface.get_rect()
-
+def draw_text(text, font, color, surface, x, y):
+    text_obj = font.render(text, 1, Color.COLOR_DICT.get(color))
+    rect = text_obj.get_rect()
+    rect.center = (x, y)
+    surface.blit(text_obj, rect)
+    
 def displayScores(screen):
     title = pygame.font.Font(FONT, 60)
     title_surface = title.render("", True, Color.COLOR_DICT.get("BLACK"))

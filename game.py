@@ -87,7 +87,7 @@ def game_loop(screen, debug, background):
                 
 
         draw_game_area(screen)
-
+        display_scores(screen, player1, player2)
         pygame.display.update()
 
     pygame.quit()
@@ -112,7 +112,6 @@ def start_screen(screen, background):
             elif event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_p:
-                    screen.blit(background, (0, 0))
                     game_loop(screen, True, background)
                 
             
@@ -121,6 +120,7 @@ def start_screen(screen, background):
     pygame.display.update()
 
 def player1_card_tab(screen, background):
+    screen.blit(background, (0, 0))
     font = pygame.font.Font(FONT, 60)
     
     draw_game_area(screen)
@@ -189,7 +189,7 @@ def draw_game_area(screen):
             city_button = Button(circle_x, circle_y, 20, 20)
             city_buttons.append(city_button)
     first_creation_pass = False
-    displayScores(screen)
+    
 
 #Method for text
 def draw_text(text, font, color, surface, x, y):
@@ -198,12 +198,10 @@ def draw_text(text, font, color, surface, x, y):
     rect.center = (x, y)
     surface.blit(text_obj, rect)
     
-def displayScores(screen):
-    title = pygame.font.Font(FONT, 60)
-    title_surface = title.render("", True, Color.COLOR_DICT.get("BLACK"))
-    # title_rect = 
-    
-    # screen.blit(title_surface, title)
+def display_scores(screen, p1, p2):
+    font = pygame.font.Font(FONT, 30)
+    draw_text("Player 1: " + str(p1.score), font, "BLACK", screen, DISPLAYX / 1.25, DISPLAYY / 1.25)
+    draw_text("Player 2: " + str(p2.score), font, "BLACK", screen, DISPLAYX / 1.25, DISPLAYY / 1.15)
 
 def main():
     pygame.init()

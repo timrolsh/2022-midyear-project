@@ -5,41 +5,15 @@ from Button import Button
 from Color import *
 from Deck import *
 from Player import *
+from DisplayVars import DISPLAYX, DISPLAYY, ORIGINALX, ORIGINALY
+
 # hide pygame welcome message
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 FPS = 15
-DISPLAYX = 955
-DISPLAYY = 682
-
-ORIGINALX = 2941
-ORIGINALY = 1958
 
 CITY_COLOR = (219, 152, 99)
 CITY_RADIUS = 10
-
-TRAIN_CAR_WIDTH=30
-TRAIN_CAR_LENGTH=90
-
-def find_rect_points(point1, point3):
-    global TRAIN_CAR_WIDTH
-    global TRAIN_CAR_LENGTH
-    
-    x1=point1[0]
-    y1 = point1[1]
-    x3 = point3[0]
-    y3 = point3[1]
-
-    distance = ((x1-x3)**2+(y1-y3)**2)**0.5
-    rotated = ((complex(x3-x1, y3-y1)*complex(TRAIN_CAR_LENGTH/distance, TRAIN_CAR_WIDTH/distance)*(TRAIN_CAR_LENGTH/distance))+complex(x1, y1))
-
-    point4 = rotated.real, rotated.imag
-
-    rotated = ((complex(x1-x3, y1-y3)*complex(TRAIN_CAR_LENGTH/distance, TRAIN_CAR_WIDTH/distance)*(TRAIN_CAR_LENGTH/distance))+complex(x3, y3))
-
-    point2 = rotated.real, rotated.imag
-
-    return [point2, point4]
 
 FONT = "freesansbold.ttf"
 
@@ -50,7 +24,7 @@ def game_loop(screen, debug):
     
     #GAME SETUP
     deck = Deck()
-    current_turn = 0
+    current_turn = 1
     
     player1_train_cards = deck.discard_train_card(4)
     player2_train_cards = deck.discard_train_card(4)
@@ -71,8 +45,6 @@ def game_loop(screen, debug):
     #Before start: prompt player to keep at least 2 cards (discard at most one)
     while running:
         
-        
-        
         turn_complete = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -80,25 +52,21 @@ def game_loop(screen, debug):
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 current_pos = pygame.mouse.get_pos()
+                print(current_pos)
                 if screen.get_at(current_pos) == CITY_COLOR:
                     for button in city_buttons:
                         if (button.x - 10) <= current_pos[0] <= (button.x + 10) and (button.y - 10) <= current_pos[1] \
                                 <= (button.y + 10):
                             print(button)
-            
-        
         
         #Change turns
         if (turn_complete):      
-            if current_turn == 0:
-                current_turn = 1
+            if current_turn == 1:
+                current_turn = 2
             else:
-                current_turn = 0
+                current_turn = 1
             if (debug):
                 print("Player: " + str(current_turn))
-            
-        
-        
             
                 
 
@@ -162,6 +130,7 @@ def draw_game_area(screen):
         circle_x = float((DISPLAYX / ORIGINALX) * float(city.x))
         circle_y = float((DISPLAYY / ORIGINALY) * float(city.y))
         pygame.draw.circle(screen, CITY_COLOR, (circle_x, circle_y), CITY_RADIUS)
+
         if first_creation_pass:
             city_button = Button(circle_x, circle_y, 20, 20)
             city_buttons.append(city_button)

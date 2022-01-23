@@ -58,90 +58,352 @@ traincar: 2218, 285, 2317, 281
 traincar: 2316, 249, 2416, 259
 traincar: 2423, 228, 2520, 254
 Duluth, Sault St. Marie, GRAY, 3
+traincar: 1706, 565, 1803, 557
+traincar: 1796, 526, 1898, 517
+traincar: 1888, 485, 1991, 477
 Sault St. Marie, Toronto, GRAY, 2
-Montreal, Boston, GRAY, 1
-Montreal, Boston, GRAY, 1
+traincar: 2073, 427, 2161, 480
+traincar: 2172, 446, 2262, 495
+Montreal, Boston, GRAY, 2
+traincar: 2624, 241, 2677, 329
+traincar: 2703, 306, 2758, 394
+Montreal, Boston, GRAY, 2
+traincar: 2600, 272, 2653, 359
+traincar: 2679, 336, 2737, 421
 Montreal, Toronto, GRAY, 3
+traincar: 2552, 289, 2448, 292
+traincar: 2456, 326, 2359, 363
+traincar: 2379, 392, 2300, 458
 Montreal, New York, BLUE, 3
+traincar: 2570, 302, 2550, 403
+traincar: 2587, 403, 2566, 503
+traincar: 2602, 502, 2582, 602
 Boston, New York, YELLOW, 2
+traincar: 2771, 452, 2684, 517
+traincar: 2713, 537, 2628, 600
 Boston, New York, RED, 2
+traincar: 2801, 471, 2716, 536
+traincar: 2744, 556, 2662, 619
 Helena, Duluth, ORANGE, 6
+traincar: 1030, 625, 1128, 656
+traincar: 1131, 624, 1227, 656
+traincar: 1231, 624, 1326, 655
+traincar: 1329, 622, 1425, 653
+traincar: 1429, 621, 1524, 653
+traincar: 1529, 622, 1625, 650
 Duluth, Toronto, PINK, 6
+traincar: 1693, 607, 1792, 623
+traincar: 1792, 590, 1892, 605
+traincar: 1891, 572, 1988, 587
+traincar: 1991, 555, 2087, 568
+traincar: 2089, 536, 2188, 551
+traincar: 2190, 520, 2292, 532
 Portland, San Francisco, GREEN, 5
+traincar: 185, 711, 251, 639
+traincar: 161, 820, 210, 738
+traincar: 162, 935, 186, 843
+traincar: 169, 1039, 188, 944
+traincar: 191, 1147, 198, 1051
 Portland, San Francisco, PINK, 5
+traincar: 218, 723, 284, 652
+traincar: 198, 827, 243, 746
+traincar: 196, 935, 225, 841
+traincar: 203, 1037, 227, 944
+traincar: 228, 1138, 233, 1043
 Portland, Salt Lake City, BLUE, 6
+traincar: 302, 608, 386, 656
+traincar: 403, 630, 478, 692
+traincar: 501, 670, 566, 744
+traincar: 590, 723, 642, 806
+traincar: 670, 793, 710, 883
+traincar: 741, 872, 766, 966
 Helena, Salt Lake City, PINK, 3
+traincar: 801, 925, 878, 858
+traincar: 854, 838, 933, 773
+traincar: 903, 755, 981, 689
 Helena, Denver, GREEN, 4
+traincar: 1025, 666, 1027, 768
+traincar: 1060, 759, 1063, 862
+traincar: 1096, 852, 1100, 956
+traincar: 1133, 946, 1136, 1047
 Helena, Omaha, RED, 5
+traincar: 1061, 665, 1138, 734
+traincar: 1153, 703, 1233, 770
+traincar: 1248, 738, 1319, 805
+traincar: 1342, 775, 1418, 841
+traincar: 1433, 810, 1510, 875
 Duluth, Omaha, GRAY, 2
+traincar: 1643, 669, 1576, 749
+traincar: 1606, 763, 1539, 842
 Duluth, Omaha, GRAY, 2
+traincar: 1676, 682, 1610, 761
+traincar: 1640, 775, 1574, 856
 Duluth, Chicago, RED, 3
+traincar: 1691, 643, 1757, 716
+traincar: 1777, 688, 1857, 755
+traincar: 1871, 725, 1957, 77
 Omaha, Chicago, BLUE, 4
+traincar: 1595, 877, 1691, 849
+traincar: 1677, 821, 1773, 793
+traincar: 1780, 758, 1869, 805
+traincar: 1879, 775, 1969, 819
 Chicago, Pittsburgh, ORANGE, 3
+traincar: 2017, 755, 2117, 754
+traincar: 2123, 718, 2226, 737
+traincar: 2241, 701, 2337, 742
 Chicago, Pittsburgh, BLACK, 3
+traincar: 2028, 790, 2130, 786
+traincar: 2131, 754, 2231, 771
+traincar: 2238, 740, 2335, 776
 Toronto, Pittsburgh, GRAY, 2
+traincar: 2371, 522, 2342, 618
+traincar: 2377, 622, 2349, 720
 Toronto, Chicago, WHITE, 4
+traincar: 1969, 749, 2062, 699
+traincar: 2043, 669, 2144, 641
+traincar: 2139, 608, 2243, 613
+traincar: 2236, 579, 2335, 545
 Pittsburgh, New York, WHITE, 2
-Pittsburgh, New York, WHITE, 2
+traincar: 2387, 701, 2491, 684
+traincar: 2475, 652, 2581, 633
 Pittsburgh, New York, GREEN, 2
+traincar: 2405, 731, 2510, 713
+traincar: 2495, 681, 2599, 663
 New York, Washington, BLACK, 2
+traincar: 2680, 660, 2646, 758
+traincar: 2683, 761, 2650, 860
 New York, Washington, ORANGE, 2
+traincar: 2642, 660, 2611, 760
+traincar: 2644, 763, 2612, 861
 San Francisco, Salt Lake City, ORANGE, 5
+traincar: 263, 1120, 365, 1122
+traincar: 360, 1087, 461, 1093
+traincar: 454, 1057, 557, 1061
+traincar: 548, 1206, 652, 1031
+traincar: 647, 996, 749, 999
 San Francisco, Salt Lake City, WHITE, 5
+traincar: 275, 1156, 377, 1157
+traincar: 370, 1123, 473, 1126
+traincar: 465, 1092, 568, 1094
+traincar: 563, 1063, 664, 1062
+traincar: 656, 1032, 762, 1034
 Salt Lake City, Denver, RED, 3
+traincar: 809, 951, 906, 984
+traincar: 924, 956, 1010, 1008
+traincar: 1036, 983, 1110, 1053
 Salt Lake City, Denver, YELLOW, 3
+traincar: 808, 988, 904, 1023
+traincar: 916, 990, 1002, 1043
+traincar: 1019, 1014, 1094, 1084
 Denver, Omaha, PINK, 4
+traincar: 1172, 1038, 1267, 1007
+traincar: 1256, 976, 1356, 961
+traincar: 1349, 930, 1449, 931
+traincar: 1448, 897,1547, 914
 San Francisco, Los Angeles, YELLOW, 3
+traincar: 244, 1298, 236, 1198
+traincar: 303, 1392, 278, 1300
+traincar: 385, 1474, 338, 1387
 San Francisco, Los Angeles, PINK, 3
+traincar: 277, 1281, 270, 1186
+traincar: 334, 1371, 308, 1280
+traincar: 409, 1447, 364, 1359
 Salt Lake City, Las Vegas, ORANGE, 3
+traincar: 757, 1117, 806, 1033
+traincar: 719, 1210, 786, 1135
+traincar: 643, 1275, 736, 1239
 Las Vegas, Los Angeles, GRAY, 2
+traincar: 499, 1307, 599, 1316
+traincar: 435, 1412, 501, 1342
 Los Angeles, Phoenix, GRAY, 3
+traincar: 459, 1439, 555, 1454
+traincar: 564, 1423, 656, 1459
+traincar: 669, 1430, 753, 1480
 Los Angeles, El Paso, BLACK, 6
+traincar: 478, 1479, 536, 1557
+traincar: 559, 1537, 631, 1603
+traincar: 649, 1578, 731, 1632
+traincar: 746, 1607, 836, 1647
+traincar: 845, 1619, 942, 1644
+traincar: 943, 1614, 1045, 1626
 Phoenix, Denver, WHITE, 5
+traincar: 776, 1451, 828, 1368
+traincar: 805, 1346, 873, 1277
+traincar: 853, 1251, 942, 1203
+traincar: 928, 1173, 1025, 1148
+traincar: 1021, 1116, 1120, 1113
 Phoenix, Santa Fe, GRAY, 3
+traincar: 826, 1451, 922, 1437
+traincar: 917, 1408, 1015, 1395
+traincar: 1008, 1365, 1107, 1352
 Phoenix, El Paso, GRAY, 3
+traincar: 813, 1484, 882, 1554
+traincar: 901, 1530, 983, 1585
+traincar: 998, 1558, 1089, 1595
 Denver, Santa Fe, GRAY, 2
+traincar: 1120, 1207, 1158, 1117
+traincar: 1113, 1305, 1152, 1217
 Santa Fe, El Paso, GRAY, 2
+traincar: 1106, 1454, 1143, 1362
+traincar: 1099, 1554, 1136, 1465
 El Paso, Houston, GREEN, 6
+traincar: 1145, 1604, 1214, 1676
+traincar: 1237, 1651, 1314, 1710
+traincar: 1328, 1681, 1417, 1726
+traincar: 1426, 1697, 1522, 1728
+traincar: 1526, 1698, 1626, 1714
+traincar: 1625, 1680, 1725, 1681
 El Paso, Dallas, RED, 4
+traincar: 1199, 1585, 1297, 1600
+traincar: 1299, 1570, 1397, 1585
+traincar: 1397, 1555, 1495, 1571
+traincar: 1495, 1539, 1594, 1556
 El Paso, Oklahoma City, YELLOW, 5
+traincar: 1141, 1562, 1240, 1563
+traincar: 1237, 1531, 1335, 1519
+traincar: 1326, 1488, 1422, 1457
+traincar: 1407, 1430, 1498, 1386
+traincar: 1479, 1360, 1560, 1305
 Santa Fe, Oklahoma City, BLUE, 3
+traincar: 1177, 1322, 1276, 1340
+traincar: 1279, 1309, 1373, 1327
+traincar: 1376, 1297, 1472, 1317
 Oklahoma City, Denver, RED, 4
+traincar: 1182, 1131, 1224, 1217
+traincar: 1252, 1201, 1327, 1264
+traincar: 1344, 1238, 1434, 1278
+traincar: 1441, 1248, 1536, 1276
 Denver, Kansas City, BLACK, 4
+traincar: 1200, 1066, 1288, 1107
+traincar: 1297, 1078, 1395, 1101
+traincar: 1393, 1069, 1494, 1071
+traincar: 1489, 1042, 1589, 1036
 Denver, Kansas City, ORANGE, 4
+traincar: 1194, 1101, 1282, 1143
+traincar: 1300, 1113, 1396, 1138
+traincar: 1404, 1103, 1504, 1108
+traincar: 1502, 1075, 1603, 1073
 Omaha, Kansas City, GRAY, 1
+traincar: 1618, 905, 1632, 1002
 Omaha, Kansas City, GRAY, 1
+traincar: 1586, 920, 1597, 1019
 Oklahoma City, Kansas City, GRAY, 2
+traincar: 1582, 1142, 1639, 1066
+traincar: 1553, 1241, 1608, 1160
 Oklahoma City, Kansas City, GRAY, 2
+traincar: 1591, 1248, 1645, 1172
+traincar: 1618, 1155, 1674, 1077
 Kansas City, Saint Louis, BLUE, 2
+traincar: 1654, 1000, 1749, 1025
+traincar: 1755, 995, 1848, 1023
 Kansas City, Saint Louis, PINK, 2
+traincar: 1657, 1036, 1750, 1062
+traincar: 1755, 1033, 1850, 1061
 Kansas City, Chicago, GREEN, 2
+traincar: 1847, 986, 1921, 927
+traincar: 1901, 902, 1974, 839
 Kansas City, Chicago, WHITE, 2
+traincar: 1881, 1005, 1954, 941
+traincar: 1932, 920, 2010, 855
 Saint Louis, Pittsburgh, GREEN, 5
+traincar: 1901, 1034, 1997, 1013
+traincar: 1987, 984, 2085, 963
+traincar: 2078, 934, 2174, 913
+traincar: 2163, 884, 2261, 862
+traincar: 2251, 833, 2351, 810
 Pittsburgh, Washington, GRAY, 2
+traincar: 2425, 780, 2499, 846
+traincar: 2520, 821, 2592, 890
 Pittsburgh, Saint Louis, YELLOW, 4
+traincar: 2091, 1120, 2156, 1049
+traincar: 2134, 1020, 2224, 970
+traincar: 2211, 938, 2313, 920
+traincar: 2302, 890, 2395, 828
 Saint Louis, Nashville, GRAY, 2
+traincar: 1908, 1074, 1989, 1131
+traincar: 2001, 1106, 2084, 1163
 Pittsburgh, Raleigh, GRAY, 2
-Washington, Raleigh, GRAY, 2 
-Washington, Raleigh, GRAY, 2 
+traincar: 2414, 921, 2422, 823
+traincar: 2439, 1017, 2447, 919
+Washington, Raleigh, GRAY, 2
+traincar: 2541, 966, 2629, 916
+traincar: 2475, 1042, 2562, 993
+Washington, Raleigh, GRAY, 2
+traincar: 2570, 980, 2656, 937
+traincar: 2501, 1064, 2589, 1014
 Nashville, Raleigh, BLACK, 3
+traincar: 2151, 1109, 2249, 1083
+traincar: 2246, 1052, 2349, 1059
+traincar: 2358, 1028, 2451, 1070
 Oklahoma City, Little Rock, GRAY, 2
+traincar: 1607, 1267, 1703, 1291
+traincar: 1710, 1259, 1802, 1296
 Little Rock, Nashville, WHITE, 3
+traincar: 1851, 1270, 1947, 1294
+traincar: 1951, 1260, 2051, 1253
+traincar: 2042, 1221, 2133, 1180
 Oklahoma City, Dallas, GRAY, 2
+traincar: 1579, 1399, 1598, 1305
+traincar: 1590, 1498, 1610, 1406
 Oklahoma City, Dallas, GRAY, 2
+traincar: 1617, 1397, 1634, 1301
+traincar: 1628, 1495, 1645, 1397
 Dallas, Houston, GRAY, 1
+traincar: 1676, 1524, 1721, 1614
 Dallas, Houston, GRAY, 1
+traincar: 1651, 1552, 1692, 1638
 Dallas, Little Rock, GRAY, 2
+traincar: 1671, 1459, 1753, 1403
+traincar: 1732, 1380, 1810, 1323
 Houston, New Orleans, GRAY, 2
+traincar: 1772, 1622, 1871, 1642
+traincar: 1871, 1609, 1969, 1628
 Little Rock, New Orleans, GREEN, 3
+traincar: 1861, 1409, 1845, 1312
+traincar: 1910, 1496, 1892, 1401
+traincar: 1958, 1587, 1941, 1488
 New Orleans, Atlanta, YELLOW, 4
+traincar: 1993, 1577, 2061, 1503
+traincar: 2036, 1482, 2108, 1415
+traincar: 2092, 1380, 2179, 1332
+traincar: 2169, 1298, 2265, 1267
 New Orleans, Atlanta, ORANGE, 4
+traincar: 2029, 1593, 2094, 1521
+traincar: 2070, 1500, 2143, 1434
+traincar: 2121, 1406, 2208, 1357
+traincar: 2193, 1324, 2289, 1294
 Nashville, Atlanta, GRAY, 1
+traincar: 2179, 1154, 2240, 1231
 Atlanta, Raleigh, GRAY, 2
+traincar: 2285, 1204, 2379, 1168
+traincar: 2361, 1141, 2455, 1104
 Atlanta, Raleigh, GRAY, 2
+traincar: 2312, 1235, 2404, 1198
+traincar: 2398, 1170, 2481, 1130
 Raleigh, Charleston, GRAY, 2
+traincar: 2509, 1097, 2579, 1171
+traincar: 2553, 1230, 2627, 1162
 Atlanta, Charleston, GRAY, 2
+traincar: 2331, 1262, 2424, 1305
+traincar: 2431, 1274, 2531, 1292
 Charleston, Miami, PINK, 4
+traincar: 2555, 1392, 2579, 1296
+traincar: 2572, 1494, 2586, 1397
+traincar: 2602, 1597, 2604, 1497
+traincar: 2647, 1693, 2635, 1593
 Atlanta, Miami, BLUE, 5
+traincar: 2316, 1289, 2352, 1382
+traincar: 2375, 1367, 2414, 1459
+traincar: 2442, 1448, 2478, 1538
+traincar: 2506, 1528, 2542, 1617
+traincar: 2568, 1606, 2607, 1699
 New Orleans, Miami, RED, 6
+traincar: 2063, 1610, 2159, 1586
+traincar: 2158, 1555, 2257, 1554
+traincar: 2263, 1525, 2359, 1555
+traincar: 2380, 1527, 2449, 1602
+traincar: 2475, 1583, 2525, 1669
+traincar: 2554, 1655, 2593, 1746
 Saint Louis, Little Rock, GRAY, 2
+traincar: 1842, 1155, 1889, 1072
+traincar: 1819, 1251, 1870, 1169

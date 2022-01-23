@@ -3,9 +3,9 @@ traincar: 374, 288, 471, 307
 traincar: 475, 277, 572, 297
 traincar: 575, 267, 669, 294
 Vancouver, Seattle, GRAY, 1
-traincar: 301, 349, 326, 440
+traincar: 296, 441, 336, 347
 Vancouver, Seattle, GRAY, 1
-traincar: 337, 347, 366, 443
+traincar: 334, 440, 371, 347
 Calgary, Seattle, GRAY, 4
 traincar: 367, 454, 462, 485
 traincar: 466, 455, 566, 470
@@ -35,7 +35,7 @@ traincar: 247, 572, 313, 501
 Seattle, Portland, GRAY, 1
 traincar: 282, 587, 348, 513
 Winnipeg, Helena, BLUE, 4
-traincar: 1229, 382, 1317, 399
+traincar: 1229, 382, 1317, 338
 traincar: 1159, 453, 1245, 410
 traincar: 1086, 523, 1173, 480
 traincar: 1015, 590, 1103, 549
@@ -48,7 +48,7 @@ Winnipeg, Sault St. Marie, GRAY, 6
 traincar: 1405, 283, 1490, 331
 traincar: 1503, 304, 1587, 351
 traincar: 1599, 324, 1685, 372
-traincar: 1698, 343, 1784, 294
+traincar: 1698, 343, 1784, 391
 traincar: 1796, 365, 1881, 412
 traincar: 1894, 384, 1979, 432
 Sault St. Marie, Montreal, BLACK, 5
@@ -141,7 +141,7 @@ traincar: 1640, 775, 1574, 856
 Duluth, Chicago, RED, 3
 traincar: 1691, 643, 1757, 716
 traincar: 1777, 688, 1857, 755
-traincar: 1871, 725, 1957, 77
+traincar: 1871, 725, 1959, 778
 Omaha, Chicago, BLUE, 4
 traincar: 1595, 877, 1691, 849
 traincar: 1677, 821, 1773, 793
@@ -179,7 +179,7 @@ San Francisco, Salt Lake City, ORANGE, 5
 traincar: 263, 1120, 365, 1122
 traincar: 360, 1087, 461, 1093
 traincar: 454, 1057, 557, 1061
-traincar: 548, 1206, 652, 1031
+traincar: 551, 1029, 652, 1031
 traincar: 647, 996, 749, 999
 San Francisco, Salt Lake City, WHITE, 5
 traincar: 275, 1156, 377, 1157
@@ -199,7 +199,7 @@ Denver, Omaha, PINK, 4
 traincar: 1172, 1038, 1267, 1007
 traincar: 1256, 976, 1356, 961
 traincar: 1349, 930, 1449, 931
-traincar: 1448, 897,1547, 914
+traincar: 1448, 897, 1547, 914
 San Francisco, Los Angeles, YELLOW, 3
 traincar: 244, 1298, 236, 1198
 traincar: 303, 1392, 278, 1300

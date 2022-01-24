@@ -1,8 +1,3 @@
-""" This class is redundant and does not need to be used in the game. A traincar is simply 4 points denoting its
-location, and does not need to be represented by a class. The Track class has a list of train car coordinates,
-which Game will scale and use to draw train cars on the field. The color of the train cars will be player's color. """
-
-
 class TrainCar:
     TRAIN_CAR_LENGTH = 90
     TRAIN_CAR_WIDTH = 30

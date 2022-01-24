@@ -3,8 +3,6 @@ from Track import Track
 
 
 class Field:
-    TRAIN_CAR_LENGTH = 90
-    TRAIN_CAR_WIDTH = 30
     cities = {}
     tracks_list = []
     city_list_file = open("data/city_list.txt")

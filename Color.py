@@ -1,15 +1,10 @@
-""" this class contains static variables
-that appear in Ticket To Ride. The colors
-are not all "exact" as they are on the
-color wheel. For example, the color green
-would be (0,255,0), but Ticket To Ride
-uses a different shade of green.
-"""
+"""THis class is redundant. We do not need a specific class to store one variable. The dictionary of colors has been
+moved to Game, and can be accessed from there """
 
 
 class Color:
     """
-    Dictionary with all the possible colors and their RGB values for translation onto the field/board. 
+    Dictionary with all the possible colors and their RGB values for translation onto the field/board.
     """
 
     COLOR_DICT = {"WHITE": (255, 255, 255), "YELLOW": (252, 239, 108), "BLUE": (67, 147, 242), "BLACK": (69, 70, 74),

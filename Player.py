@@ -8,9 +8,10 @@ class Player:
     Player class, with all the functions available to a player of the online game
     """
 
-    def __init__(self, train_cards, destination_cards):
-        self.train_cards = train_cards
-        self.destination_cards = destination_cards
+    def __init__(self, color: (int, int, int)):
+        self.color = color
+        self.train_cards = []
+        self.destination_cards = []
         self.score = 0
         self.owned_tracks = []
         self.union_find = UnionFind()
@@ -48,5 +49,3 @@ class Player:
             if self.union_find.is_connected(destination_card.start, destination_card.end):
                 self.destination_cards.pop(d)
                 self.score += destination_card.points
-
-    # player has goals

@@ -4,7 +4,7 @@ from Player import Player
 from Field import Field
 
 deck = Deck()
-d_train = deck.discard_train_card(100)
+d_train = deck.discard_train_cards(100)
 d_dest = deck.discard_destination_cards(3)
 
 player = Player(d_train, d_dest)

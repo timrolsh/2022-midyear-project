@@ -53,6 +53,9 @@ def game_loop(screen, debug, background):
     player1.train_cards = player1_train_cards
     player2.train_cards = player2_train_cards
     
+    player1.destination_cards = player1_destination_cards
+    player2.destination_cards = player2_destination_cards
+    
     screen.blit(background, (0, 0))
     current_turn = 0
     if (debug):

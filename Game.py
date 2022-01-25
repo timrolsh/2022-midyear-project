@@ -17,7 +17,6 @@ CITY_COLOR = (219, 152, 99)
 CITY_RADIUS = 10
 FONT = "freesansbold.ttf"
 deck = Deck()
-current_turn = 0
 Players = []
 COLORS = {"WHITE": (255, 255, 255), "YELLOW": (252, 239, 108), "BLUE": (67, 147, 242), "BLACK": (69, 70, 74),
           "RED": (201, 88, 80), "ORANGE": (214, 139, 84), "PINK": (201, 134, 175), "GREEN": (169, 195, 86),
@@ -40,17 +39,22 @@ PLAYERS = [Human(COLORS["WHITE"]), Human(COLORS["YELLOW"])]
 # pygame main loop
 def game_loop(screen, debug, background):
     running = True
-    player1_train_cards = deck.discard_train_card(4)
-    player2_train_cards = deck.discard_train_card(4)
-    top5_cards = deck.discard_train_card(5)
+    player1_train_cards = deck.discard_train_cards(4)
+    player2_train_cards = deck.discard_train_cards(4)
+    top5_cards = deck.discard_train_cards(5)
 
     player1_destination_cards = deck.discard_destination_cards(3)
     player2_destination_cards = deck.discard_destination_cards(3)
 
-    player1 = Player(player1_train_cards, player1_destination_cards)
-    player2 = Player(player2_train_cards, player2_destination_cards)
-
+    #setting the colors to red/blue manually for now
+    player1 = PLAYERS[0]
+    player2 = PLAYERS[1]
+    
+    player1.train_cards = player1_train_cards
+    player2.train_cards = player2_train_cards
+    
     screen.blit(background, (0, 0))
+    current_turn = 0
     if (debug):
         print("Debug mode on")
         print("Player1 Train Cards: " + str(len(player1.train_cards)))
@@ -64,6 +68,7 @@ def game_loop(screen, debug, background):
     while running:
 
         turn_complete = False
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -78,6 +83,7 @@ def game_loop(screen, debug, background):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_TAB:
                     player1_card_tab(screen, background)
+                    
 
         # Change turns
         if (turn_complete):
@@ -87,6 +93,8 @@ def game_loop(screen, debug, background):
                 current_turn = 0
             if (debug):
                 print("Player: " + str(current_turn))
+                
+            player_prompt(PLAYERS[current_turn], screen, background, current_turn)
 
         draw_game_area(screen)
         display_scores(screen, player1, player2)
@@ -190,6 +198,46 @@ def draw_game_area(screen):
             city_button = Button(circle_x, circle_y, 20, 20)
             city_buttons.append(city_button)
     first_creation_pass = False
+
+def player_prompt(player, screen, background, current_turn):
+    
+    #Draw three buttons for options
+    font = pygame.font.Font(FONT, 60)
+
+    draw_game_area(screen)
+    
+    draw_text("Player " + str(current_turn+1) + " choose a move", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
+
+    pygame.display.update()
+    
+    #Create buttons later
+    
+    
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+            elif event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_TAB:
+                    screen.blit(background, (0, 0))
+                    running = False
+                if event.key == pygame.K_1:
+                    break
+                if event.key == pygame.K_2:
+                    #draw?
+                    break
+                if event.key == pygame.K_3:
+                    break
+
+        pygame.time.Clock().tick(FPS)
+
+    pygame.display.update()
+    draw_game_area(screen)
+    
 
 
 # Method for text

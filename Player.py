@@ -8,7 +8,7 @@ class Player:
     Player class, with all the functions available to a player of the online game
     """
 
-    def __init__(self, color: (int, int, int)):
+    def __init__(self, color):
         self.color = color
         self.train_cards = []
         self.destination_cards = []

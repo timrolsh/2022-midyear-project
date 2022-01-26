@@ -42,7 +42,7 @@ def scale(point):
 """Please define the players you want to play by calling the constructor for either human or player class, 
 and then specifying a color from the colors dictionary provided of sample colors. Or, you can make your own color! 
 Colors are represented by tuple values of three RGB values. """
-PLAYERS = [Human(COLORS["WHITE"]), Human(COLORS["YELLOW"])]
+PLAYERS = [Human(COLORS["BLUE"]), Human(COLORS["GREEN"])]
 
 
 # pygame main loop
@@ -77,6 +77,8 @@ def game_loop(screen, debug, background):
     # Idea: Show player 1 their destination cards then click
     # on one of them to discard OR click on separate button to not discard any.
     # ^do the same for player2
+
+    color = player1.color
     while running:
 
         turn_complete = False
@@ -90,16 +92,19 @@ def game_loop(screen, debug, background):
 
                 is_clicked = False
                 for track in Field.tracks_list:
+                    if track.occupied_by!=None:
+                        continue
                     for train_car in track.train_cars:
                         if train_car.check_in_rectangle(tuple(i*(ORIGINAL_WIDTH/DISPLAY_WIDTH) for i in current_pos)):
                             is_clicked = True
                             break
                     if is_clicked:
                         break
-
                 if is_clicked:
                     for train_car in track.train_cars:
-                        pygame.draw.polygon(screen, (0,0,255), (scale(train_car.point1), scale(train_car.point2), scale(train_car.point3), scale(train_car.point4)))
+                        pygame.draw.polygon(screen, color, (scale(train_car.point1), scale(train_car.point2), scale(train_car.point3), scale(train_car.point4)))
+                    track.occupied_by = PLAYERS[current_turn]
+                    turn_complete = True
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_TAB:
@@ -112,10 +117,13 @@ def game_loop(screen, debug, background):
                 current_turn = 1
             else:
                 current_turn = 0
+            color = PLAYERS[current_turn].color
             if (debug):
                 print("Player: " + str(current_turn))
-                
-            player_prompt(PLAYERS[current_turn], screen, background, current_turn)
+            
+            #to be completed
+            #player_prompt(PLAYERS[current_turn], screen, background, current_turn)
+            
 
         draw_game_area(screen)
         display_scores(screen, player1, player2)

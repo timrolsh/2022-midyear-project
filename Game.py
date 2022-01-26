@@ -1,3 +1,4 @@
+from ast import Or
 import os
 import pygame
 from Field import Field
@@ -29,7 +30,15 @@ ORIGINAL_HEIGHT = original_image.get_height()
 """THESE OPTIONS ARE CUSTOMIZABLE BY THE USER, GAME WILL PROPERLY SCALE TO THE DIMENSIONS SPECIFIED"""
 FPS = 15
 DISPLAY_WIDTH = 955
-DISPLAY_HEIGHT = 682
+DISPLAY_HEIGHT = 636
+
+def scale(point):
+    scale_factor = DISPLAY_WIDTH/ORIGINAL_WIDTH
+    if type(point)==int:
+        return scale_factor*point
+    else:
+        return tuple(point[i]*scale_factor for i in range(len(point)))
+
 """Please define the players you want to play by calling the constructor for either human or player class, 
 and then specifying a color from the colors dictionary provided of sample colors. Or, you can make your own color! 
 Colors are represented by tuple values of three RGB values. """
@@ -78,11 +87,20 @@ def game_loop(screen, debug, background):
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 current_pos = pygame.mouse.get_pos()
-                if screen.get_at(current_pos) == CITY_COLOR:
-                    for button in city_buttons:
-                        if (button.x - 10) <= current_pos[0] <= (button.x + 10) and (button.y - 10) <= current_pos[1] \
-                                <= (button.y + 10):
-                            print(button)
+
+                is_clicked = False
+                for track in Field.tracks_list:
+                    for train_car in track.train_cars:
+                        if train_car.check_in_rectangle(tuple(i*(ORIGINAL_WIDTH/DISPLAY_WIDTH) for i in current_pos)):
+                            is_clicked = True
+                            break
+                    if is_clicked:
+                        break
+
+                if is_clicked:
+                    for train_car in track.train_cars:
+                        pygame.draw.polygon(screen, (0,0,255), (scale(train_car.point1), scale(train_car.point2), scale(train_car.point3), scale(train_car.point4)))
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_TAB:
                     player1_card_tab(screen, background)

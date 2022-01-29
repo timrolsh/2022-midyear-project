@@ -108,7 +108,7 @@ def game_loop(screen, debug, background):
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_TAB:
-                    player1_card_tab(screen, background)
+                    player_card_tab(screen, background, current_turn)
                     
 
         # Change turns
@@ -158,12 +158,12 @@ def start_screen(screen, background):
     pygame.display.update()
 
 
-def player1_card_tab(screen, background):
+def player_card_tab(screen, background, current_player):
     screen.blit(background, (0, 0))
     font = pygame.font.Font(FONT, 60)
 
     draw_game_area(screen)
-    draw_text("Player 1 Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
+    draw_text("Player " + str(current_player+1) + " Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
 
     pygame.display.update()
 
@@ -178,36 +178,14 @@ def player1_card_tab(screen, background):
                 if event.key == pygame.K_TAB:
                     screen.blit(background, (0, 0))
                     running = False
-                    player2_card_tab(screen, background)
+                    
 
         pygame.time.Clock().tick(FPS)
 
     pygame.display.update()
 
 
-def player2_card_tab(screen, background):
-    font = pygame.font.Font(FONT, 60)
 
-    draw_game_area(screen)
-    draw_text("Player 2 Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
-
-    pygame.display.update()
-
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-
-            elif event.type == pygame.KEYDOWN:
-
-                if event.key == pygame.K_TAB:
-                    screen.blit(background, (0, 0))
-                    running = False
-
-        pygame.time.Clock().tick(FPS)
-
-    pygame.display.update()
 
 
 first_creation_pass = True

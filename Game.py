@@ -45,6 +45,12 @@ Colors are represented by tuple values of three RGB values. """
 PLAYERS = [Human(COLORS["BLUE"]), Human(COLORS["GREEN"])]
 
 
+def draw_train_cars(screen):
+    for track in Field.tracks_list:
+        if (track.occupied_by!=None):
+            for train_car in track.train_cars:
+                pygame.draw.polygon(screen, track.occupied_by.color, (scale(train_car.point1), scale(train_car.point2), scale(train_car.point3), scale(train_car.point4)))
+
 # pygame main loop
 def game_loop(screen, debug, background):
     running = True
@@ -81,6 +87,8 @@ def game_loop(screen, debug, background):
     color = player1.color
     while running:
 
+        draw_train_cars(screen)
+
         turn_complete = False
         
         for event in pygame.event.get():
@@ -101,8 +109,6 @@ def game_loop(screen, debug, background):
                     if is_clicked:
                         break
                 if is_clicked:
-                    for train_car in track.train_cars:
-                        pygame.draw.polygon(screen, color, (scale(train_car.point1), scale(train_car.point2), scale(train_car.point3), scale(train_car.point4)))
                     track.occupied_by = PLAYERS[current_turn]
                     turn_complete = True
 

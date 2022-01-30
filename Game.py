@@ -7,6 +7,7 @@ from Color import Color
 from Deck import Deck
 from Player import Player
 from Human import Human
+from RectButton import RectButton
 # from Computer import Computer
 
 # hide pygame welcome message
@@ -83,11 +84,18 @@ def game_loop(screen, debug, background):
     # Idea: Show player 1 their destination cards then click
     # on one of them to discard OR click on separate button to not discard any.
     # ^do the same for player2
-
+    
+    
+    train_card_button = RectButton(DISPLAY_WIDTH/10, DISPLAY_HEIGHT/1.175, DISPLAY_WIDTH/9, DISPLAY_HEIGHT/15, "RED", 
+                                   pygame.font.Font(FONT, 12), "Draw",screen, "BLACK", True, "Train Cards")
+    destination_card_button = RectButton(DISPLAY_WIDTH/4, DISPLAY_HEIGHT/1.175, DISPLAY_WIDTH/9, DISPLAY_HEIGHT/15, "RED", 
+                                         pygame.font.Font(FONT, 12), "Draw",screen, "BLACK", True, "Destination Cards")
+    train_card_button.draw()
+    destination_card_button.draw()
     color = player1.color
     while running:
-
-        draw_train_cars(screen)
+        
+        
 
         turn_complete = False
         
@@ -112,6 +120,19 @@ def game_loop(screen, debug, background):
                     track.occupied_by = PLAYERS[current_turn]
                     turn_complete = True
 
+                if train_card_button.rect.collidepoint(current_pos):
+                    train_card_button.is_clicked = True
+                if destination_card_button.rect.collidepoint(current_pos):
+                    destination_card_button.is_clicked = True
+                
+                if train_card_button.is_clicked:
+                    train_card_button.is_clicked = False
+                    draw_train_card_screen(screen, current_turn)
+                
+                if destination_card_button.is_clicked:
+                    destination_card_button.is_clicked = False
+                    draw_destination_card_screen(screen, current_turn)
+                
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_TAB:
                     player_card_tab(screen, background, current_turn)
@@ -130,9 +151,12 @@ def game_loop(screen, debug, background):
             #to be completed
             #player_prompt(PLAYERS[current_turn], screen, background, current_turn)
             
-
+        screen.blit(background, (0, 0))
         draw_game_area(screen)
-        display_scores(screen, player1, player2)
+        train_card_button.draw()
+        destination_card_button.draw()
+        display_scores(screen, current_turn)
+        draw_train_cars(screen)
         pygame.display.update()
 
     pygame.quit()
@@ -191,6 +215,61 @@ def player_card_tab(screen, background, current_player):
     pygame.display.update()
 
 
+def draw_train_card_screen(screen, current_turn):
+    screen.fill(Color.COLOR_DICT.get("WHITE"))
+    
+    font = pygame.font.Font(FONT, 60)
+
+    
+    draw_text("Player " + str(current_turn+1), font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
+    draw_text("Draw Train Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 1.5))
+
+    pygame.display.update()
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+            elif event.type == pygame.KEYDOWN:
+
+
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+                    
+
+        pygame.time.Clock().tick(FPS)
+        
+        pygame.display.update()
+
+def draw_destination_card_screen(screen, current_turn):
+    screen.fill(Color.COLOR_DICT.get("WHITE"))
+    
+    font = pygame.font.Font(FONT, 60)
+
+    
+    draw_text("Player " + str(current_turn+1), font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
+    draw_text("Draw Destination Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 1.5))
+
+    pygame.display.update()
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+            elif event.type == pygame.KEYDOWN:
+
+            
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+                    
+
+        pygame.time.Clock().tick(FPS)
+        
+        pygame.display.update()
 
 
 
@@ -261,10 +340,14 @@ def draw_text(text, font, color, surface, x, y):
     surface.blit(text_obj, rect)
 
 
-def display_scores(screen, p1, p2):
+def display_scores(screen, current_turn):
     font = pygame.font.Font(FONT, 30)
-    draw_text("Player 1: " + str(p1.score), font, "BLACK", screen, DISPLAY_WIDTH / 1.25, DISPLAY_HEIGHT / 1.25)
-    draw_text("Player 2: " + str(p2.score), font, "BLACK", screen, DISPLAY_WIDTH / 1.25, DISPLAY_HEIGHT / 1.15)
+    
+    
+    current_player = PLAYERS[current_turn]
+    
+    draw_text("Player " + str((current_turn+1)) + ": " + str(current_player.score) + " pts", font, "BLACK", screen, DISPLAY_WIDTH / 1.75, DISPLAY_HEIGHT / 1.1)
+    
 
 
 def main():

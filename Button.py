@@ -3,15 +3,11 @@ from City import City
 from pygame import Rect
 import Color
 class Button:
-    def __init__(self, x: int, y: int, width: int, height: int, color: string):
+    def __init__(self, x: int, y: int, width: int, height: int):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.pressed = False
-        
-        self.button_rect = Rect((x,y), (width, height))
-        self.color = Color.COLOR_DICT(color)
         
 
     def __str__(self) -> str:

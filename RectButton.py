@@ -1,11 +1,13 @@
+from cmath import rect
 import Button
 from Color import Color
 import pygame
 class RectButton():
-    def __init__(self, x: int, y: int, width: int, height: int, color: str, font, text, screen, text_color, double_line, text2):
+    def __init__(self, x: int, y: int, width: int, height: int, color: str, font, text, screen, text_color, double_line, text2, image):
     
         self.color = Color.COLOR_DICT.get(color)
         self.rect = pygame.Rect((x, y), (width, height))
+        # self.rect = image.get_rect()
         self.text_surface = font.render(text, True, text_color)
         self.text_rect = self.text_surface.get_rect(center = self.rect.center)
         self.screen = screen
@@ -14,8 +16,11 @@ class RectButton():
         self.text2 = text2
         self.font = font
         self.text_color = text_color
+        self.image = image
+        self.x = x
+        self.y = y
     def draw(self):
-        pygame.draw.rect(self.screen, self.color, self.rect)
+        self.screen.blit(self.image, self.rect)
         self.screen.blit(self.text_surface, self.text_rect)
 
         if (self.double_line):

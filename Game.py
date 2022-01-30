@@ -14,10 +14,13 @@ from RectButton import RectButton
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 # define essential parameters for the game
-original_image = pygame.image.load("board.jpg")
+original_image = pygame.image.load("images/board.jpg")
+start_background = pygame.image.load("images/startscreen.png")
+
 CITY_COLOR = (219, 152, 99)
 CITY_RADIUS = 10
-FONT = "freesansbold.ttf"
+FONT = "fonts/titlefont.ttf"
+BUTTON_FONT = "fonts/buttonfont.ttf"
 deck = Deck()
 Players = []
 COLORS = {"WHITE": (255, 255, 255), "YELLOW": (252, 239, 108), "BLUE": (67, 147, 242), "BLACK": (69, 70, 74),
@@ -65,6 +68,8 @@ def game_loop(screen, debug, background):
     #setting the colors to red/blue manually for now
     player1 = PLAYERS[0]
     player2 = PLAYERS[1]
+    PLAYERS[0].color = "BLUE"
+    PLAYERS[1].color = "GREEN"
     
     player1.train_cards = player1_train_cards
     player2.train_cards = player2_train_cards
@@ -85,13 +90,19 @@ def game_loop(screen, debug, background):
     # on one of them to discard OR click on separate button to not discard any.
     # ^do the same for player2
     
+    wooden_button = pygame.image.load("images/woodenbutton.png")
+    wooden_button = pygame.transform.scale(wooden_button, (int(DISPLAY_WIDTH/9), int(DISPLAY_HEIGHT/15)))
     
     train_card_button = RectButton(DISPLAY_WIDTH/10, DISPLAY_HEIGHT/1.175, DISPLAY_WIDTH/9, DISPLAY_HEIGHT/15, "RED", 
-                                   pygame.font.Font(FONT, 12), "Draw",screen, "BLACK", True, "Train Cards")
+                                   pygame.font.Font(BUTTON_FONT, 13), "Draw",screen, "BLACK", True, "Train Cards", wooden_button)
     destination_card_button = RectButton(DISPLAY_WIDTH/4, DISPLAY_HEIGHT/1.175, DISPLAY_WIDTH/9, DISPLAY_HEIGHT/15, "RED", 
-                                         pygame.font.Font(FONT, 12), "Draw",screen, "BLACK", True, "Destination Cards")
+                                         pygame.font.Font(BUTTON_FONT, 13), "Draw",screen, "BLACK", True, "Destination Cards", wooden_button)
+    
+    
     train_card_button.draw()
     destination_card_button.draw()
+    
+    
     color = player1.color
     while running:
         
@@ -117,6 +128,7 @@ def game_loop(screen, debug, background):
                     if is_clicked:
                         break
                 if is_clicked:
+                    buy_track()
                     track.occupied_by = PLAYERS[current_turn]
                     turn_complete = True
 
@@ -161,15 +173,15 @@ def game_loop(screen, debug, background):
 
     pygame.quit()
 
+def buy_track():
+    pass
 
 # run the gameloop
 def start_screen(screen, background):
     font = pygame.font.Font(FONT, 60)
     play_font = pygame.font.Font(FONT, 30)
-
-    draw_game_area(screen)
-    draw_text("Ticket to Ride", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
-    draw_text("Press P to Play", play_font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 1.65))
+    # draw_text("Ticket to Ride", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
+    draw_text("Press P to Play", play_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 1.25))
 
     pygame.display.update()
 
@@ -181,7 +193,7 @@ def start_screen(screen, background):
             elif event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_p:
-                    game_loop(screen, True, background)
+                    game_loop(screen, False, background)
 
         pygame.time.Clock().tick(FPS)
 
@@ -343,10 +355,9 @@ def draw_text(text, font, color, surface, x, y):
 def display_scores(screen, current_turn):
     font = pygame.font.Font(FONT, 30)
     
-    
     current_player = PLAYERS[current_turn]
     
-    draw_text("Player " + str((current_turn+1)) + ": " + str(current_player.score) + " pts", font, "BLACK", screen, DISPLAY_WIDTH / 1.75, DISPLAY_HEIGHT / 1.1)
+    draw_text("Player " + str((current_turn+1)) + ": " + str(current_player.score) + " pts", font, current_player.color, screen, DISPLAY_WIDTH / 1.75, DISPLAY_HEIGHT / 1.1)
     
 
 
@@ -354,9 +365,11 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode([DISPLAY_WIDTH, DISPLAY_HEIGHT])
     pygame.display.set_caption("Ticket to Ride")
-    background = pygame.image.load("board.jpg")
+    background = pygame.image.load("images/board.jpg")
     background = pygame.transform.scale(background, (DISPLAY_WIDTH, DISPLAY_HEIGHT))
-    screen.blit(background, (0, 0))
+    start_screen_background = pygame.image.load("images/startscreen.png")
+    start_screen_background = pygame.transform.scale(start_screen_background, (DISPLAY_WIDTH, DISPLAY_HEIGHT))
+    screen.blit(start_screen_background, (0, 0))
     while True:
         start_screen(screen, background)
 

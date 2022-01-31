@@ -128,9 +128,9 @@ def game_loop(screen, debug, background):
                     if is_clicked:
                         break
                 if is_clicked:
-                    buy_track()
-                    track.occupied_by = PLAYERS[current_turn]
-                    turn_complete = True
+                    success = buy_track(PLAYERS[current_turn], track)
+                    if (success):
+                        turn_complete = True
 
                 if train_card_button.rect.collidepoint(current_pos):
                     train_card_button.is_clicked = True
@@ -173,8 +173,18 @@ def game_loop(screen, debug, background):
 
     pygame.quit()
 
-def buy_track():
-    pass
+def buy_track(player, track):
+    try:
+        if track.occupied_by!=None:
+            print(f"Track has already been claimed by player {track.occupied_by.color}")
+            return False
+        else:
+            player.claim_tracks(track)
+            return True
+    except Exception as e:
+        print("Player doesn't have enough train cards to claim that track.")
+        return False
+    
 
 # run the gameloop
 def start_screen(screen, background):

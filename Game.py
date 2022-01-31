@@ -211,13 +211,33 @@ def start_screen(screen, background):
 
 
 def player_card_tab(screen, background, current_player):
-    screen.blit(background, (0, 0))
+    player = PLAYERS[current_player]
+
     font = pygame.font.Font(FONT, 60)
 
-    draw_game_area(screen)
-    draw_text("Player " + str(current_player+1) + " Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
+    screen.fill((234, 221, 202))
 
     pygame.display.update()
+
+    current_x = 0
+    current_y = DISPLAY_HEIGHT*0.016
+    rect_width = DISPLAY_WIDTH*0.06
+    rect_height = DISPLAY_HEIGHT*0.19
+
+    x_increment = rect_width+DISPLAY_WIDTH*0.032
+    y_increment = rect_height+DISPLAY_HEIGHT*0.021
+
+    for train_card in player.train_cards:
+        current_x+=x_increment
+        if (DISPLAY_WIDTH-current_x<=x_increment):
+            current_y+=y_increment
+            current_x=x_increment
+        if (train_card.color=="RAINBOW"):
+            color = (255,255,255)
+        else:
+            color = Color.COLOR_DICT[train_card.color]
+        pygame.draw.rect(screen, color, pygame.Rect(current_x, current_y, rect_width, rect_height))
+    draw_text("Player " + str(current_player+1) + " Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
 
     running = True
     while running:
@@ -228,14 +248,10 @@ def player_card_tab(screen, background, current_player):
             elif event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_TAB:
-                    screen.blit(background, (0, 0))
                     running = False
-                    
-
+        
+        pygame.display.update()
         pygame.time.Clock().tick(FPS)
-
-    pygame.display.update()
-
 
 def draw_train_card_screen(screen, current_turn):
     screen.fill(Color.COLOR_DICT.get("WHITE"))

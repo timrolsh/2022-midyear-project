@@ -8,7 +8,7 @@ class Player:
     Player class, with all the functions available to a player of the online game
     """
 
-    def __init__(self, color):
+    def __init__(self, color: (int, int, int)):
         self.color = color
         self.train_cards = []
         self.destination_cards = []
@@ -21,7 +21,7 @@ class Player:
         Claim a track using the train cards a player currently has. This only works if the cards are the same color
         as the track, and the player has enough cards.
         """
-        if track.occupied:
+        if track.occupied_by!=None:
             raise Exception("Track is already occupied")
 
         num_matching_cards = 0
@@ -35,7 +35,7 @@ class Player:
             self.owned_tracks.append(track)
             self.score += ScoreTable.SCORE_TABLE[track.length]
             self.union_find.connect_cities(track.city1, track.city2)
-            track.occupied = True
+            track.occupied_by = self
         else:
             raise Exception("Player doesn't have enough train cards to claim this track")
 
@@ -49,3 +49,6 @@ class Player:
             if self.union_find.is_connected(destination_card.start, destination_card.end):
                 self.destination_cards.pop(d)
                 self.score += destination_card.points
+
+
+    

@@ -8,6 +8,8 @@ from Deck import Deck
 from Player import Player
 from Human import Human
 from RectButton import RectButton
+from CardButton import CardButton
+from copy import deepcopy
 # from Computer import Computer
 
 # hide pygame welcome message
@@ -219,24 +221,33 @@ def player_card_tab(screen, background, current_player):
 
     pygame.display.update()
 
-    current_x = 0
-    current_y = DISPLAY_HEIGHT*0.016
     rect_width = DISPLAY_WIDTH*0.06
     rect_height = DISPLAY_HEIGHT*0.19
 
     x_increment = rect_width+DISPLAY_WIDTH*0.032
     y_increment = rect_height+DISPLAY_HEIGHT*0.021
 
+    current_x = 0
+    current_y = DISPLAY_HEIGHT*0.016
+
+    rectangles = []
+
     for train_card in player.train_cards:
+        
         current_x+=x_increment
         if (DISPLAY_WIDTH-current_x<=x_increment):
             current_y+=y_increment
             current_x=x_increment
         if (train_card.color=="RAINBOW"):
-            color = (255,255,255)
+            color = (50,50,50)
         else:
             color = Color.COLOR_DICT[train_card.color]
-        pygame.draw.rect(screen, color, pygame.Rect(current_x, current_y, rect_width, rect_height))
+        card_button = CardButton(x=current_x, y=current_y, width=rect_width, height=rect_height, color=color, screen=screen, train_card=train_card)
+        if card_button.train_card.is_clicked:
+            card_button.draw_with_border()
+        else:
+            card_button.draw()
+        rectangles.append(card_button)
     draw_text("Player " + str(current_player+1) + " Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
 
     running = True
@@ -249,6 +260,20 @@ def player_card_tab(screen, background, current_player):
 
                 if event.key == pygame.K_TAB:
                     running = False
+
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                current_pos = pygame.mouse.get_pos()
+                for card_button in rectangles:
+                    if (card_button.point_in_rect(current_pos)):
+                        if card_button.train_card.is_clicked:
+                            card_button.train_card.is_clicked=False
+                            player.clicked_cards.remove(card_button.train_card)
+                            card_button.draw()
+                        else:
+                            card_button.train_card.is_clicked=True
+                            player.clicked_cards.add(card_button.train_card)
+                            card_button.draw_with_border()
+
         
         pygame.display.update()
         pygame.time.Clock().tick(FPS)

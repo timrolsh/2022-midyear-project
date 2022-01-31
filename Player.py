@@ -11,6 +11,7 @@ class Player:
     def __init__(self, color: (int, int, int)):
         self.color = color
         self.train_cards = []
+        self.clicked_cards = set()
         self.destination_cards = []
         self.score = 0
         self.owned_tracks = []
@@ -26,16 +27,26 @@ class Player:
 
         num_matching_cards = 0
         cards_left = []
+        is_enough_cards = False
         for train_card in self.train_cards:
-            if train_card.is_match(track.color):
+
+            if is_enough_cards:
+                cards_left.append(train_card)
+                continue
+
+            if train_card.is_match(track.color) and train_card.is_clicked:
                 num_matching_cards += 1
+                if num_matching_cards >= track.length:
+                    is_enough_cards = True
             else:
                 cards_left.append(train_card)
-        if num_matching_cards >= track.length:
+
+        if is_enough_cards:
             self.owned_tracks.append(track)
             self.score += ScoreTable.SCORE_TABLE[track.length]
             self.union_find.connect_cities(track.city1, track.city2)
             track.occupied_by = self
+            self.train_cards = cards_left
         else:
             raise Exception("Player doesn't have enough train cards to claim this track")
 

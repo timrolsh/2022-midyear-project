@@ -8,6 +8,7 @@ class TrainCard(Card):
     """
 
     def __init__(self, color: str):
+        super().__init__()
         self.color = color
 
     def is_match(self, color: str):

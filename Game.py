@@ -410,7 +410,48 @@ def display_scores(screen, current_turn):
     
     draw_text("Player " + str((current_turn+1)) + ": " + str(current_player.score) + " pts", font, current_player.color, screen, DISPLAY_WIDTH / 1.75, DISPLAY_HEIGHT / 1.1)
     
+def check_game_end():
+    """
+    If True, then each player gets one last turn 
+    and then scores are calculated.
+    """
+    for player in PLAYERS:
+        if player.train_cards < 3:
+            return True
+    return False
 
+def calculate_end_scores():
+    """
+    1. Add or subtract the score in a destination card depending on whether it was completed by the player
+    2. The player who has the longest continuous path gets 10 extra points with a bonus card
+    3. Player with most points wins, and for tie breakers player with most completed destinations wins
+    """
+    #1 TO DO, find destination card scores
+    #2 TO DO
+    
+    
+    #3
+    winner = PLAYERS[0]
+    tied_players = []
+    for player in PLAYERS:
+        if player.score > winner.score:
+            winner = player
+            tied_players.clear()
+        if player.score == winner.score:
+            tied_players.append(player)
+            tied_players.append(winner)
+    
+    #Check if there is a tie
+    if len(tied_players) > 0:
+        #get destination wins
+        winner = PLAYERS[0]
+        #TO DO
+    return winner
+            
+    
+    
+    
+    
 
 def main():
     pygame.init()

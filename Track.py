@@ -18,6 +18,7 @@ class Track:
 
     """Given two points, point1 and point3(opposite points of a rectangle), this method adds all four points of the 
     rectangle to the Track class's train_cars list """
+
     def add_train_car(self, point1: (int, int), point3: (int, int)):
         self.train_cars.append(TrainCar(point1, point3))
 

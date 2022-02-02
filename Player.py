@@ -22,7 +22,7 @@ class Player:
         Claim a track using the train cards a player currently has. This only works if the cards are the same color
         as the track, and the player has enough cards.
         """
-        if track.occupied_by!=None:
+        if track.occupied_by != None:
             raise Exception("Track is already occupied")
 
         num_matching_cards = 0
@@ -48,7 +48,8 @@ class Player:
             track.occupied_by = self
             self.train_cards = cards_left
         else:
-            raise Exception("Player doesn't have enough train cards to claim this track")
+            raise Exception(
+                "Player doesn't have enough train cards to claim this track")
 
     def claim_destination(self):
         """
@@ -60,6 +61,3 @@ class Player:
             if self.union_find.is_connected(destination_card.start, destination_card.end):
                 self.destination_cards.pop(d)
                 self.score += destination_card.points
-
-
-    

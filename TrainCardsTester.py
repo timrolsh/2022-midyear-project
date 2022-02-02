@@ -8,8 +8,10 @@ game_height = 720
 
 pygame.init()
 original_image = pygame.image.load("board.jpg")
-image_surface = pygame.transform.scale(original_image, (game_width, game_height))
-display = pygame.display.set_mode((image_surface.get_width(), image_surface.get_height()))
+image_surface = pygame.transform.scale(
+    original_image, (game_width, game_height))
+display = pygame.display.set_mode(
+    (image_surface.get_width(), image_surface.get_height()))
 display.blit(image_surface, (0, 0))
 image_scale_width = game_width / original_image.get_width()
 image_scale_height = game_height / original_image.get_height()
@@ -27,13 +29,19 @@ for line in tracks_list:
             ab = cd
             cd = temp
         if ab[1] < cd[1]:
-            rotation_angle = (math.atan(car_length / car_width)) - (math.atan((cd[0] - ab[0]) / (cd[1] - ab[1])))
-            point2 = [(ab[0] + math.cos(rotation_angle) * car_length), (ab[1] + math.sin(rotation_angle) * car_length)]
-            point4 = [(cd[0] - math.cos(rotation_angle) * car_length), (cd[1] - math.sin(rotation_angle) * car_length)]
+            rotation_angle = (math.atan(car_length / car_width)) - \
+                (math.atan((cd[0] - ab[0]) / (cd[1] - ab[1])))
+            point2 = [(ab[0] + math.cos(rotation_angle) * car_length),
+                      (ab[1] + math.sin(rotation_angle) * car_length)]
+            point4 = [(cd[0] - math.cos(rotation_angle) * car_length),
+                      (cd[1] - math.sin(rotation_angle) * car_length)]
         else:
-            rotation_angle = (math.atan((ab[1] - cd[1]) / (cd[0] - ab[0]))) + (math.atan(car_width / car_length))
-            point2 = [(ab[0] + car_length * math.cos(rotation_angle)), (ab[1] - car_length * math.sin(rotation_angle))]
-            point4 = [(cd[0] - car_length * math.cos(rotation_angle)), (cd[1] + car_length * math.sin(rotation_angle))]
+            rotation_angle = (math.atan(
+                (ab[1] - cd[1]) / (cd[0] - ab[0]))) + (math.atan(car_width / car_length))
+            point2 = [(ab[0] + car_length * math.cos(rotation_angle)),
+                      (ab[1] - car_length * math.sin(rotation_angle))]
+            point4 = [(cd[0] - car_length * math.cos(rotation_angle)),
+                      (cd[1] + car_length * math.sin(rotation_angle))]
         ab[0] = int(ab[0] * image_scale_width)
         ab[1] = int(ab[1] * image_scale_height)
         cd[0] = int(cd[0] * image_scale_width)

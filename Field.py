@@ -23,13 +23,15 @@ class Field:
         # if the line is declaring info about a specific track
         if len(data) == 1:
             data = line.split(", ")
-            track = Track(cities[data[0]], cities[data[1]], data[2], int(data[3]))
+            track = Track(cities[data[0]], cities[data[1]],
+                          data[2], int(data[3]))
             tracks_list.append(track)
             last_track = track
         # otherwise, the line must be declaring a traincar with two given points
         else:
             coordinates = data[1].split(", ")
             coordinates[3].rstrip("\n")
-            last_track.add_train_car([int(coordinates[0]), int(coordinates[1])], [int(coordinates[2]), int(coordinates[3])])
+            last_track.add_train_car([int(coordinates[0]), int(coordinates[1])], [
+                                     int(coordinates[2]), int(coordinates[3])])
 
     tracks_list_txt.close()

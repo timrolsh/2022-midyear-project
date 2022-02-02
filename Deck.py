@@ -17,7 +17,8 @@ class Deck:
     def __init__(self):
 
         self.train_cards = []
-        colors = ["PURPLE", "BLUE", "ORANGE", "WHITE", "GREEN", "YELLOW", "BLACK", "RED", "RAINBOW"]
+        colors = ["PURPLE", "BLUE", "ORANGE", "WHITE",
+                  "GREEN", "YELLOW", "BLACK", "RED", "RAINBOW"]
         for color in colors:
             for i in range(12):
                 self.train_cards.append(TrainCard(color))
@@ -28,7 +29,8 @@ class Deck:
 
         for line in destination_list_txt:
             start, end, points = line.split(', ')
-            destination_card = DestinationCard(Field.cities[start], Field.cities[end], int(points))
+            destination_card = DestinationCard(
+                Field.cities[start], Field.cities[end], int(points))
             self.destination_cards.append(destination_card)
 
         destination_list_txt.close()

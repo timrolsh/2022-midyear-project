@@ -75,7 +75,7 @@ class Deck:
     """
 
     def add_train_cards_back(self, cards_coming_back: [], top_five=False):
-        for i in range(len(cards_coming_back)):
+        for i in range(len(cards_coming_back)-1, -1, -1):
             self.train_cards.append(cards_coming_back[i])
         if (not top_five):
             random.shuffle(self.train_cards)

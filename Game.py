@@ -331,6 +331,7 @@ def draw_train_card_screen(screen, current_turn):
                 if event.key == pygame.K_ESCAPE:
                     for card in train_cards:
                         card.is_clicked = False
+                        card.face_down=False
                     deck.add_train_cards_back(train_cards, top_five=True)
 
                     running = False

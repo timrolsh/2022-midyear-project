@@ -62,7 +62,6 @@ def game_loop(screen, debug, background):
     running = True
     player1_train_cards = deck.discard_train_cards(4)
     player2_train_cards = deck.discard_train_cards(4)
-    top5_cards = deck.discard_train_cards(5)
 
     player1_destination_cards = deck.discard_destination_cards(3)
     player2_destination_cards = deck.discard_destination_cards(3)
@@ -141,7 +140,9 @@ def game_loop(screen, debug, background):
                 
                 if train_card_button.is_clicked:
                     train_card_button.is_clicked = False
-                    draw_train_card_screen(screen, current_turn)
+                    is_change_turn = draw_train_card_screen(screen, current_turn)
+                    if (is_change_turn==True):
+                        turn_complete = True
                 
                 if destination_card_button.is_clicked:
                     destination_card_button.is_clicked = False
@@ -212,6 +213,33 @@ def start_screen(screen, background):
     pygame.display.update()
 
 
+def draw_rectangles(screen, train_cards, current_x, current_y, rect_width, rect_height):
+
+    x_increment = rect_width+DISPLAY_WIDTH*0.032
+    y_increment = rect_height+DISPLAY_HEIGHT*0.021
+
+    rectangles = []
+
+    for train_card in train_cards:
+        
+        current_x+=x_increment
+        if (DISPLAY_WIDTH-current_x<=x_increment):
+            current_y+=y_increment
+            current_x=x_increment
+        if (train_card.color=="RAINBOW"):
+            color = (180, 180, 180)
+        else:
+            color = Color.COLOR_DICT[train_card.color]
+        card_button = CardButton(x=current_x, y=current_y, width=rect_width, height=rect_height, color=color, screen=screen, train_card=train_card)
+        if card_button.train_card.is_clicked:
+            card_button.draw_with_border()
+        else:
+            card_button.draw()
+        rectangles.append(card_button)
+    
+    return rectangles
+
+#returns true if a player successfully selects their train cards
 def player_card_tab(screen, background, current_player):
     player = PLAYERS[current_player]
 
@@ -224,30 +252,11 @@ def player_card_tab(screen, background, current_player):
     rect_width = DISPLAY_WIDTH*0.06
     rect_height = DISPLAY_HEIGHT*0.19
 
-    x_increment = rect_width+DISPLAY_WIDTH*0.032
-    y_increment = rect_height+DISPLAY_HEIGHT*0.021
-
     current_x = 0
     current_y = DISPLAY_HEIGHT*0.016
 
-    rectangles = []
+    rectangles = draw_rectangles(screen, player.train_cards, current_x, current_y, rect_width, rect_height)
 
-    for train_card in player.train_cards:
-        
-        current_x+=x_increment
-        if (DISPLAY_WIDTH-current_x<=x_increment):
-            current_y+=y_increment
-            current_x=x_increment
-        if (train_card.color=="RAINBOW"):
-            color = (50,50,50)
-        else:
-            color = Color.COLOR_DICT[train_card.color]
-        card_button = CardButton(x=current_x, y=current_y, width=rect_width, height=rect_height, color=color, screen=screen, train_card=train_card)
-        if card_button.train_card.is_clicked:
-            card_button.draw_with_border()
-        else:
-            card_button.draw()
-        rectangles.append(card_button)
     draw_text("Player " + str(current_player+1) + " Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
 
     running = True
@@ -274,12 +283,13 @@ def player_card_tab(screen, background, current_player):
                             player.clicked_cards.add(card_button.train_card)
                             card_button.draw_with_border()
 
-        
+
         pygame.display.update()
         pygame.time.Clock().tick(FPS)
 
 def draw_train_card_screen(screen, current_turn):
-    screen.fill(Color.COLOR_DICT.get("WHITE"))
+    screen.fill((234, 221, 202))
+    player = PLAYERS[current_turn]
     
     font = pygame.font.Font(FONT, 60)
 
@@ -289,6 +299,27 @@ def draw_train_card_screen(screen, current_turn):
 
     pygame.display.update()
 
+    train_cards = deck.discard_train_cards(7)
+    train_cards[5].face_down = True
+    train_cards[6].face_down = True
+
+    rect_width = DISPLAY_WIDTH*0.06
+    rect_height = DISPLAY_HEIGHT*0.19
+
+    current_x = 0
+    current_y = DISPLAY_HEIGHT*0.016
+
+    rectangles = draw_rectangles(screen, train_cards, current_x, current_y, rect_width, rect_height)
+
+    wooden_button = pygame.image.load("images/woodenbutton.png")
+    wooden_button = pygame.transform.scale(wooden_button, (int(DISPLAY_WIDTH/9), int(DISPLAY_HEIGHT/15)))
+    
+    submit_button = RectButton(DISPLAY_WIDTH/10, DISPLAY_HEIGHT/1.175, DISPLAY_WIDTH/9, DISPLAY_HEIGHT/15, "RED", 
+                                   pygame.font.Font(BUTTON_FONT, 13), "Submit",screen, "BLACK", True, "Selection", wooden_button)
+
+    submit_button.draw()
+    num_cards_selected = 0
+
     running = True
     while running:
         for event in pygame.event.get():
@@ -297,10 +328,50 @@ def draw_train_card_screen(screen, current_turn):
 
             elif event.type == pygame.KEYDOWN:
 
-
                 if event.key == pygame.K_ESCAPE:
+                    for card in train_cards:
+                        card.is_clicked = False
+                    deck.add_train_cards_back(train_cards, top_five=True)
+
                     running = False
-                    
+            
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+
+                current_pos = pygame.mouse.get_pos()
+                for card_button in rectangles:
+                    if card_button.train_card.face_down:
+                        color = "BROWN"
+                    else:
+                        color = card_button.train_card.color
+                    if (card_button.point_in_rect(current_pos)):
+                        if card_button.train_card.is_clicked:
+                            if color=="RAINBOW":
+                                num_cards_selected-=2
+                            else:
+                                num_cards_selected-=1
+                            card_button.train_card.is_clicked=False
+                            card_button.draw()
+                        elif num_cards_selected==0 or (num_cards_selected==1 and color!="RAINBOW"):
+                            card_button.train_card.is_clicked=True
+                            card_button.draw_with_border()
+                            if (not card_button.train_card.face_down) and card_button.train_card.color=="RAINBOW":
+                                num_cards_selected+=2
+                            else:
+                                num_cards_selected+=1
+
+                if submit_button.rect.collidepoint(current_pos):
+                    not_selected = []
+                    for card in train_cards:
+                        card.face_down = False
+                        if card.is_clicked:
+                            card.is_clicked = False
+                            player.train_cards.append(card)
+                        else:
+                            not_selected.append(card)
+                    deck.add_train_cards_back(not_selected, top_five=True)
+                    running=False
+                    if (len(not_selected)!=len(train_cards)):
+                        return True
 
         pygame.time.Clock().tick(FPS)
         

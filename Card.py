@@ -4,3 +4,4 @@ class Card:
     """
     def __init__(self):
         self.is_clicked=False
+        self.face_down = False

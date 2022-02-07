@@ -99,7 +99,7 @@ def game_loop(screen, debug, background):
     destination_card_button = RectButton(DISPLAY_WIDTH/4, DISPLAY_HEIGHT/1.175, DISPLAY_WIDTH/9, DISPLAY_HEIGHT/15, "RED", 
                                          pygame.font.Font(BUTTON_FONT, 13), "Draw",screen, "BLACK", True, "Destination Cards", wooden_button)
     
-    
+   
     train_card_button.draw()
     destination_card_button.draw()
     
@@ -151,7 +151,8 @@ def game_loop(screen, debug, background):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_TAB:
                     player_card_tab(screen, background, current_turn)
-                    
+                if event.key == pygame.K_h:
+                    help_screen(screen)
 
         # Change turns
         if (turn_complete):
@@ -172,6 +173,12 @@ def game_loop(screen, debug, background):
         destination_card_button.draw()
         display_scores(screen, current_turn)
         draw_train_cars(screen)
+        
+        text_font = pygame.font.Font(FONT, 20)
+        
+        #temporary, replace with buttons in the future
+        draw_text("'TAB' - train/destination cards", text_font, "RED", screen, DISPLAY_WIDTH / 1.4, 50)
+        draw_text("'H' - Help", text_font, "RED", screen, DISPLAY_WIDTH / 1.62, 75)
         pygame.display.update()
 
     pygame.quit()
@@ -194,6 +201,7 @@ def start_screen(screen, background):
     font = pygame.font.Font(FONT, 60)
     play_font = pygame.font.Font(FONT, 30)
     # draw_text("Ticket to Ride", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
+    
     draw_text("Press P to Play", play_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 1.25))
 
     pygame.display.update()
@@ -207,12 +215,37 @@ def start_screen(screen, background):
 
                 if event.key == pygame.K_p:
                     game_loop(screen, False, background)
+                
 
         pygame.time.Clock().tick(FPS)
 
     pygame.display.update()
 
+def help_screen(screen):
+    screen.fill(Color.COLOR_DICT.get("WHITE"))
+    title_font = pygame.font.Font(FONT, 60)
+    text_font = pygame.font.Font(FONT, 30)
+    # draw_text("Ticket to Ride", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
+    
+    draw_text("Rules", title_font, "RED", screen, (DISPLAY_WIDTH / 2), 100)
 
+    pygame.display.update()
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+            elif event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+
+        pygame.time.Clock().tick(FPS)
+
+        pygame.display.update()
+    
 def draw_rectangles(screen, train_cards, current_x, current_y, rect_width, rect_height):
 
     x_increment = rect_width+DISPLAY_WIDTH*0.032
@@ -522,7 +555,7 @@ def calculate_end_scores():
             
     
     
-    
+
     
 
 def main():

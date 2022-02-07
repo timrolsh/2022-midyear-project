@@ -413,13 +413,37 @@ def draw_train_card_screen(screen, current_turn):
 
 def draw_destination_card_screen(screen, current_turn):
     screen.fill(Color.COLOR_DICT.get("WHITE"))
+    player = PLAYERS[current_turn]
+    destination_cards = player.destination_cards
     
-    font = pygame.font.Font(FONT, 60)
+    button_font = pygame.font.Font(BUTTON_FONT, 15)
+    font=pygame.font.Font(FONT, 60)
 
-    
-    draw_text("Player " + str(current_turn+1), font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
-    draw_text("Draw Destination Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 1.5))
+    draw_text("Player " + str(current_turn+1), font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 10))
+    draw_text("Draw Destination Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 5))
 
+    pygame.display.update()
+
+    def draw_table(x, y, width, height, size):
+        current_card = 0
+        for y_val in range(y, y+size[1], height):
+            start = True
+            for x_val in range(x, x+size[0], width):
+                if start:
+                    text = destination_cards[current_card].start.name
+                else:
+                    text = destination_cards[current_card].end.name
+                text_surface = button_font.render(text, True, Color.COLOR_DICT["BLACK"])
+                table_rect = pygame.draw.rect(screen, Color.COLOR_DICT["BLACK"], [x_val, y_val, width, height], 1)
+                text_rect = text_surface.get_rect(center = table_rect.center)
+                screen.blit(text_surface, text_rect)
+                start = False
+            current_card+=1
+                
+
+    box_width = int(DISPLAY_WIDTH/10)
+    box_height = int(DISPLAY_HEIGHT/13)
+    draw_table(int(DISPLAY_WIDTH/2.5), int(DISPLAY_HEIGHT/3), box_width, box_height, [box_width*2, box_height*len(destination_cards)])
     pygame.display.update()
 
     running = True

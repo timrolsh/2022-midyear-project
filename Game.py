@@ -10,6 +10,7 @@ from Human import Human
 from RectButton import RectButton
 from CardButton import CardButton
 from copy import deepcopy
+from UnionFind import UnionFind
 # from Computer import Computer
 
 # hide pygame welcome message
@@ -202,10 +203,11 @@ def start_screen(screen, background):
     play_font = pygame.font.Font(FONT, 30)
     # draw_text("Ticket to Ride", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
     
-    draw_text("Press P to Play", play_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 1.25))
-
+    # draw_text("Press P to Play", play_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 1.25))
+    play_button = RectButton(DISPLAY_WIDTH/2.65, DISPLAY_HEIGHT/1.07, DISPLAY_WIDTH/4.1, DISPLAY_HEIGHT/15, "RED", 
+                                   pygame.font.Font(BUTTON_FONT, 13), "Press P to Play",screen, "BLACK", True)
     pygame.display.update()
-
+    play_button.draw()
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -215,11 +217,13 @@ def start_screen(screen, background):
 
                 if event.key == pygame.K_p:
                     game_loop(screen, False, background)
-                
-
+        
+        play_button.draw()
+        pygame.display.update()
+        
         pygame.time.Clock().tick(FPS)
 
-    pygame.display.update()
+    
 
 def help_screen(screen):
     screen.fill(Color.COLOR_DICT.get("WHITE"))
@@ -439,7 +443,7 @@ def draw_destination_card_screen(screen, current_turn):
                 screen.blit(text_surface, text_rect)
                 start = False
             current_card+=1
-                
+    
 
     box_width = int(DISPLAY_WIDTH/10)
     box_height = int(DISPLAY_HEIGHT/13)
@@ -555,8 +559,21 @@ def calculate_end_scores():
     2. The player who has the longest continuous path gets 10 extra points with a bonus card
     3. Player with most points wins, and for tie breakers player with most completed destinations wins
     """
-    #1 TO DO, find destination card scores
+    #1 
+    
+    for player in PLAYERS:
+        for destination_card in player.destination_cards:
+            if UnionFind.is_connected(destination_card.start, destination_card.end):
+                player.score += destination_card.points
+                player.completed_destination_cards+=1
+            else:
+                #destination card has not been completed, substract the points
+                player.score -= destination_card.points
+                
+                
+            
     #2 TO DO
+    
     
     
     #3

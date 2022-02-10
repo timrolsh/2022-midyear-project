@@ -108,7 +108,9 @@ def game_loop(screen, debug, background):
     color = player1.color
     while running:
         
-        
+        if check_game_end():
+            #give the player's another turn?
+            pass
 
         turn_complete = False
         
@@ -181,8 +183,36 @@ def game_loop(screen, debug, background):
         draw_text("'TAB' - train/destination cards", text_font, "RED", screen, DISPLAY_WIDTH / 1.4, 50)
         draw_text("'H' - Help", text_font, "RED", screen, DISPLAY_WIDTH / 1.62, 75)
         pygame.display.update()
+        
+        
+    winner = calculate_end_scores()
+    if (debug):
+        print("WINNER: " + winner.color)
+    game_end_screen()
 
     pygame.quit()
+    
+def game_end_screen(winner, screen, background):
+    font = pygame.font.Font(FONT, 60)
+    play_font = pygame.font.Font(FONT, 30)
+    draw_text("Winner: " + winner.color, font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
+    
+    pygame.display.update()
+    
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+            elif event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_p:
+                    game_loop(screen, False, background)
+        
+        
+        pygame.display.update()
+        
+        pygame.time.Clock().tick(FPS)
 
 def buy_track(player, track):
     try:
@@ -576,6 +606,7 @@ def calculate_end_scores():
     
     
     
+    
     #3
     winner = PLAYERS[0]
     tied_players = []
@@ -590,8 +621,14 @@ def calculate_end_scores():
     #Check if there is a tie
     if len(tied_players) > 0:
         #get destination wins
-        winner = PLAYERS[0]
-        #TO DO
+        winner = tied_players[0]
+        for player in tied_players:
+            if player.completed_destination_cards > winner.completed_destination_cards:
+                tied_players.remove(winner)
+                winner = player
+            
+        #if tied_players is still full after this, then draw? 
+    
     return winner
             
     

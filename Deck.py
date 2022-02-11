@@ -67,7 +67,7 @@ class Deck:
         popped_cards = []
         for i in range(num_cards):
             popped_cards.append(self.destination_cards.pop())
-        return popped_cards  
+        return popped_cards
 
     """
     Takes a list of cards and throws them back into the deck of train cards. Then, shuffles the deck again so that 
@@ -75,7 +75,7 @@ class Deck:
     """
 
     def add_train_cards_back(self, cards_coming_back: [], top_five=False):
-        for i in range(len(cards_coming_back)-1, -1, -1):
+        for i in range(len(cards_coming_back) - 1, -1, -1):
             self.train_cards.append(cards_coming_back[i])
         if (not top_five):
             random.shuffle(self.train_cards)

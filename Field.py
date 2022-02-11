@@ -32,6 +32,6 @@ class Field:
             coordinates = data[1].split(", ")
             coordinates[3].rstrip("\n")
             last_track.add_train_car([int(coordinates[0]), int(coordinates[1])], [
-                                     int(coordinates[2]), int(coordinates[3])])
+                int(coordinates[2]), int(coordinates[3])])
 
     tracks_list_txt.close()

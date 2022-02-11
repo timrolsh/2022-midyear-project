@@ -6,7 +6,8 @@ import pygame
 
 
 class RectButton():
-    def __init__(self, x: int, y: int, width: int, height: int, color, font=None, text=None, screen=None, text_color=None, double_line=None, text2=None, image=None):
+    def __init__(self, x: int, y: int, width: int, height: int, color, font=None, text=None, screen=None,
+                 text_color=None, double_line=None, text2=None, image=None):
         if type(color) == str:
             self.color = Color.COLOR_DICT[color]
         else:
@@ -42,7 +43,7 @@ class RectButton():
         if (self.double_line):
             ts_2 = self.font.render(self.text2, True, self.text_color)
             tr_2 = ts_2.get_rect(
-                center=(self.rect.centerx, self.rect.centery+10))
+                center=(self.rect.centerx, self.rect.centery + 10))
             self.screen.blit(ts_2, tr_2)
 
     def point_in_rect(self, point):

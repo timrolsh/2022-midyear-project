@@ -1,5 +1,4 @@
 class TrainCar:
-
     TRAIN_CAR_LENGTH = 93
     TRAIN_CAR_WIDTH = 30
 
@@ -17,14 +16,14 @@ class TrainCar:
 
         distance = ((x1 - x3) ** 2 + (y1 - y3) ** 2) ** 0.5
         rotated = ((complex(x3 - x1, y3 - y1) * complex(TrainCar.TRAIN_CAR_LENGTH / distance,
-                                                        -1*TrainCar.TRAIN_CAR_WIDTH / distance) * (
-            TrainCar.TRAIN_CAR_LENGTH / distance)) + complex(x1, y1))
+                                                        -1 * TrainCar.TRAIN_CAR_WIDTH / distance) * (
+                            TrainCar.TRAIN_CAR_LENGTH / distance)) + complex(x1, y1))
 
         point4 = rotated.real, rotated.imag
 
         rotated = ((complex(x1 - x3, y1 - y3) * complex(TrainCar.TRAIN_CAR_LENGTH / distance,
-                                                        -1*TrainCar.TRAIN_CAR_WIDTH / distance) * (
-            TrainCar.TRAIN_CAR_LENGTH / distance)) + complex(x3, y3))
+                                                        -1 * TrainCar.TRAIN_CAR_WIDTH / distance) * (
+                            TrainCar.TRAIN_CAR_LENGTH / distance)) + complex(x3, y3))
 
         point2 = rotated.real, rotated.imag
 
@@ -56,7 +55,7 @@ class TrainCar:
             x_1, y_1 = point1
             x_2, y_2 = point2
             triangle_area = abs(
-                (0.5)*(x_1*(y_2-y_3)+x_2*(y_3-y_1)+x_3*(y_1-y_2)))
+                (0.5) * (x_1 * (y_2 - y_3) + x_2 * (y_3 - y_1) + x_3 * (y_1 - y_2)))
             total_area += triangle_area
 
-        return abs(total_area-self.TRAIN_CAR_LENGTH*self.TRAIN_CAR_WIDTH) <= 20
+        return abs(total_area - self.TRAIN_CAR_LENGTH * self.TRAIN_CAR_WIDTH) <= 20

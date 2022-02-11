@@ -30,7 +30,7 @@ for line in tracks_list:
             cd = temp
         if ab[1] < cd[1]:
             rotation_angle = (math.atan(car_length / car_width)) - \
-                (math.atan((cd[0] - ab[0]) / (cd[1] - ab[1])))
+                             (math.atan((cd[0] - ab[0]) / (cd[1] - ab[1])))
             point2 = [(ab[0] + math.cos(rotation_angle) * car_length),
                       (ab[1] + math.sin(rotation_angle) * car_length)]
             point4 = [(cd[0] - math.cos(rotation_angle) * car_length),

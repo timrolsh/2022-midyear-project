@@ -10,7 +10,7 @@ class UnionFind:
     def __init__(self):
         self.cities_list = Field.cities.keys()
         self.city_indices = {city: i for i,
-                             city in enumerate(self.cities_list)}
+                                         city in enumerate(self.cities_list)}
         self.city_components = [i for i in range(len(self.cities_list))]
         self.component_sizes = [1 for i in range(len(self.cities_list))]
 

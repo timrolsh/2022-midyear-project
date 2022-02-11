@@ -579,7 +579,7 @@ def check_game_end():
     and then scores are calculated.
     """
     for player in PLAYERS:
-        if player.train_cards < 3:
+        if len(player.train_cards) < 3:
             return True
     return False
 

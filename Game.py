@@ -149,7 +149,9 @@ def game_loop(screen, debug, background):
                 
                 if destination_card_button.is_clicked:
                     destination_card_button.is_clicked = False
-                    draw_destination_card_screen(screen, current_turn)
+                    has_been_drawn = draw_destination_card_screen(screen, current_turn)
+                    if has_been_drawn:
+                        turn_complete=True
                 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_TAB:
@@ -402,7 +404,7 @@ def draw_train_card_screen(screen, current_turn):
                     deck.add_train_cards_back(train_cards, top_five=True)
 
                     running = False
-            
+                    
             elif event.type == pygame.MOUSEBUTTONDOWN:
 
                 current_pos = pygame.mouse.get_pos()
@@ -448,37 +450,58 @@ def draw_train_card_screen(screen, current_turn):
 def draw_destination_card_screen(screen, current_turn):
     screen.fill(Color.COLOR_DICT.get("WHITE"))
     player = PLAYERS[current_turn]
-    destination_cards = player.destination_cards
     
     button_font = pygame.font.Font(BUTTON_FONT, 15)
     font=pygame.font.Font(FONT, 60)
 
-    draw_text("Player " + str(current_turn+1), font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 10))
-    draw_text("Draw Destination Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 5))
+    def draw_title():
+        draw_text("Player " + str(current_turn+1), font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 10))
+        draw_text("Draw Destination Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 5))
+
+    draw_title()
 
     pygame.display.update()
 
+    card_ranges = []
+
     def draw_table(x, y, width, height, size):
+
+        new_ranges = []
         current_card = 0
         for y_val in range(y, y+size[1], height):
             start = True
             for x_val in range(x, x+size[0], width):
                 if start:
-                    text = destination_cards[current_card].start.name
+                    text = player.destination_cards[current_card].start.name
                 else:
-                    text = destination_cards[current_card].end.name
+                    text = player.destination_cards[current_card].end.name
                 text_surface = button_font.render(text, True, Color.COLOR_DICT["BLACK"])
                 table_rect = pygame.draw.rect(screen, Color.COLOR_DICT["BLACK"], [x_val, y_val, width, height], 1)
                 text_rect = text_surface.get_rect(center = table_rect.center)
                 screen.blit(text_surface, text_rect)
                 start = False
+            new_ranges.append([player.destination_cards[current_card], x, x+width, y_val, y_val+height])
+            new_ranges.append([player.destination_cards[current_card], x, x+width*2, y_val, y_val+height])
             current_card+=1
-    
+        return new_ranges
+                
 
     box_width = int(DISPLAY_WIDTH/10)
     box_height = int(DISPLAY_HEIGHT/13)
-    draw_table(int(DISPLAY_WIDTH/2.5), int(DISPLAY_HEIGHT/3), box_width, box_height, [box_width*2, box_height*len(destination_cards)])
+    new_ranges = draw_table(int(DISPLAY_WIDTH/2.5), int(DISPLAY_HEIGHT/3), box_width, box_height, [box_width*2, box_height*len(player.destination_cards)])
+    card_ranges = new_ranges
     pygame.display.update()
+
+    wooden_button = pygame.image.load("images/woodenbutton.png")
+    wooden_button = pygame.transform.scale(wooden_button, (int(DISPLAY_WIDTH/9), int(DISPLAY_HEIGHT/15)))
+    destination_card_button = RectButton(DISPLAY_WIDTH/2.25, DISPLAY_HEIGHT/1.175, DISPLAY_WIDTH/9, DISPLAY_HEIGHT/15, "RED", 
+                                         pygame.font.Font(BUTTON_FONT, 13), "Draw",screen, "BLACK", True, " Destination Card", wooden_button)
+                                         
+    
+    destination_card_button.draw()
+
+    card_drawn = False
+    cards_removed = 0
 
     running = True
     while running:
@@ -490,9 +513,43 @@ def draw_destination_card_screen(screen, current_turn):
 
             
                 if event.key == pygame.K_ESCAPE:
-                    running = False
-                    
+                    for j in range(-1, -4, -1):
+                        if (len(player.destination_cards)<abs(j)):
+                            break
+                        player.destination_cards[j].is_clicked = False
+                    return card_drawn
 
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                current_pos = pygame.mouse.get_pos()
+                if (cards_removed<2):
+                    for card_range in range(len(card_ranges)):
+                        r = card_ranges[card_range]
+                        x = current_pos[0]
+                        y = current_pos[1]
+                        if x>=r[1] and x<=r[2] and y>=r[3] and y<=r[4]:
+                            card_index = player.destination_cards.index(r[0])
+
+                            #to do, inform the players that they can remove destination cards they just selected. 
+                            if player.destination_cards[card_index].is_clicked == True:
+                                player.destination_cards.pop(card_index)
+                                cards_removed+=1
+                                screen.fill(Color.COLOR_DICT.get("WHITE"))
+                                draw_title()
+                            break
+
+                if (not card_drawn):    
+
+                    if destination_card_button.rect.collidepoint(current_pos):
+                        new_destination_cards = deck.discard_destination_cards(3)
+                        for card in new_destination_cards:
+                            card.is_clicked = True
+                        player.destination_cards.extend(new_destination_cards)
+                        card_drawn = True
+                        screen.fill(Color.COLOR_DICT.get("WHITE"))
+                        draw_title()
+                    
+        new_ranges = draw_table(int(DISPLAY_WIDTH/2.5), int(DISPLAY_HEIGHT/3), box_width, box_height, [box_width*2, box_height*len(player.destination_cards)])
+        card_ranges = new_ranges
         pygame.time.Clock().tick(FPS)
         
         pygame.display.update()

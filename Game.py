@@ -25,30 +25,6 @@ CITY_RADIUS = 10
 FONT = "fonts/titlefont.ttf"
 BUTTON_FONT = "fonts/buttonfont.ttf"
 deck = Deck()
-COLORS_RGB = {
-    "WHITE": (255, 255, 255),
-    "YELLOW": (252, 239, 108),
-    "BLUE": (67, 147, 242),
-    "BLACK": (69, 70, 74),
-    "RED": (201, 88, 80),
-    "ORANGE": (214, 139, 84),
-    "PINK": (201, 134, 175),
-    "GREEN": (169, 195, 86),
-    "GRAY": (128, 128, 128)}
-
-# IMAGES --> CARDS
-COLORS_IMAGES = {
-    "BLACK": pygame.image.load('images/black_traincard.png'),
-    "BLUE": pygame.image.load('images/blue_traincard.png'),
-    "GREEN": pygame.image.load('images/green_traincard.png'),
-    "ORANGE": pygame.image.load('images/orange_traincard.png'),
-    "PINK": pygame.image.load('images/pink_traincard.png'),
-    "RAINBOW": pygame.image.load('images/rainbow_traincard.png'),
-    "RED": pygame.image.load('images/red_traincard.png'),
-    "WHITE": pygame.image.load('images/white_traincard.png'),
-    "YELLOW": pygame.image.load('images/yellow_traincard.png'),
-    "FACEDOWN": pygame.image.load('images/facedown_traincard.png')
-}
 
 # define original image dimensions
 ORIGINAL_WIDTH = board_image.get_width()
@@ -62,7 +38,7 @@ DISPLAY_HEIGHT = 636
 """Please define the players you want to play by calling the constructor for either human or player class, 
 and then specifying a color from the colors dictionary provided of sample colors. Or, you can make your own color! 
 Colors are represented by tuple values of three RGB values. """
-PLAYERS = [Human(COLORS_RGB["BLUE"]), Human(COLORS_RGB["GREEN"])]
+PLAYERS = [Human(Color.COLOR_DICT["BLUE"]), Human(Color.COLOR_DICT["GREEN"])]
 
 
 def scale(point):
@@ -715,6 +691,9 @@ def main():
 
     game_loop(screen, False, pygame.transform.scale(board_image, (DISPLAY_WIDTH, DISPLAY_HEIGHT)),
               pygame.image.load("images/Rules.PNG"))
+
+# TODO display player scores in the game, fix the fonts so that they are more readable, display train cards with
+#  their images not their colors
 
 
 if __name__ == '__main__':

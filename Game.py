@@ -59,7 +59,7 @@ def draw_train_cars(screen):
                 pygame.draw.polygon(screen, track.occupied_by.color, (scale(train_car.point1), scale(train_car.point2), scale(train_car.point3), scale(train_car.point4)))
 
 # pygame main loop
-def game_loop(screen, debug, background):
+def game_loop(screen, debug, background, rules):
     running = True
     player1_train_cards = deck.discard_train_cards(4)
     player2_train_cards = deck.discard_train_cards(4)
@@ -157,7 +157,7 @@ def game_loop(screen, debug, background):
                 if event.key == pygame.K_TAB:
                     player_card_tab(screen, background, current_turn)
                 if event.key == pygame.K_h:
-                    help_screen(screen)
+                    help_screen(screen, rules)
 
         # Change turns
         if (turn_complete):
@@ -230,7 +230,7 @@ def buy_track(player, track):
     
 
 # run the gameloop
-def start_screen(screen, background):
+def start_screen(screen, background, rules):
     font = pygame.font.Font(FONT, 60)
     play_font = pygame.font.Font(FONT, 30)
     # draw_text("Ticket to Ride", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
@@ -248,7 +248,7 @@ def start_screen(screen, background):
             elif event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_p:
-                    game_loop(screen, False, background)
+                    game_loop(screen, False, background, rules)
         
         play_button.draw()
         pygame.display.update()
@@ -257,14 +257,15 @@ def start_screen(screen, background):
 
     
 
-def help_screen(screen):
+def help_screen(screen, rules):
     screen.fill(Color.COLOR_DICT.get("WHITE"))
     title_font = pygame.font.Font(FONT, 60)
     text_font = pygame.font.Font(FONT, 30)
+    
     # draw_text("Ticket to Ride", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
     
-    draw_text("Rules", title_font, "RED", screen, (DISPLAY_WIDTH / 2), 100)
-
+    # draw_text("Rules", title_font, "RED", screen, (DISPLAY_WIDTH / 2), 100)
+    screen.blit(rules, (0, 0))
     pygame.display.update()
 
     running = True
@@ -702,8 +703,10 @@ def main():
     start_screen_background = pygame.image.load("images/startscreen.png")
     start_screen_background = pygame.transform.scale(start_screen_background, (DISPLAY_WIDTH, DISPLAY_HEIGHT))
     screen.blit(start_screen_background, (0, 0))
+    rules = pygame.image.load("images/Rules.png")
+    # rules = pygame.transform.scale(rules, (DISPLAY_WIDTH, DISPLAY_HEIGHT))
     while True:
-        start_screen(screen, background)
+        start_screen(screen, background, rules)
 
 
 if __name__ == '__main__':

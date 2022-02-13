@@ -1,4 +1,3 @@
-from ScoreTable import ScoreTable
 from Track import Track
 from UnionFind import UnionFind
 
@@ -7,6 +6,8 @@ class Player:
     """
     Player class, with all the functions available to a player of the online game
     """
+    # static map score table to be used by players when incrementing their points
+    SCORE_TABLE = {1: 1, 2: 2, 3: 4, 4: 7, 5: 10, 6: 15}
 
     def __init__(self, color: (int, int, int)):
         self.color = color
@@ -43,7 +44,7 @@ class Player:
 
         if is_enough_cards:
             self.owned_tracks.append(track)
-            self.score += ScoreTable.SCORE_TABLE[track.length]
+            self.score += Player.SCORE_TABLE[track.length]
             self.union_find.connect_cities(track.city1, track.city2)
             track.occupied_by = self
             self.train_cards = cards_left

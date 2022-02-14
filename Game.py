@@ -18,7 +18,8 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 
 # define essential parameters for the game
 board_image = pygame.image.load("images/board.jpg")
-start_sreen_image = pygame.image.load("images/startscreen.png")
+start_screen_image = pygame.image.load("images/startscreen.png")
+
 
 CITY_COLOR = (219, 152, 99)
 CITY_RADIUS = 10
@@ -93,8 +94,9 @@ def game_loop(screen, debug, background, rules):
     # ^do the same for player2
 
     wooden_button = pygame.image.load("images/woodenbutton.png")
+    wooden_button_hover = pygame.image.load("images/woodenbuttonhover.png")
     wooden_button = pygame.transform.scale(wooden_button, (int(DISPLAY_WIDTH / 9), int(DISPLAY_HEIGHT / 15)))
-
+    wooden_button_hover = pygame.transform.scale(wooden_button_hover, (int(DISPLAY_WIDTH / 9), int(DISPLAY_HEIGHT / 15)))
     train_card_button = RectButton(DISPLAY_WIDTH / 10, DISPLAY_HEIGHT / 1.175, DISPLAY_WIDTH / 9, DISPLAY_HEIGHT / 15,
                                    "RED",
                                    pygame.font.Font(BUTTON_FONT, 13), "Draw", screen, "BLACK", True, "Train Cards",
@@ -103,11 +105,17 @@ def game_loop(screen, debug, background, rules):
                                          DISPLAY_HEIGHT / 15, "RED",
                                          pygame.font.Font(BUTTON_FONT, 13), "Draw", screen, "BLACK", True,
                                          "Destination Cards", wooden_button)
-
+    help_button_image = pygame.image.load("images/helpbutton.png")
+    help_button_hover_image = pygame.image.load("images/helpbuttonhover.png")
+    
+    help_button = RectButton(50, 40, 42, 40, None, None, None, screen, None, None, None, help_button_image)
+    
     train_card_button.draw()
     destination_card_button.draw()
-
+    help_button.draw()
     color = player1.color
+    
+    
     while running:
 
         if check_game_end():
@@ -115,6 +123,25 @@ def game_loop(screen, debug, background, rules):
             pass
 
         turn_complete = False
+        
+        
+        #check button hover
+        if train_card_button.rect.collidepoint(pygame.mouse.get_pos()):
+            train_card_button.image = wooden_button_hover
+        else:
+            train_card_button.image = wooden_button
+            
+        if destination_card_button.rect.collidepoint(pygame.mouse.get_pos()):
+            destination_card_button.image = wooden_button_hover
+        else:
+            destination_card_button.image = wooden_button
+                    
+        if help_button.rect.collidepoint(pygame.mouse.get_pos()):
+            help_button.image = help_button_hover_image
+        else:
+            help_button.image = help_button_image
+            
+            
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -143,6 +170,8 @@ def game_loop(screen, debug, background, rules):
                     train_card_button.is_clicked = True
                 if destination_card_button.rect.collidepoint(current_pos):
                     destination_card_button.is_clicked = True
+                if help_button.rect.collidepoint(current_pos):
+                    help_button.is_clicked = True
 
                 if train_card_button.is_clicked:
                     train_card_button.is_clicked = False
@@ -155,6 +184,10 @@ def game_loop(screen, debug, background, rules):
                     has_been_drawn = draw_destination_card_screen(screen, current_turn)
                     if has_been_drawn:
                         turn_complete = True
+                if help_button.is_clicked:
+                    help_button.is_clicked = False
+                    help_screen(screen, rules)
+
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_TAB:
@@ -179,14 +212,15 @@ def game_loop(screen, debug, background, rules):
         draw_game_area(screen)
         train_card_button.draw()
         destination_card_button.draw()
+        help_button.draw()
         display_scores(screen, current_turn)
         draw_train_cars(screen)
 
         text_font = pygame.font.Font(FONT, 20)
 
         # temporary, replace with buttons in the future
-        draw_text("'TAB' - train/destination cards", text_font, "RED", screen, DISPLAY_WIDTH / 1.4, 50)
-        draw_text("'H' - Help", text_font, "RED", screen, DISPLAY_WIDTH / 1.62, 75)
+        draw_text("'TAB' - train cards/claim track", text_font, "RED", screen, DISPLAY_WIDTH / 1.4, 50)
+        # draw_text("'H' - Help", text_font, "RED", screen, DISPLAY_WIDTH / 1.62, 75)
         pygame.display.update()
 
     winner = calculate_end_scores()
@@ -235,12 +269,13 @@ def buy_track(player, track):
 def help_screen(screen, rules):
     screen.fill(Color.COLOR_DICT.get("WHITE"))
     title_font = pygame.font.Font(FONT, 60)
-    text_font = pygame.font.Font(FONT, 30)
-
+    text_font = pygame.font.Font(FONT, 20)
+    
     # draw_text("Ticket to Ride", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
 
     # draw_text("Rules", title_font, "RED", screen, (DISPLAY_WIDTH / 2), 100)
     screen.blit(rules, (0, 0))
+    draw_text("Press 'ESC' to exit this tab", text_font, "RED", screen, (DISPLAY_WIDTH/1.2), (DISPLAY_HEIGHT/20))
     pygame.display.update()
 
     running = True
@@ -315,7 +350,7 @@ def player_card_tab(screen, background, current_player):
 
             elif event.type == pygame.KEYDOWN:
 
-                if event.key == pygame.K_TAB:
+                if event.key == pygame.K_ESCAPE:
                     running = False
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -340,10 +375,11 @@ def draw_train_card_screen(screen, current_turn):
     player = PLAYERS[current_turn]
 
     font = pygame.font.Font(FONT, 60)
-
+    text_font = pygame.font.Font(FONT, 25)
+    
     draw_text("Player " + str(current_turn + 1), font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
     draw_text("Draw Train Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 1.5))
-
+    draw_text("Press 'ESC' to exit this tab", text_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT/1.3))
     pygame.display.update()
 
     train_cards = deck.discard_train_cards(7)
@@ -360,6 +396,8 @@ def draw_train_card_screen(screen, current_turn):
 
     wooden_button = pygame.image.load("images/woodenbutton.png")
     wooden_button = pygame.transform.scale(wooden_button, (int(DISPLAY_WIDTH / 9), int(DISPLAY_HEIGHT / 15)))
+    wooden_button_hover = pygame.image.load("images/woodenbuttonhover.png")
+    wooden_button_hover = pygame.transform.scale(wooden_button_hover, (int(DISPLAY_WIDTH / 9), int(DISPLAY_HEIGHT / 15)))
 
     submit_button = RectButton(DISPLAY_WIDTH / 10, DISPLAY_HEIGHT / 1.175, DISPLAY_WIDTH / 9, DISPLAY_HEIGHT / 15,
                                "RED",
@@ -371,6 +409,12 @@ def draw_train_card_screen(screen, current_turn):
 
     running = True
     while running:
+        
+        if submit_button.rect.collidepoint(pygame.mouse.get_pos()):
+            submit_button.image = wooden_button_hover
+        else:
+            submit_button.image = wooden_button
+            
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -423,9 +467,11 @@ def draw_train_card_screen(screen, current_turn):
                     if (len(not_selected) != len(train_cards)):
                         return True
 
+        submit_button.draw()
         pygame.time.Clock().tick(FPS)
 
         pygame.display.update()
+        
 
 
 def draw_destination_card_screen(screen, current_turn):
@@ -434,11 +480,11 @@ def draw_destination_card_screen(screen, current_turn):
 
     button_font = pygame.font.Font(BUTTON_FONT, 15)
     font = pygame.font.Font(FONT, 60)
-
+    text_font = pygame.font.Font(FONT, 25)
     def draw_title():
         draw_text("Player " + str(current_turn + 1), font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 10))
         draw_text("Draw Destination Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 5))
-
+        draw_text("Press 'ESC' to exit this tab", text_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT/3.75))
     draw_title()
 
     pygame.display.update()
@@ -475,6 +521,8 @@ def draw_destination_card_screen(screen, current_turn):
 
     wooden_button = pygame.image.load("images/woodenbutton.png")
     wooden_button = pygame.transform.scale(wooden_button, (int(DISPLAY_WIDTH / 9), int(DISPLAY_HEIGHT / 15)))
+    wooden_button_hover = pygame.image.load("images/woodenbuttonhover.png")
+    wooden_button_hover = pygame.transform.scale(wooden_button_hover, (int(DISPLAY_WIDTH / 9), int(DISPLAY_HEIGHT / 15)))
     destination_card_button = RectButton(DISPLAY_WIDTH / 2.25, DISPLAY_HEIGHT / 1.175, DISPLAY_WIDTH / 9,
                                          DISPLAY_HEIGHT / 15, "RED",
                                          pygame.font.Font(BUTTON_FONT, 13), "Draw", screen, "BLACK", True,
@@ -486,7 +534,13 @@ def draw_destination_card_screen(screen, current_turn):
     cards_removed = 0
 
     running = True
+    
     while running:
+        
+        if destination_card_button.rect.collidepoint(pygame.mouse.get_pos()):
+            destination_card_button.image = wooden_button_hover
+        else:
+            destination_card_button.image = wooden_button
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -533,7 +587,10 @@ def draw_destination_card_screen(screen, current_turn):
                                 [box_width * 2, box_height * len(player.destination_cards)])
         card_ranges = new_ranges
         pygame.time.Clock().tick(FPS)
+        
 
+        # temporary, replace with buttons in the future
+        destination_card_button.draw()
         pygame.display.update()
 
 
@@ -671,7 +728,7 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
     # start screen menu
-    screen.blit(pygame.transform.scale(start_sreen_image, (DISPLAY_WIDTH, DISPLAY_HEIGHT)), (0, 0))
+    screen.blit(pygame.transform.scale(start_screen_image, (DISPLAY_WIDTH, DISPLAY_HEIGHT)), (0, 0))
     RectButton(int(DISPLAY_WIDTH / 2.675),
                int(DISPLAY_HEIGHT / 1.07),
                int(DISPLAY_WIDTH / 4),

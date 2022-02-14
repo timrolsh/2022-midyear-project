@@ -1,7 +1,8 @@
-from TrainCard import TrainCard
-from Field import Field
-from DestinationCard import DestinationCard
 import random
+
+from DestinationCard import DestinationCard
+from Field import Field
+from TrainCard import TrainCard
 
 """
 Represents the main deck of cards in the Ticket to Ride board game

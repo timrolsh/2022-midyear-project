@@ -1,8 +1,6 @@
-from cmath import rect
-from re import L
-import Button
-from Color import Color
 import pygame
+
+from Color import Color
 
 
 class RectButton():
@@ -14,7 +12,7 @@ class RectButton():
             self.color = color
         self.rect = pygame.Rect((x, y), (width, height))
         # self.rect = image.get_rect()
-        if font != None:
+        if font is not None:
             self.text_surface = font.render(text, True, text_color)
             self.text_rect = self.text_surface.get_rect(
                 center=self.rect.center)
@@ -32,15 +30,15 @@ class RectButton():
         self.height = height
 
     def draw(self):
-        if self.image != None:
+        if self.image is not None:
             self.screen.blit(self.image, self.rect)
         else:
             pygame.draw.rect(self.screen, self.color, self.rect)
 
-        if self.font != None:
+        if self.font is not None:
             self.screen.blit(self.text_surface, self.text_rect)
 
-        if (self.double_line):
+        if self.double_line:
             ts_2 = self.font.render(self.text2, True, self.text_color)
             tr_2 = ts_2.get_rect(
                 center=(self.rect.centerx, self.rect.centery + 10))

@@ -9,6 +9,7 @@ class DestinationCard(Card):
     """
 
     def __init__(self, start: City, end: City, points: int):
+        super().__init__()
         self.start = start
         self.end = end
         self.points = points

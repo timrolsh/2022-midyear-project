@@ -370,10 +370,15 @@ def player_card_tab(screen, background, current_player):
                             card_button.train_card.is_clicked = False
                             player.clicked_cards.remove(card_button.train_card)
                             card_button.draw()
+                            if len(player.clicked_cards)==0:
+                                player.current_card_color = None
                         else:
-                            card_button.train_card.is_clicked = True
-                            player.clicked_cards.add(card_button.train_card)
-                            card_button.draw_with_border()
+                            if card_button.train_card.color!="RAINBOW" and player.current_card_color is None:
+                                player.current_card_color = card_button.train_card.color
+                            if card_button.train_card.color==player.current_card_color or card_button.train_card.color=="RAINBOW":
+                                card_button.train_card.is_clicked = True
+                                player.clicked_cards.add(card_button.train_card)
+                                card_button.draw_with_border()
 
         pygame.display.update()
         pygame.time.Clock().tick(FPS)

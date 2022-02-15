@@ -17,6 +17,7 @@ class Player:
         self.score = 0
         self.owned_tracks = []
         self.union_find = UnionFind()
+        self.current_card_color = None
 
     def claim_tracks(self, track: Track):
         """

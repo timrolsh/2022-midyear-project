@@ -33,6 +33,7 @@ class Deck:
             destination_card = DestinationCard(
                 Field.cities[start], Field.cities[end], int(points))
             self.destination_cards.append(destination_card)
+        random.shuffle(self.destination_cards)
 
         destination_list_txt.close()
 

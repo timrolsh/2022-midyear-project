@@ -18,8 +18,8 @@ class Player:
         self.owned_tracks = []
         self.union_find = UnionFind()
         self.current_card_color = None
-        self.trains = 5
-
+        self.trains = 45
+        
     def claim_tracks(self, track: Track):
         """
         Claim a track using the train cards a player currently has. This only works if the cards are the same color

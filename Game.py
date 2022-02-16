@@ -129,11 +129,15 @@ def game_loop(screen, debug, background, rules):
     help_button.draw()
     color = player1.color
 
+    final_turn = False
+    final_started_by = None
+
     while running:
 
-        if check_game_end():
+        if final_turn==True:
             # give the player's another turn?
-            pass
+            if (final_started_by == current_turn):
+                break
 
         turn_complete = False
 
@@ -206,6 +210,10 @@ def game_loop(screen, debug, background, rules):
 
         # Change turns
         if (turn_complete):
+            if PLAYERS[current_turn].trains<=2:
+                final_turn = True
+                if final_started_by is None:
+                    final_started_by = current_turn
             if current_turn == 0:
                 current_turn = 1
             else:
@@ -233,17 +241,26 @@ def game_loop(screen, debug, background, rules):
         pygame.display.update()
 
     winner = calculate_end_scores()
-    if (debug):
-        print("WINNER: " + winner.color)
     game_end_screen(winner, screen, background)
 
     pygame.quit()
 
 
 def game_end_screen(winner, screen, background):
+    screen.fill((234, 221, 202))
+
+    confetti_image = pygame.image.load("images/confetti_image.jpg")
+    confetti_image = pygame.transform.scale(confetti_image, (int(DISPLAY_WIDTH)/1.1, int(DISPLAY_HEIGHT)+10))
+    confetti_image.set_alpha(128)
+    screen.blit(confetti_image, (DISPLAY_WIDTH/2-confetti_image.get_width()/2, DISPLAY_HEIGHT/2-confetti_image.get_height()/2))
+
     font = pygame.font.Font(FONT, 60)
     play_font = pygame.font.Font(FONT, 30)
-    draw_text("Winner: " + winner.color, font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
+    if type(winner)==list:
+        text = "IT IS A TIE"
+    else:
+        text = f"Winner: {winner.color}"
+    draw_text(text, font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
 
     pygame.display.update()
 
@@ -267,6 +284,8 @@ def buy_track(player, track):
         if track.occupied_by != None:
             print(f"Track has already been claimed by player {track.occupied_by.color}")
             return False
+        elif player.trains<track.length:
+            print(f"Player doesn't have enough train cars to by this track")
         else:
             player.claim_tracks(track)
             return True
@@ -360,6 +379,7 @@ def player_card_tab(screen, background, current_player):
             elif event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_ESCAPE:
+                    player.current_card_color = None
                     running = False
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -698,59 +718,31 @@ def display_scores(screen, current_turn):
               current_player.color, screen, DISPLAY_WIDTH / 1.75, DISPLAY_HEIGHT / 1.1)
 
 
-def check_game_end():
-    """
-    If True, then each player gets one last turn 
-    and then scores are calculated.
-    """
-    for player in PLAYERS:
-        if len(player.train_cards) < 3:
-            return True
-    return False
-
-
 def calculate_end_scores():
     """
     1. Add or subtract the score in a destination card depending on whether it was completed by the player
     2. The player who has the longest continuous path gets 10 extra points with a bonus card
     3. Player with most points wins, and for tie breakers player with most completed destinations wins
     """
-    # 1
-
-    for player in PLAYERS:
-        for destination_card in player.destination_cards:
-            if UnionFind.is_connected(destination_card.start, destination_card.end):
-                player.score += destination_card.points
-                player.completed_destination_cards += 1
-            else:
-                # destination card has not been completed, substract the points
-                player.score -= destination_card.points
-
-    # 2 TO DO
 
     # 3
-    winner = PLAYERS[0]
+    winner = None
     tied_players = []
     for player in PLAYERS:
-        if player.score > winner.score:
+        if winner is None:
+            winner = player
+        elif player.score > winner.score:
             winner = player
             tied_players.clear()
-        if player.score == winner.score:
+        elif player.score == winner.score:
             tied_players.append(player)
             tied_players.append(winner)
 
     # Check if there is a tie
-    if len(tied_players) > 0:
-        # get destination wins
-        winner = tied_players[0]
-        for player in tied_players:
-            if player.completed_destination_cards > winner.completed_destination_cards:
-                tied_players.remove(winner)
-                winner = player
-
-        # if tied_players is still full after this, then draw?
-
-    return winner
+    if len(tied_players)==0:
+        return winner
+    else:
+        return tied_players
 
 
 def main():

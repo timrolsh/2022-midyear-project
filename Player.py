@@ -18,6 +18,7 @@ class Player:
         self.owned_tracks = []
         self.union_find = UnionFind()
         self.current_card_color = None
+        self.trains = 5
 
     def claim_tracks(self, track: Track):
         """
@@ -29,6 +30,7 @@ class Player:
 
         num_matching_cards = 0
         cards_left = []
+        cards_removed = []
         is_enough_cards = False
         for train_card in self.train_cards:
 
@@ -40,15 +42,20 @@ class Player:
                 num_matching_cards += 1
                 if num_matching_cards >= track.length:
                     is_enough_cards = True
+                cards_removed.append(train_card)
             else:
                 cards_left.append(train_card)
 
         if is_enough_cards:
+            for removed_card in cards_removed:
+                self.clicked_cards.remove(removed_card)
             self.owned_tracks.append(track)
             self.score += Player.SCORE_TABLE[track.length]
             self.union_find.connect_cities(track.city1, track.city2)
             track.occupied_by = self
+            self.trains-=track.length
             self.train_cards = cards_left
+            self.claim_destination()
         else:
             raise Exception(
                 "Player doesn't have enough train cards to claim this track")

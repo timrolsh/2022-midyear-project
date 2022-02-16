@@ -116,8 +116,8 @@ def game_loop(screen, debug, background, rules):
                                          int(DISPLAY_WIDTH / 9),
                                          int(DISPLAY_HEIGHT / 15),
                                          "RED",
-                                         pygame.font.Font(BUTTON_FONT, 13), "Draw", screen, "BLACK", True,
-                                         "Destination Cards", wooden_button)
+                                         pygame.font.Font(BUTTON_FONT, 13), "Destination", screen, "BLACK", True,
+                                         "Cards", wooden_button)
 
     help_button_image = pygame.image.load("images/helpbutton.png")
     help_button_hover_image = pygame.image.load("images/helpbuttonhover.png")
@@ -522,11 +522,11 @@ def draw_destination_card_screen(screen, current_turn):
     def draw_title():
         draw_text("Player " + str(current_turn + 1), font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 10))
         draw_text("Draw Destination Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 5))
-        draw_text("Press 'ESC' to exit this tab", text_font, "RED", screen, (DISPLAY_WIDTH / 2),
-                  (DISPLAY_HEIGHT / 3.75))
+        
 
     draw_title()
-
+    draw_text("Press 'ESC' to exit this tab", text_font, "RED", screen, (DISPLAY_WIDTH / 2),
+                  (DISPLAY_HEIGHT / 3.75))
     pygame.display.update()
 
     card_ranges = []
@@ -618,8 +618,16 @@ def draw_destination_card_screen(screen, current_turn):
                                 cards_removed += 1
                                 screen.fill(Color.COLOR_DICT.get("WHITE"))
                                 draw_title()
+                                draw_text("Press 'ESC' to exit this tab", text_font, "RED", screen, (DISPLAY_WIDTH / 2),
+                  (DISPLAY_HEIGHT / 3.75))
                             break
-
+                elif (cards_removed == 2):
+                    screen.fill(Color.COLOR_DICT.get("WHITE"))
+                    draw_title()
+                    draw_text("(!) You cannot remove more than 2 destination cards", text_font, "RED", screen, (DISPLAY_WIDTH / 2),
+                    (DISPLAY_HEIGHT / 3.75))
+                
+                    
                 if (not card_drawn):
 
                     if destination_card_button.rect.collidepoint(current_pos):
@@ -630,6 +638,7 @@ def draw_destination_card_screen(screen, current_turn):
                         card_drawn = True
                         screen.fill(Color.COLOR_DICT.get("WHITE"))
                         draw_title()
+                        draw_text("Press 'ESC' to exit this tab", text_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 3.75))
 
         new_ranges = draw_table(int(DISPLAY_WIDTH / 2.8), int(DISPLAY_HEIGHT / 3), box_width, box_height,
                                 [box_width * 2, box_height * len(player.destination_cards)])
@@ -759,6 +768,7 @@ def main():
                pygame.font.Font(BUTTON_FONT, 36), "Press P to Play", screen, "BLACK", True).draw()
     pygame.display.update()
     temp = True
+    rules = pygame.image.load("images/Rules.PNG")
     while temp:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -767,9 +777,12 @@ def main():
                 if event.key == pygame.K_p:
                     temp = False
                     break
-
+                # if event.key == pygame.K_h:
+                #     help_screen(screen, rules)
+        
+    pygame.display.update()
     game_loop(screen, False, pygame.transform.scale(board_image, (DISPLAY_WIDTH, DISPLAY_HEIGHT)),
-              pygame.image.load("images/Rules.PNG"))
+              rules)
 
 
 # TODO display player scores in the game, fix the fonts so that they are more readable, display train cards with

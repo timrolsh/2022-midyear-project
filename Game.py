@@ -205,8 +205,16 @@ def game_loop(screen, debug, background, rules):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_TAB:
                     player_card_tab(screen, background, current_turn)
-                if event.key == pygame.K_h:
+                elif event.key == pygame.K_h:
                     help_screen(screen, rules)
+                elif event.key == pygame.K_t:
+                    is_change_turn = draw_train_card_screen(screen, current_turn)
+                    if (is_change_turn == True):
+                        turn_complete = True
+                elif event.key == pygame.K_d:
+                    has_been_drawn = draw_destination_card_screen(screen, current_turn)
+                    if has_been_drawn:
+                        turn_complete = True        
 
         # Change turns
         if (turn_complete):
@@ -378,8 +386,7 @@ def player_card_tab(screen, background, current_player):
 
             elif event.type == pygame.KEYDOWN:
 
-                if event.key == pygame.K_ESCAPE:
-                    player.current_card_color = None
+                if event.key == pygame.K_ESCAPE or event.key == pygame.K_m:
                     running = False
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -459,7 +466,7 @@ def draw_train_card_screen(screen, current_turn):
 
             elif event.type == pygame.KEYDOWN:
 
-                if event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_ESCAPE or event.key == pygame.K_m:
                     for card in train_cards:
                         card.is_clicked = False
                         card.face_down = False
@@ -595,7 +602,7 @@ def draw_destination_card_screen(screen, current_turn):
 
             elif event.type == pygame.KEYDOWN:
 
-                if event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_ESCAPE or event.key == pygame.K_m:
                     for j in range(-1, -4, -1):
                         if (len(player.destination_cards) < abs(j)):
                             break
@@ -632,7 +639,7 @@ def draw_destination_card_screen(screen, current_turn):
                         draw_title()
 
         new_ranges = draw_table(int(DISPLAY_WIDTH / 2.8), int(DISPLAY_HEIGHT / 3), box_width, box_height,
-                                [box_width * 2, box_height * len(player.destination_cards)])
+                                [box_width * 3, box_height * len(player.destination_cards)])
         card_ranges = new_ranges
         pygame.time.Clock().tick(FPS)
 

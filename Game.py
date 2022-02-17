@@ -570,7 +570,7 @@ def draw_destination_card_screen(screen, current_turn):
 
     card_ranges = []
 
-    def draw_table(x, y, width, height, size):
+    def draw_table(x, y, width, height, size, offset=0):
 
         new_ranges = []
         current_card = 0
@@ -578,20 +578,20 @@ def draw_destination_card_screen(screen, current_turn):
             row_rect = 1
             for x_val in range(x, x + size[0], width):
                 if row_rect==1:
-                    text = player.destination_cards[current_card].start.name
+                    text = player.destination_cards[current_card+offset].start.name
                 elif row_rect==2:
-                    text = player.destination_cards[current_card].end.name
+                    text = player.destination_cards[current_card+offset].end.name
                 elif row_rect==3:
-                    text = f"{player.destination_cards[current_card].points} pts"
+                    text = f"{player.destination_cards[current_card+offset].points} pts"
                 text_surface = button_font.render(text, True, Color.COLOR_DICT["BLACK"])
                 table_rect = pygame.draw.rect(screen, Color.COLOR_DICT["BLACK"], [x_val, y_val, width, height], 1)
                 text_rect = text_surface.get_rect(center=table_rect.center)
                 screen.blit(text_surface, text_rect)
                 row_rect+=1
             
-            new_ranges.append([player.destination_cards[current_card], x, x + width, y_val, y_val + height])
-            new_ranges.append([player.destination_cards[current_card], x, x + width * 2, y_val, y_val + height])
-            new_ranges.append([player.destination_cards[current_card], x, x + width * 3, y_val, y_val + height])
+            new_ranges.append([player.destination_cards[current_card+offset], x, x + width, y_val, y_val + height])
+            new_ranges.append([player.destination_cards[current_card+offset], x, x + width * 2, y_val, y_val + height])
+            new_ranges.append([player.destination_cards[current_card+offset], x, x + width * 3, y_val, y_val + height])
             current_card += 1
         return new_ranges
 
@@ -602,8 +602,20 @@ def draw_destination_card_screen(screen, current_turn):
 
     box_width = int(DISPLAY_WIDTH / 10)
     box_height = int(DISPLAY_HEIGHT / 13)
-    new_ranges = draw_table(int(DISPLAY_WIDTH / 2.8), int(DISPLAY_HEIGHT / 3), box_width, box_height,
-                            [box_width * 3, box_height * len(player.destination_cards)])
+    if len(player.destination_cards)<=7:
+        range_width = int(DISPLAY_WIDTH/2.8)
+    else:
+        range_width = int(DISPLAY_WIDTH/6)
+    new_ranges = draw_table(range_width, int(DISPLAY_HEIGHT / 3), box_width, box_height,
+                            [box_width * 3, box_height * min(len(player.destination_cards), 7)])
+
+    if len(player.destination_cards)>7:
+        second_ranges = draw_table(int(DISPLAY_WIDTH / 2), int(DISPLAY_HEIGHT / 3), box_width, box_height,
+        [box_width * 3, box_height * (len(player.destination_cards)-7)], offset=7)
+
+        new_ranges.extend(second_ranges)
+
+
     card_ranges = new_ranges
     pygame.display.update()
 
@@ -677,9 +689,18 @@ def draw_destination_card_screen(screen, current_turn):
                         card_drawn = True
                         redraw_background(subtitle="Press 'ESC' to exit this tab")
 
+        if len(player.destination_cards)<=7:
+            range_width = int(DISPLAY_WIDTH/2.8)
+        else:
+            range_width = int(DISPLAY_WIDTH/6)
+        new_ranges = draw_table(range_width, int(DISPLAY_HEIGHT / 3), box_width, box_height,
+                                [box_width * 3, box_height * min(len(player.destination_cards), 7)])
 
-        new_ranges = draw_table(int(DISPLAY_WIDTH / 2.8), int(DISPLAY_HEIGHT / 3), box_width, box_height,
-                                [box_width * 3, box_height * len(player.destination_cards)])
+        if len(player.destination_cards)>7:
+            second_ranges = draw_table(int(DISPLAY_WIDTH / 2), int(DISPLAY_HEIGHT / 3), box_width, box_height,
+            [box_width * 3, box_height * (len(player.destination_cards)-7)], offset=7)
+
+            new_ranges.extend(second_ranges)
         card_ranges = new_ranges
         pygame.time.Clock().tick(FPS)
 

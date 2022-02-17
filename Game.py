@@ -1,3 +1,4 @@
+
 import os
 
 import pygame
@@ -246,8 +247,9 @@ def game_loop(screen, debug, background, rules):
         screen.blit(wooden_background, (DISPLAY_WIDTH/1.4, DISPLAY_HEIGHT/1.2))
         text_font = pygame.font.Font(FONT, 20)
         display_scores(screen, current_turn)
-        # temporary, replace with buttons in the future
-        draw_text("'TAB' - train cards/claim track", text_font, "RED", screen, DISPLAY_WIDTH / 1.4, 50)
+       
+        draw_text("PLAYER " + str(current_turn+1) + "'s TURN", text_font, PLAYERS[current_turn].color, screen, DISPLAY_WIDTH / 2, 50)
+        draw_text("'TAB' - claim track", text_font, "RED", screen, DISPLAY_WIDTH / 1.3, 50)
         # draw_text("'H' - Help", text_font, "RED", screen, DISPLAY_WIDTH / 1.62, 75)
         pygame.display.update()
 
@@ -768,6 +770,14 @@ def calculate_end_scores():
     2. The player who has the longest continuous path gets 10 extra points with a bonus card
     3. Player with most points wins, and for tie breakers player with most completed destinations wins
     """
+    
+    for player in PLAYERS:
+        for destination_card in player.destination_cards:
+            if (not (UnionFind.is_connected(destination_card.start, destination_card.end))):
+                #destination card has not been completed, substract the points
+                player.score -= destination_card.points
+                if (player.score < 0):
+                    player.score = 0
 
     # 3
     winner = None

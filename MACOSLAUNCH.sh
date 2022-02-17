@@ -12,4 +12,4 @@ if [ ! -d "${VENV_NAME}" ]; then
 fi
 
 # run game launcher
-${INTERPRETERNAME} Game.p
+${INTERPRETERNAME} Game.py

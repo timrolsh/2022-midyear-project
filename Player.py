@@ -60,6 +60,9 @@ class Player:
             raise Exception(
                 "Player doesn't have enough train cards to claim this track")
 
+        if len(self.clicked_cards)==0:
+            self.current_card_color = None
+
     def claim_destination(self):
         """
         Claim a destination card and add points to the user's score. Uses the UnionFind algorithm to check if two

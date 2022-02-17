@@ -7,7 +7,7 @@ from src.CardButton import CardButton
 from src.Color import Color
 from src.Deck import Deck
 from src.Field import Field
-from Human import Human
+from src.Human import Human
 from src.RectButton import RectButton
 
 # hide pygame welcome message

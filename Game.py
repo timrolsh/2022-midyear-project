@@ -41,6 +41,15 @@ and then specifying a color from the colors dictionary provided of sample colors
 Colors are represented by tuple values of three RGB values. """
 PLAYERS = [Human(Color.COLOR_DICT["BLUE"]), Human(Color.COLOR_DICT["GREEN"])]
 
+SCALE_RATIO_WIDTH = DISPLAY_WIDTH / board_image.get_width()
+SCALE_RATIO_HEIGHT = DISPLAY_HEIGHT / board_image.get_height()
+SCALED_POINTS_TO_COORDS = {
+    0: (70 * SCALE_RATIO_WIDTH, 1885 * SCALE_RATIO_HEIGHT),
+    20: (90 * SCALE_RATIO_WIDTH, 50 * SCALE_RATIO_HEIGHT),
+    50: (2885 * SCALE_RATIO_WIDTH, 65 * SCALE_RATIO_HEIGHT),
+    70: (2870 * SCALE_RATIO_WIDTH, 1910 * SCALE_RATIO_HEIGHT)
+}
+
 
 def scale(point):
     scale_factor = DISPLAY_WIDTH / ORIGINAL_WIDTH
@@ -57,7 +66,30 @@ def draw_train_cars(screen):
                 pygame.draw.polygon(screen, track.occupied_by.color, (
                     scale(train_car.point1), scale(train_car.point2), scale(train_car.point3), scale(train_car.point4)))
 
+def draw_player_score_dots(display):
+    
 
+    # draw players scores on the sides of the board
+    for player in PLAYERS:
+        remainder_score = player.score % 100
+        if 0 <= remainder_score <= 20:
+            pygame.draw.circle(display, Color.COLOR_DICT[player.color], (
+            SCALED_POINTS_TO_COORDS[0][0], SCALED_POINTS_TO_COORDS[0][1] - remainder_score * 90 * SCALE_RATIO_HEIGHT),
+                               CITY_RADIUS)
+        elif 20 <= remainder_score <= 50:
+            pygame.draw.circle(display, Color.COLOR_DICT[player.color], (
+            SCALED_POINTS_TO_COORDS[20][0] + (remainder_score - 20) * 93.5 * SCALE_RATIO_WIDTH,
+            SCALED_POINTS_TO_COORDS[20][1]), CITY_RADIUS)
+        elif 50 <= remainder_score <= 70:
+            pygame.draw.circle(display, Color.COLOR_DICTB[player.color], (SCALED_POINTS_TO_COORDS[50][0],
+                                                                         SCALED_POINTS_TO_COORDS[50][1] + (
+                                                                         remainder_score - 50) * 93 * SCALE_RATIO_HEIGHT),
+                               CITY_RADIUS)
+        else:
+            pygame.draw.circle(display, Color.COLOR_DICT[player.color], (
+            SCALED_POINTS_TO_COORDS[70][0] - (remainder_score - 70) * 93.5 * SCALE_RATIO_WIDTH,
+            SCALED_POINTS_TO_COORDS[70][1]), CITY_RADIUS)
+    
 # pygame main loop
 def game_loop(screen, debug, background, rules):
     # this function puts 4 traincards into the players
@@ -246,10 +278,12 @@ def game_loop(screen, debug, background, rules):
         draw_train_cars(screen)
         screen.blit(wooden_background, (DISPLAY_WIDTH/1.4, DISPLAY_HEIGHT/1.2))
         text_font = pygame.font.Font(FONT, 20)
+        medium_font = pygame.font.Font(FONT, 30)
         display_scores(screen, current_turn)
        
-        draw_text("PLAYER " + str(current_turn+1) + "'s TURN", text_font, PLAYERS[current_turn].color, screen, DISPLAY_WIDTH / 2, 50)
+        draw_text("PLAYER " + str(current_turn+1) + "'s TURN", medium_font, PLAYERS[current_turn].color, screen, DISPLAY_WIDTH / 2, 50)
         draw_text("'TAB' - claim track", text_font, "RED", screen, DISPLAY_WIDTH / 1.3, 50)
+        draw_player_score_dots(screen)
         # draw_text("'H' - Help", text_font, "RED", screen, DISPLAY_WIDTH / 1.62, 75)
         pygame.display.update()
 
@@ -757,15 +791,15 @@ def draw_text(text, font, color, surface, x, y):
 
 
 def display_scores(screen, current_turn):
-    font = pygame.font.Font(FONT, 30)
-
+    font = pygame.font.Font(FONT, 25)
+    button_font = pygame.font.Font(BUTTON_FONT, 30)
     current_player = PLAYERS[current_turn]
 
-    draw_text(str(current_player.score) + " pts", font,
-              current_player.color, screen, DISPLAY_WIDTH / 1.248, DISPLAY_HEIGHT / 1.15)
+    draw_text("cars left ",  button_font,
+              "YELLOW", screen, DISPLAY_WIDTH / 1.28, DISPLAY_HEIGHT / 1.1)
     
-    draw_text(str(current_player.trains) + " trains", font,
-              current_player.color, screen, DISPLAY_WIDTH / 1.287, DISPLAY_HEIGHT / 1.1)
+    draw_text(str(current_player.trains) + " train", button_font,
+              "YELLOW", screen, DISPLAY_WIDTH / 1.287, DISPLAY_HEIGHT / 1.15)
 
 
 def calculate_end_scores():

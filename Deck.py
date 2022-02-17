@@ -58,7 +58,9 @@ class Deck:
     def discard_train_cards(self, num_cards: int):
         popped_cards = []
         for i in range(num_cards):
-            popped_cards.append(self.train_cards.pop())
+            if (len(self.train_cards) != 0):
+                
+                popped_cards.append(self.train_cards.pop())
         return popped_cards
 
     """

@@ -61,9 +61,9 @@ def scale(point):
 
 def draw_train_cars(screen):
     for track in Field.tracks_list:
-        if (track.occupied_by != None):
+        if (track.occupied_by is not None):
             for train_car in track.train_cars:
-                pygame.draw.polygon(screen, track.occupied_by.color, (
+                pygame.draw.polygon(screen, Color.COLOR_DICT[track.occupied_by.color], (
                     scale(train_car.point1), scale(train_car.point2), scale(train_car.point3), scale(train_car.point4)))
 
 def draw_player_score_dots(display):
@@ -81,7 +81,7 @@ def draw_player_score_dots(display):
             SCALED_POINTS_TO_COORDS[20][0] + (remainder_score - 20) * 93.5 * SCALE_RATIO_WIDTH,
             SCALED_POINTS_TO_COORDS[20][1]), CITY_RADIUS)
         elif 50 <= remainder_score <= 70:
-            pygame.draw.circle(display, Color.COLOR_DICTB[player.color], (SCALED_POINTS_TO_COORDS[50][0],
+            pygame.draw.circle(display, Color.COLOR_DICT[player.color], (SCALED_POINTS_TO_COORDS[50][0],
                                                                          SCALED_POINTS_TO_COORDS[50][1] + (
                                                                          remainder_score - 50) * 93 * SCALE_RATIO_HEIGHT),
                                CITY_RADIUS)
@@ -480,8 +480,12 @@ def draw_train_card_screen(screen, current_turn):
                                                  (int(DISPLAY_WIDTH / 9), int(DISPLAY_HEIGHT / 15)))
 
     train_cards = deck.discard_train_cards(7)
-    train_cards[5].face_down = True
-    train_cards[6].face_down = True
+    
+    if (len(deck.train_cards) > 7):
+        train_cards[5].face_down = True
+        train_cards[6].face_down = True
+    if (len(deck.train_cards) == 7):
+        train_cards[5].face_down = True
 
     submit_button = RectButton(int(DISPLAY_WIDTH / 10),
         int(DISPLAY_HEIGHT / 1.175),
@@ -809,13 +813,13 @@ def calculate_end_scores():
     3. Player with most points wins, and for tie breakers player with most completed destinations wins
     """
     
-    for player in PLAYERS:
-        for destination_card in player.destination_cards:
-            if (not UnionFind().is_connected(destination_card.start, destination_card.end)):
-                #destination card has not been completed, substract the points
-                player.score -= destination_card.points
-                if (player.score < 0):
-                    player.score = 0
+    # for player in PLAYERS:
+    #     for destination_card in player.destination_cards:
+    #         if (not UnionFind().is_connected(destination_card.start, destination_card.end)):
+    #             #destination card has not been completed, substract the points
+    #             player.score -= destination_card.points
+    #             if (player.score < 0):
+    #                 player.score = 0
 
     # 3
     winner = None

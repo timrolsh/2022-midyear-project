@@ -1,5 +1,5 @@
-from Track import Track
-from UnionFind import UnionFind
+from src.Track import Track
+from src.UnionFind import UnionFind
 
 
 class Player:
@@ -9,7 +9,7 @@ class Player:
     # static map score table to be used by players when incrementing their points
     SCORE_TABLE = {1: 1, 2: 2, 3: 4, 4: 7, 5: 10, 6: 15}
 
-    def __init__(self, color: (int, int, int)):
+    def __init__(self, color: str):
         self.color = color
         self.train_cards = []
         self.clicked_cards = set()
@@ -19,7 +19,7 @@ class Player:
         self.union_find = UnionFind()
         self.current_card_color = None
         self.trains = 45
-        
+
     def claim_tracks(self, track: Track):
         """
         Claim a track using the train cards a player currently has. This only works if the cards are the same color
@@ -53,14 +53,14 @@ class Player:
             self.score += Player.SCORE_TABLE[track.length]
             self.union_find.connect_cities(track.city1, track.city2)
             track.occupied_by = self
-            self.trains-=track.length
+            self.trains -= track.length
             self.train_cards = cards_left
             self.claim_destination()
         else:
             raise Exception(
                 "Player doesn't have enough train cards to claim this track")
 
-        if len(self.clicked_cards)==0:
+        if len(self.clicked_cards) == 0:
             self.current_card_color = None
 
     def claim_destination(self):

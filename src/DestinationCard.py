@@ -1,5 +1,5 @@
-from Card import Card
-from City import City
+from src.Card import Card
+from src.City import City
 
 
 class DestinationCard(Card):

@@ -1,5 +1,5 @@
-from Field import Field
-from City import City
+from src.City import City
+from src.Field import Field
 
 
 class UnionFind:

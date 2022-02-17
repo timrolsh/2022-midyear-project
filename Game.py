@@ -93,6 +93,9 @@ def game_loop(screen, debug, background, rules):
     # on one of them to discard OR click on separate button to not discard any.
     # ^do the same for player2
 
+    wooden_background = pygame.image.load("images/woodenbackground.PNG")
+    wooden_background = pygame.transform.scale(wooden_background, (int(DISPLAY_WIDTH / 8), int(DISPLAY_HEIGHT/9)))
+    
     wooden_button = pygame.image.load("images/woodenbutton.png")
     wooden_button_hover = pygame.image.load("images/woodenbuttonhover.png")
 
@@ -238,11 +241,11 @@ def game_loop(screen, debug, background, rules):
         train_card_button.draw()
         destination_card_button.draw()
         help_button.draw()
-        display_scores(screen, current_turn)
+        
         draw_train_cars(screen)
-
+        screen.blit(wooden_background, (DISPLAY_WIDTH/1.4, DISPLAY_HEIGHT/1.2))
         text_font = pygame.font.Font(FONT, 20)
-
+        display_scores(screen, current_turn)
         # temporary, replace with buttons in the future
         draw_text("'TAB' - train cards/claim track", text_font, "RED", screen, DISPLAY_WIDTH / 1.4, 50)
         # draw_text("'H' - Help", text_font, "RED", screen, DISPLAY_WIDTH / 1.62, 75)
@@ -258,7 +261,7 @@ def game_end_screen(winner, screen, background):
     screen.fill((234, 221, 202))
 
     confetti_image = pygame.image.load("images/confetti_image.jpg")
-    confetti_image = pygame.transform.scale(confetti_image, (int(DISPLAY_WIDTH)/1.1, int(DISPLAY_HEIGHT)+10))
+    confetti_image = pygame.transform.scale(confetti_image, (int(DISPLAY_WIDTH/1.1), int(DISPLAY_HEIGHT)+10))
     confetti_image.set_alpha(128)
     screen.blit(confetti_image, (DISPLAY_WIDTH/2-confetti_image.get_width()/2, DISPLAY_HEIGHT/2-confetti_image.get_height()/2))
 
@@ -406,6 +409,7 @@ def player_card_tab(screen, background, current_player):
                                 card_button.train_card.is_clicked = True
                                 player.clicked_cards.add(card_button.train_card)
                                 card_button.draw_with_border()
+            player.current_card_color = None
 
         pygame.display.update()
         pygame.time.Clock().tick(FPS)
@@ -645,8 +649,12 @@ def draw_destination_card_screen(screen, current_turn):
                         card_drawn = True
                         screen.fill(Color.COLOR_DICT.get("WHITE"))
                         draw_title()
+                        
                         draw_text("Press 'ESC' to exit this tab", text_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 3.75))
-
+                elif destination_card_button.rect.collidepoint(current_pos):
+                        screen.fill(Color.COLOR_DICT.get("WHITE"))
+                        draw_title()
+                        draw_text("(!) You already drew destination cards", text_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 3.75))
         new_ranges = draw_table(int(DISPLAY_WIDTH / 2.8), int(DISPLAY_HEIGHT / 3), box_width, box_height,
                                 [box_width * 3, box_height * len(player.destination_cards)])
         card_ranges = new_ranges
@@ -730,8 +738,11 @@ def display_scores(screen, current_turn):
 
     current_player = PLAYERS[current_turn]
 
-    draw_text("Player " + str((current_turn + 1)) + ": " + str(current_player.score) + " pts", font,
-              current_player.color, screen, DISPLAY_WIDTH / 1.75, DISPLAY_HEIGHT / 1.1)
+    draw_text(str(current_player.score) + " pts", font,
+              current_player.color, screen, DISPLAY_WIDTH / 1.248, DISPLAY_HEIGHT / 1.15)
+    
+    draw_text(str(current_player.trains) + " trains", font,
+              current_player.color, screen, DISPLAY_WIDTH / 1.287, DISPLAY_HEIGHT / 1.1)
 
 
 def calculate_end_scores():

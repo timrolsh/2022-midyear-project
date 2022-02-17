@@ -365,21 +365,30 @@ def player_card_tab(screen, background, current_player):
     player = PLAYERS[current_player]
 
     font = pygame.font.Font(FONT, 60)
+    error_font = pygame.font.Font(FONT, 25)
 
-    screen.fill((234, 221, 202))
+    def draw_background(subtitle="Press 'ESC' to exit this tab"):
 
-    pygame.display.update()
+        global rectangles
 
-    rect_width = DISPLAY_WIDTH * 0.06
-    rect_height = DISPLAY_HEIGHT * 0.19
+        screen.fill((234, 221, 202))
 
-    current_x = 0
-    current_y = DISPLAY_HEIGHT * 0.016
+        rect_width = DISPLAY_WIDTH * 0.06
+        rect_height = DISPLAY_HEIGHT * 0.19
 
-    rectangles = draw_rectangles(screen, player.train_cards, current_x, current_y, rect_width, rect_height)
+        current_x = 0
+        current_y = DISPLAY_HEIGHT / 4
 
-    draw_text("Player " + str(current_player + 1) + " Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2),
-              (DISPLAY_HEIGHT / 2))
+        rectangles = draw_rectangles(screen, player.train_cards, current_x, current_y, rect_width, rect_height)
+
+        draw_text("Player " + str(current_player + 1) + " Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2),
+                (DISPLAY_HEIGHT * 0.08))
+
+        draw_text(subtitle, error_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT * 0.14))
+
+        pygame.display.update()
+
+    draw_background()
 
     running = True
     while running:
@@ -393,6 +402,7 @@ def player_card_tab(screen, background, current_player):
                     running = False
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                draw_background()
                 current_pos = pygame.mouse.get_pos()
                 for card_button in rectangles:
                     if (card_button.point_in_rect(current_pos)):
@@ -409,7 +419,8 @@ def player_card_tab(screen, background, current_player):
                                 card_button.train_card.is_clicked = True
                                 player.clicked_cards.add(card_button.train_card)
                                 card_button.draw_with_border()
-            player.current_card_color = None
+                            else:
+                                draw_background(subtitle="You must select train cards of the same color, or rainbow cards")
 
         pygame.display.update()
         pygame.time.Clock().tick(FPS)
@@ -422,38 +433,45 @@ def draw_train_card_screen(screen, current_turn):
     font = pygame.font.Font(FONT, 60)
     text_font = pygame.font.Font(FONT, 25)
 
-    draw_text("Player " + str(current_turn + 1), font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
-    draw_text("Draw Train Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 1.5))
-    draw_text("Press 'ESC' to exit this tab", text_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 1.3))
-    pygame.display.update()
-
-    train_cards = deck.discard_train_cards(7)
-    train_cards[5].face_down = True
-    train_cards[6].face_down = True
-
-    rect_width = DISPLAY_WIDTH * 0.06
-    rect_height = DISPLAY_HEIGHT * 0.19
-
-    current_x = 0
-    current_y = DISPLAY_HEIGHT * 0.016
-
-    rectangles = draw_rectangles(screen, train_cards, current_x, current_y, rect_width, rect_height)
-
     wooden_button = pygame.image.load("images/woodenbutton.png")
     wooden_button = pygame.transform.scale(wooden_button, (int(DISPLAY_WIDTH / 9), int(DISPLAY_HEIGHT / 15)))
     wooden_button_hover = pygame.image.load("images/woodenbuttonhover.png")
     wooden_button_hover = pygame.transform.scale(wooden_button_hover,
                                                  (int(DISPLAY_WIDTH / 9), int(DISPLAY_HEIGHT / 15)))
 
-    submit_button = RectButton(int(DISPLAY_WIDTH / 10),
-                               int(DISPLAY_HEIGHT / 1.175),
-                               int(DISPLAY_WIDTH / 9),
-                               int(DISPLAY_HEIGHT / 15),
-                               "RED",
-                               pygame.font.Font(BUTTON_FONT, 13), "Submit", screen, "BLACK", True, "Selection",
-                               wooden_button)
+    train_cards = deck.discard_train_cards(7)
+    train_cards[5].face_down = True
+    train_cards[6].face_down = True
 
-    submit_button.draw()
+    submit_button = RectButton(int(DISPLAY_WIDTH / 10),
+        int(DISPLAY_HEIGHT / 1.175),
+        int(DISPLAY_WIDTH / 9),
+        int(DISPLAY_HEIGHT / 15),
+        "RED",
+        pygame.font.Font(BUTTON_FONT, 13), "Submit", screen, "BLACK", True, "Selection",
+        wooden_button)
+
+    def draw_background(subtitle="Press 'ESC' to exit this tab"):
+        global rectangles
+
+        screen.fill((234, 221, 202))
+        submit_button.draw()
+
+        rect_width = DISPLAY_WIDTH * 0.06
+        rect_height = DISPLAY_HEIGHT * 0.19
+
+        current_x = 0
+        current_y = DISPLAY_HEIGHT / 4
+
+        rectangles = draw_rectangles(screen, train_cards, current_x, current_y, rect_width, rect_height)
+
+        draw_text("Draw Train Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT * 0.08))
+        draw_text(subtitle, text_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT * 0.14))
+
+        pygame.display.update()
+
+    draw_background()
+
     num_cards_selected = 0
 
     running = True
@@ -480,6 +498,7 @@ def draw_train_card_screen(screen, current_turn):
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
 
+                draw_background()
                 current_pos = pygame.mouse.get_pos()
                 for card_button in rectangles:
                     if card_button.train_card.face_down:
@@ -494,6 +513,9 @@ def draw_train_card_screen(screen, current_turn):
                                 num_cards_selected -= 1
                             card_button.train_card.is_clicked = False
                             card_button.draw()
+                        elif num_cards_selected >= 2:
+                            draw_background(subtitle="You can only select two train cards or one rainbow card")
+
                         elif num_cards_selected == 0 or (num_cards_selected == 1 and color != "RAINBOW"):
                             card_button.train_card.is_clicked = True
                             card_button.draw_with_border()
@@ -567,6 +589,11 @@ def draw_destination_card_screen(screen, current_turn):
             current_card += 1
         return new_ranges
 
+    def redraw_background(subtitle):
+        screen.fill(Color.COLOR_DICT.get("WHITE"))
+        draw_title()
+        draw_text(subtitle, text_font, "RED", screen, (DISPLAY_WIDTH / 2),              (DISPLAY_HEIGHT / 3.75))
+
     box_width = int(DISPLAY_WIDTH / 10)
     box_height = int(DISPLAY_HEIGHT / 13)
     new_ranges = draw_table(int(DISPLAY_WIDTH / 2.8), int(DISPLAY_HEIGHT / 3), box_width, box_height,
@@ -614,29 +641,24 @@ def draw_destination_card_screen(screen, current_turn):
                     return card_drawn
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                redraw_background(subtitle="Press 'ESC' to exit this tab")
                 current_pos = pygame.mouse.get_pos()
-                if (cards_removed < 2):
-                    for card_range in range(len(card_ranges)):
-                        r = card_ranges[card_range]
-                        x = current_pos[0]
-                        y = current_pos[1]
-                        if x >= r[1] and x <= r[2] and y >= r[3] and y <= r[4]:
-                            card_index = player.destination_cards.index(r[0])
+                for card_range in range(len(card_ranges)):
+                    r = card_ranges[card_range]
+                    x = current_pos[0]
+                    y = current_pos[1]
+                    if x >= r[1] and x <= r[2] and y >= r[3] and y <= r[4]:
+                        card_index = player.destination_cards.index(r[0])
 
-                            # to do, inform the players that they can remove destination cards they just selected.
-                            if player.destination_cards[card_index].is_clicked == True:
+                        # to do, inform the players that they can remove destination cards they just selected.
+                        if player.destination_cards[card_index].is_clicked == True:
+                            if cards_removed<2:
                                 player.destination_cards.pop(card_index)
                                 cards_removed += 1
-                                screen.fill(Color.COLOR_DICT.get("WHITE"))
-                                draw_title()
-                                draw_text("Press 'ESC' to exit this tab", text_font, "RED", screen, (DISPLAY_WIDTH / 2),
-                  (DISPLAY_HEIGHT / 3.75))
-                            break
-                elif (cards_removed == 2):
-                    screen.fill(Color.COLOR_DICT.get("WHITE"))
-                    draw_title()
-                    draw_text("(!) You cannot remove more than 2 destination cards", text_font, "RED", screen, (DISPLAY_WIDTH / 2),
-                    (DISPLAY_HEIGHT / 3.75))
+                                redraw_background(subtitle="Press 'ESC' to exit this tab")
+                            elif (player.destination_cards[card_index].is_clicked == True and cards_removed == 2):
+                                redraw_background(subtitle="(!) You cannot remove more than 2 destination cards")
+                        break
                 
                     
                 if (not card_drawn):
@@ -647,14 +669,9 @@ def draw_destination_card_screen(screen, current_turn):
                             card.is_clicked = True
                         player.destination_cards.extend(new_destination_cards)
                         card_drawn = True
-                        screen.fill(Color.COLOR_DICT.get("WHITE"))
-                        draw_title()
-                        
-                        draw_text("Press 'ESC' to exit this tab", text_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 3.75))
-                elif destination_card_button.rect.collidepoint(current_pos):
-                        screen.fill(Color.COLOR_DICT.get("WHITE"))
-                        draw_title()
-                        draw_text("(!) You already drew destination cards", text_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 3.75))
+                        redraw_background(subtitle="Press 'ESC' to exit this tab")
+
+
         new_ranges = draw_table(int(DISPLAY_WIDTH / 2.8), int(DISPLAY_HEIGHT / 3), box_width, box_height,
                                 [box_width * 3, box_height * len(player.destination_cards)])
         card_ranges = new_ranges

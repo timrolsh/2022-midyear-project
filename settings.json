@@ -1,0 +1,9 @@
+{
+  "displayWidth": 955,
+  "displayHeight": 636,
+  "FPS": 15,
+  "Players": [
+      { "Human": "BLUE" },
+      { "Human": "BLACK" }
+   ]
+}

@@ -1,3 +1,4 @@
+
 import os
 
 import pygame
@@ -246,8 +247,9 @@ def game_loop(screen, debug, background, rules):
         screen.blit(wooden_background, (DISPLAY_WIDTH/1.4, DISPLAY_HEIGHT/1.2))
         text_font = pygame.font.Font(FONT, 20)
         display_scores(screen, current_turn)
-        # temporary, replace with buttons in the future
-        draw_text("'TAB' - train cards/claim track", text_font, "RED", screen, DISPLAY_WIDTH / 1.4, 50)
+       
+        draw_text("PLAYER " + str(current_turn+1) + "'s TURN", text_font, PLAYERS[current_turn].color, screen, DISPLAY_WIDTH / 2, 50)
+        draw_text("'TAB' - claim track", text_font, "RED", screen, DISPLAY_WIDTH / 1.3, 50)
         # draw_text("'H' - Help", text_font, "RED", screen, DISPLAY_WIDTH / 1.62, 75)
         pygame.display.update()
 
@@ -266,13 +268,17 @@ def game_end_screen(winner, screen, background):
     screen.blit(confetti_image, (DISPLAY_WIDTH/2-confetti_image.get_width()/2, DISPLAY_HEIGHT/2-confetti_image.get_height()/2))
 
     font = pygame.font.Font(FONT, 60)
-    play_font = pygame.font.Font(FONT, 30)
+    play_font = pygame.font.Font(BUTTON_FONT, 30)
     if type(winner)==list:
         text = "IT IS A TIE"
     else:
         text = f"Winner: {winner.color}"
     draw_text(text, font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
+    
+  
+    for i in range (len(PLAYERS)):
 
+        draw_text("Player " + str(i+1) + "'s Final Score: " + str(PLAYERS[i].score), play_font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / (1.65-i*.15)))
     pygame.display.update()
 
     while True:
@@ -768,6 +774,14 @@ def calculate_end_scores():
     2. The player who has the longest continuous path gets 10 extra points with a bonus card
     3. Player with most points wins, and for tie breakers player with most completed destinations wins
     """
+    
+    for player in PLAYERS:
+        for destination_card in player.destination_cards:
+            if (not UnionFind().is_connected(destination_card.start, destination_card.end)):
+                #destination card has not been completed, substract the points
+                player.score -= destination_card.points
+                if (player.score < 0):
+                    player.score = 0
 
     # 3
     winner = None

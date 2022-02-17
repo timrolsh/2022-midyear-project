@@ -14,10 +14,12 @@ class Color:
         "RED": (201, 88, 80),
         "ORANGE": (214, 139, 84),
         "PINK": (201, 134, 175),
-        "GREEN": (169, 195, 86),
+        "GREEN": (65, 163, 23),
         "GRAY": (128, 128, 128),
         "PURPLE": (150, 0, 150)
     }
+    
+    # "GREEN": (169, 195, 86),
 
     """Dictionary with all the possible colors and their RGB values for translation onto the field/board. Will be 
     used to draw cards in the game """

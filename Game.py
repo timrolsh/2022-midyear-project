@@ -1,18 +1,14 @@
-
 import os
 
 import pygame
 
-from Button import Button
-from CardButton import CardButton
-from Color import Color
-from Deck import Deck
-from Field import Field
-from Human import Human
-from RectButton import RectButton
-from UnionFind import UnionFind
-
-# from Computer import Computer
+from src.Button import Button
+from src.CardButton import CardButton
+from src.Color import Color
+from src.Deck import Deck
+from src.Field import Field
+from src.Human import Human
+from src.RectButton import RectButton
 
 # hide pygame welcome message
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
@@ -41,6 +37,15 @@ and then specifying a color from the colors dictionary provided of sample colors
 Colors are represented by tuple values of three RGB values. """
 PLAYERS = [Human(Color.COLOR_DICT["BLUE"]), Human(Color.COLOR_DICT["GREEN"])]
 
+SCALE_RATIO_WIDTH = DISPLAY_WIDTH / board_image.get_width()
+SCALE_RATIO_HEIGHT = DISPLAY_HEIGHT / board_image.get_height()
+SCALED_POINTS_TO_COORDS = {
+    0: (70 * SCALE_RATIO_WIDTH, 1885 * SCALE_RATIO_HEIGHT),
+    20: (90 * SCALE_RATIO_WIDTH, 50 * SCALE_RATIO_HEIGHT),
+    50: (2885 * SCALE_RATIO_WIDTH, 65 * SCALE_RATIO_HEIGHT),
+    70: (2870 * SCALE_RATIO_WIDTH, 1910 * SCALE_RATIO_HEIGHT)
+}
+
 
 def scale(point):
     scale_factor = DISPLAY_WIDTH / ORIGINAL_WIDTH
@@ -51,11 +56,34 @@ def scale(point):
 
 
 def draw_train_cars(screen):
-    for track in Field.tracks_list:
-        if (track.occupied_by != None):
-            for train_car in track.train_cars:
-                pygame.draw.polygon(screen, track.occupied_by.color, (
+    for TRACK in Field.tracks_list:
+        if TRACK.occupied_by is not None:
+            for train_car in TRACK.train_cars:
+                pygame.draw.polygon(screen, Color.COLOR_DICT[TRACK.occupied_by.color], (
                     scale(train_car.point1), scale(train_car.point2), scale(train_car.point3), scale(train_car.point4)))
+
+
+def draw_player_score_dots(display):
+    # draw players scores on the sides of the board
+    for player in PLAYERS:
+        remainder_score = player.score % 100
+        if 0 <= remainder_score <= 20:
+            pygame.draw.circle(display, Color.COLOR_DICT[player.color], (
+                SCALED_POINTS_TO_COORDS[0][0],
+                SCALED_POINTS_TO_COORDS[0][1] - remainder_score * 90 * SCALE_RATIO_HEIGHT),
+                               CITY_RADIUS)
+        elif 20 <= remainder_score <= 50:
+            pygame.draw.circle(display, Color.COLOR_DICT[player.color], (
+                SCALED_POINTS_TO_COORDS[20][0] + (remainder_score - 20) * 93.5 * SCALE_RATIO_WIDTH,
+                SCALED_POINTS_TO_COORDS[20][1]), CITY_RADIUS)
+        elif 50 <= remainder_score <= 70:
+            pygame.draw.circle(display, Color.COLOR_DICT[player.color],
+                               (SCALED_POINTS_TO_COORDS[50][0], SCALED_POINTS_TO_COORDS[50][1] +
+                                (remainder_score - 50) * 93 * SCALE_RATIO_HEIGHT), CITY_RADIUS)
+        else:
+            pygame.draw.circle(display, Color.COLOR_DICT[player.color],
+                               (SCALED_POINTS_TO_COORDS[70][0] - (remainder_score - 70) * 93.5 *
+                                SCALE_RATIO_WIDTH, SCALED_POINTS_TO_COORDS[70][1]), CITY_RADIUS)
 
 
 # pygame main loop
@@ -83,7 +111,7 @@ def game_loop(screen, debug, background, rules):
 
     screen.blit(background, (0, 0))
     current_turn = 0
-    if (debug):
+    if debug:
         print("Debug mode on")
         print("Player1 Train Cards: " + str(len(player1.train_cards)))
         print("Player2 Train Cards: " + str(len(player2.train_cards)))
@@ -95,8 +123,8 @@ def game_loop(screen, debug, background, rules):
     # ^do the same for player2
 
     wooden_background = pygame.image.load("images/woodenbackground.PNG")
-    wooden_background = pygame.transform.scale(wooden_background, (int(DISPLAY_WIDTH / 8), int(DISPLAY_HEIGHT/9)))
-    
+    wooden_background = pygame.transform.scale(wooden_background, (int(DISPLAY_WIDTH / 8), int(DISPLAY_HEIGHT / 9)))
+
     wooden_button = pygame.image.load("images/woodenbutton.png")
     wooden_button_hover = pygame.image.load("images/woodenbuttonhover.png")
 
@@ -131,16 +159,15 @@ def game_loop(screen, debug, background, rules):
     train_card_button.draw()
     destination_card_button.draw()
     help_button.draw()
-    color = player1.color
 
     final_turn = False
     final_started_by = None
 
     while running:
 
-        if final_turn==True:
+        if final_turn:
             # give the player's another turn?
-            if (final_started_by == current_turn):
+            if final_started_by == current_turn:
                 break
 
         turn_complete = False
@@ -170,7 +197,7 @@ def game_loop(screen, debug, background, rules):
 
                 is_clicked = False
                 for track in Field.tracks_list:
-                    if track.occupied_by != None:
+                    if track.occupied_by is not None:
                         continue
                     for train_car in track.train_cars:
                         if train_car.check_in_rectangle(
@@ -181,7 +208,7 @@ def game_loop(screen, debug, background, rules):
                         break
                 if is_clicked:
                     success = buy_track(PLAYERS[current_turn], track)
-                    if (success):
+                    if success:
                         turn_complete = True
 
                 if train_card_button.rect.collidepoint(current_pos):
@@ -194,7 +221,7 @@ def game_loop(screen, debug, background, rules):
                 if train_card_button.is_clicked:
                     train_card_button.is_clicked = False
                     is_change_turn = draw_train_card_screen(screen, current_turn)
-                    if (is_change_turn == True):
+                    if is_change_turn:
                         turn_complete = True
 
                 if destination_card_button.is_clicked:
@@ -213,16 +240,16 @@ def game_loop(screen, debug, background, rules):
                     help_screen(screen, rules)
                 elif event.key == pygame.K_t:
                     is_change_turn = draw_train_card_screen(screen, current_turn)
-                    if (is_change_turn == True):
+                    if is_change_turn:
                         turn_complete = True
                 elif event.key == pygame.K_d:
                     has_been_drawn = draw_destination_card_screen(screen, current_turn)
                     if has_been_drawn:
-                        turn_complete = True        
+                        turn_complete = True
 
-        # Change turns
-        if (turn_complete):
-            if PLAYERS[current_turn].trains<=2:
+                        # Change turns
+        if turn_complete:
+            if PLAYERS[current_turn].trains <= 2:
                 final_turn = True
                 if final_started_by is None:
                     final_started_by = current_turn
@@ -230,8 +257,7 @@ def game_loop(screen, debug, background, rules):
                 current_turn = 1
             else:
                 current_turn = 0
-            color = PLAYERS[current_turn].color
-            if (debug):
+            if debug:
                 print("Player: " + str(current_turn))
 
             # to be completed
@@ -242,14 +268,17 @@ def game_loop(screen, debug, background, rules):
         train_card_button.draw()
         destination_card_button.draw()
         help_button.draw()
-        
+
         draw_train_cars(screen)
-        screen.blit(wooden_background, (DISPLAY_WIDTH/1.4, DISPLAY_HEIGHT/1.2))
+        screen.blit(wooden_background, (DISPLAY_WIDTH / 1.4, DISPLAY_HEIGHT / 1.2))
         text_font = pygame.font.Font(FONT, 20)
+        medium_font = pygame.font.Font(FONT, 30)
         display_scores(screen, current_turn)
-       
-        draw_text("PLAYER " + str(current_turn+1) + "'s TURN", text_font, PLAYERS[current_turn].color, screen, DISPLAY_WIDTH / 2, 50)
+
+        draw_text("PLAYER " + str(current_turn + 1) + "'s TURN", medium_font, PLAYERS[current_turn].color, screen,
+                  DISPLAY_WIDTH / 2, 50)
         draw_text("'TAB' - claim track", text_font, "RED", screen, DISPLAY_WIDTH / 1.3, 50)
+        draw_player_score_dots(screen)
         # draw_text("'H' - Help", text_font, "RED", screen, DISPLAY_WIDTH / 1.62, 75)
         pygame.display.update()
 
@@ -263,22 +292,22 @@ def game_end_screen(winner, screen, background):
     screen.fill((234, 221, 202))
 
     confetti_image = pygame.image.load("images/confetti_image.jpg")
-    confetti_image = pygame.transform.scale(confetti_image, (int(DISPLAY_WIDTH/1.1), int(DISPLAY_HEIGHT)+10))
+    confetti_image = pygame.transform.scale(confetti_image, (int(DISPLAY_WIDTH / 1.1), int(DISPLAY_HEIGHT) + 10))
     confetti_image.set_alpha(128)
-    screen.blit(confetti_image, (DISPLAY_WIDTH/2-confetti_image.get_width()/2, DISPLAY_HEIGHT/2-confetti_image.get_height()/2))
+    screen.blit(confetti_image, (
+        DISPLAY_WIDTH / 2 - confetti_image.get_width() / 2, DISPLAY_HEIGHT / 2 - confetti_image.get_height() / 2))
 
     font = pygame.font.Font(FONT, 60)
     play_font = pygame.font.Font(BUTTON_FONT, 30)
-    if type(winner)==list:
+    if type(winner) == list:
         text = "IT IS A TIE"
     else:
         text = f"Winner: {winner.color}"
     draw_text(text, font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
-    
-  
-    for i in range (len(PLAYERS)):
 
-        draw_text("Player " + str(i+1) + "'s Final Score: " + str(PLAYERS[i].score), play_font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / (1.65-i*.15)))
+    for i in range(len(PLAYERS)):
+        draw_text("Player " + str(i + 1) + "'s Final Score: " + str(PLAYERS[i].score), play_font, "BLACK", screen,
+                  (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / (1.65 - i * .15)))
     pygame.display.update()
 
     while True:
@@ -296,24 +325,23 @@ def game_end_screen(winner, screen, background):
         pygame.time.Clock().tick(FPS)
 
 
-def buy_track(player, track):
+def buy_track(player, atrack):
     try:
-        if track.occupied_by != None:
-            print(f"Track has already been claimed by player {track.occupied_by.color}")
+        if atrack.occupied_by is not None:
+            print(f"Track has already been claimed by player {atrack.occupied_by.color}")
             return False
-        elif player.trains<track.length:
+        elif player.trains < atrack.length:
             print(f"Player doesn't have enough train cars to by this track")
         else:
-            player.claim_tracks(track)
+            player.claim_tracks(atrack)
             return True
-    except Exception as e:
+    except Exception:
         print("Player doesn't have enough train cards to claim that track.")
         return False
 
 
 def help_screen(screen, rules):
     screen.fill(Color.COLOR_DICT.get("WHITE"))
-    title_font = pygame.font.Font(FONT, 60)
     text_font = pygame.font.Font(FONT, 20)
 
     # draw_text("Ticket to Ride", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 2))
@@ -343,15 +371,15 @@ def draw_rectangles(screen, train_cards, current_x, current_y, rect_width, rect_
     x_increment = rect_width + DISPLAY_WIDTH * 0.032
     y_increment = rect_height + DISPLAY_HEIGHT * 0.021
 
-    rectangles = []
+    arectangles = []
 
     for train_card in train_cards:
 
         current_x += x_increment
-        if (DISPLAY_WIDTH - current_x <= x_increment):
+        if DISPLAY_WIDTH - current_x <= x_increment:
             current_y += y_increment
             current_x = x_increment
-        if (train_card.color == "RAINBOW"):
+        if train_card.color == "RAINBOW":
             color = (180, 180, 180)
         else:
             color = Color.COLOR_DICT[train_card.color]
@@ -361,9 +389,9 @@ def draw_rectangles(screen, train_cards, current_x, current_y, rect_width, rect_
             card_button.draw_with_border()
         else:
             card_button.draw()
-        rectangles.append(card_button)
+        arectangles.append(card_button)
 
-    return rectangles
+    return arectangles
 
 
 # returns true if a player successfully selects their train cards
@@ -388,7 +416,7 @@ def player_card_tab(screen, background, current_player):
         rectangles = draw_rectangles(screen, player.train_cards, current_x, current_y, rect_width, rect_height)
 
         draw_text("Player " + str(current_player + 1) + " Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2),
-                (DISPLAY_HEIGHT * 0.08))
+                  (DISPLAY_HEIGHT * 0.08))
 
         draw_text(subtitle, error_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT * 0.14))
 
@@ -411,22 +439,24 @@ def player_card_tab(screen, background, current_player):
                 draw_background()
                 current_pos = pygame.mouse.get_pos()
                 for card_button in rectangles:
-                    if (card_button.point_in_rect(current_pos)):
+                    if card_button.point_in_rect(current_pos):
                         if card_button.train_card.is_clicked:
                             card_button.train_card.is_clicked = False
                             player.clicked_cards.remove(card_button.train_card)
                             card_button.draw()
-                            if len(player.clicked_cards)==0:
+                            if len(player.clicked_cards) == 0:
                                 player.current_card_color = None
                         else:
-                            if card_button.train_card.color!="RAINBOW" and player.current_card_color is None:
+                            if card_button.train_card.color != "RAINBOW" and player.current_card_color is None:
                                 player.current_card_color = card_button.train_card.color
-                            if card_button.train_card.color==player.current_card_color or card_button.train_card.color=="RAINBOW":
+                            if card_button.train_card.color == player.current_card_color \
+                                    or card_button.train_card.color == "RAINBOW":
                                 card_button.train_card.is_clicked = True
                                 player.clicked_cards.add(card_button.train_card)
                                 card_button.draw_with_border()
                             else:
-                                draw_background(subtitle="You must select train cards of the same color, or rainbow cards")
+                                draw_background(
+                                    subtitle="You must select train cards of the same color, or rainbow cards")
 
         pygame.display.update()
         pygame.time.Clock().tick(FPS)
@@ -446,16 +476,20 @@ def draw_train_card_screen(screen, current_turn):
                                                  (int(DISPLAY_WIDTH / 9), int(DISPLAY_HEIGHT / 15)))
 
     train_cards = deck.discard_train_cards(7)
-    train_cards[5].face_down = True
-    train_cards[6].face_down = True
+
+    if len(deck.train_cards) > 7:
+        train_cards[5].face_down = True
+        train_cards[6].face_down = True
+    if len(deck.train_cards) == 7:
+        train_cards[5].face_down = True
 
     submit_button = RectButton(int(DISPLAY_WIDTH / 10),
-        int(DISPLAY_HEIGHT / 1.175),
-        int(DISPLAY_WIDTH / 9),
-        int(DISPLAY_HEIGHT / 15),
-        "RED",
-        pygame.font.Font(BUTTON_FONT, 13), "Submit", screen, "BLACK", True, "Selection",
-        wooden_button)
+                               int(DISPLAY_HEIGHT / 1.175),
+                               int(DISPLAY_WIDTH / 9),
+                               int(DISPLAY_HEIGHT / 15),
+                               "RED",
+                               pygame.font.Font(BUTTON_FONT, 13), "Submit", screen, "BLACK", True, "Selection",
+                               wooden_button)
 
     def draw_background(subtitle="Press 'ESC' to exit this tab"):
         global rectangles
@@ -511,7 +545,7 @@ def draw_train_card_screen(screen, current_turn):
                         color = "BROWN"
                     else:
                         color = card_button.train_card.color
-                    if (card_button.point_in_rect(current_pos)):
+                    if card_button.point_in_rect(current_pos):
                         if card_button.train_card.is_clicked:
                             if color == "RAINBOW":
                                 num_cards_selected -= 2
@@ -541,7 +575,7 @@ def draw_train_card_screen(screen, current_turn):
                             not_selected.append(card)
                     deck.add_train_cards_back(not_selected, top_five=True)
                     running = False
-                    if (len(not_selected) != len(train_cards)):
+                    if len(not_selected) != len(train_cards):
                         return True
 
         submit_button.draw()
@@ -561,11 +595,10 @@ def draw_destination_card_screen(screen, current_turn):
     def draw_title():
         draw_text("Player " + str(current_turn + 1), font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 10))
         draw_text("Draw Destination Cards", font, "BLACK", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 5))
-        
 
     draw_title()
     draw_text("Press 'ESC' to exit this tab", text_font, "RED", screen, (DISPLAY_WIDTH / 2),
-                  (DISPLAY_HEIGHT / 3.75))
+              (DISPLAY_HEIGHT / 3.75))
     pygame.display.update()
 
     card_ranges = []
@@ -598,7 +631,7 @@ def draw_destination_card_screen(screen, current_turn):
     def redraw_background(subtitle):
         screen.fill(Color.COLOR_DICT.get("WHITE"))
         draw_title()
-        draw_text(subtitle, text_font, "RED", screen, (DISPLAY_WIDTH / 2),              (DISPLAY_HEIGHT / 3.75))
+        draw_text(subtitle, text_font, "RED", screen, (DISPLAY_WIDTH / 2), (DISPLAY_HEIGHT / 3.75))
 
     box_width = int(DISPLAY_WIDTH / 10)
     box_height = int(DISPLAY_HEIGHT / 13)
@@ -653,7 +686,7 @@ def draw_destination_card_screen(screen, current_turn):
 
                 if event.key == pygame.K_ESCAPE or event.key == pygame.K_m:
                     for j in range(-1, -4, -1):
-                        if (len(player.destination_cards) < abs(j)):
+                        if len(player.destination_cards) < abs(j):
                             break
                         player.destination_cards[j].is_clicked = False
                     return card_drawn
@@ -665,21 +698,20 @@ def draw_destination_card_screen(screen, current_turn):
                     r = card_ranges[card_range]
                     x = current_pos[0]
                     y = current_pos[1]
-                    if x >= r[1] and x <= r[2] and y >= r[3] and y <= r[4]:
+                    if r[1] <= x <= r[2] and r[3] <= y <= r[4]:
                         card_index = player.destination_cards.index(r[0])
 
                         # to do, inform the players that they can remove destination cards they just selected.
-                        if player.destination_cards[card_index].is_clicked == True:
-                            if cards_removed<2:
+                        if player.destination_cards[card_index].is_clicked:
+                            if cards_removed < 2:
                                 player.destination_cards.pop(card_index)
                                 cards_removed += 1
                                 redraw_background(subtitle="Press 'ESC' to exit this tab")
-                            elif (player.destination_cards[card_index].is_clicked == True and cards_removed == 2):
+                            elif player.destination_cards[card_index].is_clicked and cards_removed == 2:
                                 redraw_background(subtitle="(!) You cannot remove more than 2 destination cards")
                         break
-                
-                    
-                if (not card_drawn):
+
+                if not card_drawn:
 
                     if destination_card_button.rect.collidepoint(current_pos):
                         new_destination_cards = deck.discard_destination_cards(3)
@@ -778,15 +810,14 @@ def draw_text(text, font, color, surface, x, y):
 
 
 def display_scores(screen, current_turn):
-    font = pygame.font.Font(FONT, 30)
-
+    button_font = pygame.font.Font(BUTTON_FONT, 30)
     current_player = PLAYERS[current_turn]
 
-    draw_text(str(current_player.score) + " pts", font,
-              current_player.color, screen, DISPLAY_WIDTH / 1.248, DISPLAY_HEIGHT / 1.15)
-    
-    draw_text(str(current_player.trains) + " trains", font,
-              current_player.color, screen, DISPLAY_WIDTH / 1.287, DISPLAY_HEIGHT / 1.1)
+    draw_text("cars left ", button_font,
+              "YELLOW", screen, DISPLAY_WIDTH / 1.28, DISPLAY_HEIGHT / 1.1)
+
+    draw_text(str(current_player.trains) + " train", button_font,
+              "YELLOW", screen, DISPLAY_WIDTH / 1.287, DISPLAY_HEIGHT / 1.15)
 
 
 def calculate_end_scores():
@@ -795,14 +826,14 @@ def calculate_end_scores():
     2. The player who has the longest continuous path gets 10 extra points with a bonus card
     3. Player with most points wins, and for tie breakers player with most completed destinations wins
     """
-    
-    for player in PLAYERS:
-        for destination_card in player.destination_cards:
-            if (not UnionFind().is_connected(destination_card.start, destination_card.end)):
-                #destination card has not been completed, substract the points
-                player.score -= destination_card.points
-                if (player.score < 0):
-                    player.score = 0
+
+    # for player in PLAYERS:
+    #     for destination_card in player.destination_cards:
+    #         if (not UnionFind().is_connected(destination_card.start, destination_card.end)):
+    #             #destination card has not been completed, substract the points
+    #             player.score -= destination_card.points
+    #             if (player.score < 0):
+    #                 player.score = 0
 
     # 3
     winner = None
@@ -818,7 +849,7 @@ def calculate_end_scores():
             tied_players.append(winner)
 
     # Check if there is a tie
-    if len(tied_players)==0:
+    if len(tied_players) == 0:
         return winner
     else:
         return tied_players
@@ -849,7 +880,7 @@ def main():
                     break
                 # if event.key == pygame.K_h:
                 #     help_screen(screen, rules)
-        
+
     pygame.display.update()
     game_loop(screen, False, pygame.transform.scale(board_image, (DISPLAY_WIDTH, DISPLAY_HEIGHT)),
               rules)

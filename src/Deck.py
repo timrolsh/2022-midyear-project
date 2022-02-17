@@ -1,8 +1,8 @@
 import random
 
-from DestinationCard import DestinationCard
-from Field import Field
-from TrainCard import TrainCard
+from src.DestinationCard import DestinationCard
+from src.Field import Field
+from src.TrainCard import TrainCard
 
 """
 Represents the main deck of cards in the Ticket to Ride board game
@@ -58,7 +58,8 @@ class Deck:
     def discard_train_cards(self, num_cards: int):
         popped_cards = []
         for i in range(num_cards):
-            popped_cards.append(self.train_cards.pop())
+            if len(self.train_cards) != 0:
+                popped_cards.append(self.train_cards.pop())
         return popped_cards
 
     """
@@ -68,7 +69,7 @@ class Deck:
     def discard_destination_cards(self, num_cards: int):
         popped_cards = []
         for i in range(num_cards):
-            if (len(self.destination_cards) != 0):
+            if len(self.destination_cards) != 0:
                 popped_cards.append(self.destination_cards.pop())
         return popped_cards
 
@@ -80,5 +81,5 @@ class Deck:
     def add_train_cards_back(self, cards_coming_back: [], top_five=False):
         for i in range(len(cards_coming_back) - 1, -1, -1):
             self.train_cards.append(cards_coming_back[i])
-        if (not top_five):
+        if not top_five:
             random.shuffle(self.train_cards)

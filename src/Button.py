@@ -1,9 +1,3 @@
-import string
-from City import City
-from pygame import Rect
-import Color
-
-
 class Button:
     def __init__(self, x: int, y: int, width: int, height: int):
         self.x = x

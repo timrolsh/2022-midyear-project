@@ -1,5 +1,6 @@
-from RectButton import RectButton
 import pygame
+
+from src.RectButton import RectButton
 
 
 class CardButton(RectButton):

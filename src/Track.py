@@ -1,5 +1,5 @@
-from City import City
-from TrainCar import TrainCar
+from src.City import City
+from src.TrainCar import TrainCar
 
 """This class represents a track between two different cities. Upon calling the constructor and specifying all the 
 values, the track adds itself to two cities' list of tracks. """

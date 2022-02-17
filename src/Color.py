@@ -18,7 +18,7 @@ class Color:
         "GRAY": (128, 128, 128),
         "PURPLE": (150, 0, 150)
     }
-    
+
     # "GREEN": (169, 195, 86),
 
     """Dictionary with all the possible colors and their RGB values for translation onto the field/board. Will be 

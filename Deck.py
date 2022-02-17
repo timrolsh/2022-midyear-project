@@ -18,7 +18,7 @@ class Deck:
     def __init__(self):
 
         self.train_cards = []
-        colors = ["PURPLE", "BLUE", "ORANGE", "WHITE",
+        colors = ["PINK", "BLUE", "ORANGE", "WHITE",
                   "GREEN", "YELLOW", "BLACK", "RED", "RAINBOW"]
         for color in colors:
             for i in range(12):
